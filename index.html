@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Easypaisa Demo</title>
+  
+  <!-- Fonts & CDN Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --ep-green: #00A651;
+      --ep-dark-green: #008a43;
+      --ep-splash-bg: #282333; /* Dark grey/purple tone matching screenshots */
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #0b0f19;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      color: #1e293b;
+    }
+    #phone-frame {
+      width: 100%;
+      max-width: 412px;
+      height: 860px;
+      max-height: 100vh;
+      background: #f8fafc;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7);
+    }
+    @media (min-width: 640px) {
+      #phone-frame {
+        border-radius: 42px;
+        border: 9px solid #1e293b;
+        height: 830px;
+      }
+    }
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      background-color: #f8fafc;
+      overflow-y: auto;
+      z-index: 10;
+    }
+    .screen.on {
+      display: flex;
+    }
+    .screen::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Orbital Splash Animations matching screenshots */
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spinCounter {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    .orbit-ring-inner {
+      animation: spinClockwise 32s linear infinite;
+      transform-origin: 200px 200px;
+    }
+    .orbit-ring-outer {
+      animation: spinCounter 44s linear infinite;
+      transform-origin: 200px 200px;
+    }
+
+    /* Typewriter Cursor */
+    @keyframes cursorPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .cursor-line {
+      display: inline-block;
+      width: 2.5px;
+      height: 0.9em;
+      background-color: #00A651;
+      margin-left: 2px;
+      animation: cursorPulse 0.5s infinite;
+      vertical-align: middle;
+    }
+
+    /* Processing spinner */
+    @keyframes epSpin {
+      to { transform: rotate(360deg); }
+    }
+    .spinner-ep {
+      border: 4px solid #dcfce7;
+      border-top-color: #00A651;
+      border-radius: 50%;
+      animation: epSpin 0.9s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+    }
+
+    .key-btn {
+      touch-action: manipulation;
+      transition: all 0.1s ease-in-out;
+    }
+    .key-btn:active {
+      transform: scale(0.92);
+      background-color: #e2e8f0;
+    }
+    .brand-font {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio asset for payment success voice -->
+  <audio id="voice" preload="auto">
+    <source src="./1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Phone Shell Container -->
+  <div id="phone-frame">
+
+    <!-- Native Notification / Toast Banner -->
+    <div id="toast-banner" class="hidden absolute top-4 left-4 right-4 z-50 bg-slate-900/95 text-white p-3.5 rounded-2xl shadow-2xl border border-slate-700/80 transition-all duration-300 flex items-start gap-3">
+      <div id="toast-icon" class="w-8 h-8 rounded-full bg-[#00A651] flex items-center justify-center text-white shrink-0 mt-0.5">
+        <i class="fa-solid fa-bell text-sm"></i>
+      </div>
+      <div class="flex-1 text-xs">
+        <h4 id="toast-title" class="font-bold text-white tracking-wide">Notification</h4>
+        <p id="toast-msg" class="text-slate-300 mt-0.5 leading-snug">Notice details</p>
+      </div>
+      <button onclick="hideToast()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Quick Payment Modal (Bills & Mobile Load) -->
+    <div id="quick-pay-modal" class="hidden absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-5">
+      <div class="bg-white w-full max-w-xs rounded-3xl p-5 shadow-2xl flex flex-col gap-4 border border-slate-100">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span id="modal-icon-badge" class="w-8 h-8 rounded-full bg-emerald-100 text-[#00A651] flex items-center justify-center font-bold">
+              <i class="fa-solid fa-receipt"></i>
+            </span>
+            <h3 id="modal-title" class="font-bold text-slate-800 text-sm">Pay Bill</h3>
+          </div>
+          <button onclick="closeQuickModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">Consumer / Mobile No</label>
+          <input type="text" id="modal-ref-input" value="03001234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#00A651]" />
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">Amount (PKR)</label>
+          <input type="number" id="modal-amount-input" placeholder="e.g. 500" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-900 focus:outline-none focus:border-[#00A651]" />
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button onclick="closeQuickModal()" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200">Cancel</button>
+          <button onclick="confirmQuickPayment()" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-white bg-[#00A651] hover:bg-[#008a43]">Confirm & Pay</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. SPLASH SCREEN (PERFECT 1.5s LOGO -> ROTATING ORBITS + TYPEWRITER) -->
+    <div id="screen-splash" class="screen on items-center justify-center !bg-[#282333] select-none overflow-hidden relative">
+      <!-- Status bar -->
+      <div class="absolute top-3 inset-x-5 flex justify-between items-center text-[11px] text-white/50 font-semibold z-20">
+        <span>5:55</span>
+        <div class="flex items-center gap-1.5 text-[10px]">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <span>84%</span>
+        </div>
+      </div>
+
+      <!-- Rotating Text Concentric Rings (SVG) -->
+      <div class="relative w-full h-[470px] flex items-center justify-center">
+        <svg id="splash-orbit-svg" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-700" viewBox="0 0 400 400">
+          <defs>
+            <path id="innerCirclePath" d="M 200, 200 m -96, 0 a 96,96 0 1,1 192,0 a 96,96 0 1,1 -192,0" fill="none" />
+            <path id="outerCirclePath" d="M 200, 200 m -160, 0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0" fill="none" />
+          </defs>
+
+          <!-- Inner Ring -->
+          <g class="orbit-ring-inner">
+            <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="400" letter-spacing="3.2">
+              <textPath href="#innerCirclePath" startOffset="0%">
+                is now a digital bank · easypaisa · is now a digital bank ·
+              </textPath>
+            </text>
+          </g>
+
+          <!-- Outer Ring -->
+          <g class="orbit-ring-outer">
+            <text fill="#ffffff" fill-opacity="0.75" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="400" letter-spacing="4.5">
+              <textPath href="#outerCirclePath" startOffset="0%">
+                skip going to the bank - skip going to the bank -
+              </textPath>
+            </text>
+          </g>
+        </svg>
+
+        <!-- Center Brand Container -->
+        <div id="center-brand-wrap" class="relative z-10 flex items-center justify-center transition-all duration-700 ease-out">
+          <!-- Logo container -->
+          <div id="ep-emblem" class="w-20 h-20 shrink-0 flex items-center justify-center transition-all duration-700">
+            <img src="https://i.ibb.co/Lh0H11BY/138526.png" alt="Easypaisa Logo" class="w-full h-full object-contain drop-shadow-md">
+          </div>
+
+          <!-- Typewriter Output Text -->
+          <div id="typewriter-container" class="overflow-hidden whitespace-nowrap pl-3 w-0 opacity-0 transition-all duration-500 flex flex-col justify-center leading-none">
+            <span id="typed-line-1" class="text-white text-[27px] font-black tracking-tight brand-font block mb-0.5"></span>
+            <span id="typed-line-2" class="text-white text-[27px] font-black tracking-tight brand-font block"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute bottom-10 text-center">
+        <p class="text-white/40 text-[11px] font-medium tracking-widest uppercase">Tap anywhere to enter</p>
+      </div>
+      <button onclick="skipSplash()" class="absolute inset-0 w-full h-full opacity-0 z-30 cursor-pointer"></button>
+    </div>
+
+    <!-- 2. LOGIN SCREEN -->
+    <div id="screen-login" class="screen justify-between p-6 bg-white">
+      <div class="flex items-center justify-between pt-4">
+        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 text-lg p-2">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Secure Sign In</span>
+        <div class="w-8"></div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center py-4">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#008a43] to-[#00A651] flex items-center justify-center text-white shadow-lg mb-3">
+          <i class="fa-solid fa-lock text-2xl"></i>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800">Enter Your 5-Digit PIN</h2>
+        <p class="text-xs text-slate-500 mt-1">Easypaisa Account: 0312-9876543</p>
+
+        <!-- PIN Dots indicator -->
+        <div class="flex items-center gap-3.5 mt-6 mb-2">
+          <div id="dot-0" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
+          <div id="dot-1" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
+          <div id="dot-2" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
+          <div id="dot-3" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
+          <div id="dot-4" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
+        </div>
+        <span id="pin-feedback" class="text-xs font-semibold text-rose-500 h-4 text-center"></span>
+      </div>
+
+      <!-- Keypad -->
+      <div class="grid grid-cols-3 gap-3 pb-4 max-w-xs mx-auto w-full">
+        <button onclick="pin('1')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">1</button>
+        <button onclick="pin('2')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">2</button>
+        <button onclick="pin('3')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">3</button>
+        <button onclick="pin('4')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">4</button>
+        <button onclick="pin('5')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">5</button>
+        <button onclick="pin('6')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">6</button>
+        <button onclick="pin('7')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">7</button>
+        <button onclick="pin('8')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">8</button>
+        <button onclick="pin('9')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">9</button>
+        <button onclick="pinClear()" class="key-btn h-14 rounded-2xl bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200/60">CLR</button>
+        <button onclick="pin('0')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">0</button>
+        <button onclick="pinDel()" class="key-btn h-14 rounded-2xl bg-slate-100 text-lg font-bold text-slate-600 border border-slate-200/60">
+          <i class="fa-solid fa-delete-left"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. HOME SCREEN -->
+    <div id="screen-home" class="screen pb-20">
+      <div class="bg-gradient-to-r from-[#008a43] to-[#00A651] text-white p-5 rounded-b-3xl shadow-md">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-2xl tracking-tighter">easypaisa</span>
+            <span class="bg-[#facc15] text-[#2d2a3e] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase">Bank</span>
+          </div>
+          <div class="flex items-center gap-3 text-lg">
+            <button onclick="showToast('Customer Care', 'Helpline 3737 is 24/7 available.')" class="p-1 hover:text-emerald-100"><i class="fa-solid fa-headset"></i></button>
+            <button onclick="auth('screen-profile')" class="p-1 hover:text-emerald-100"><i class="fa-regular fa-circle-user"></i></button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-white">
+              <img id="avatar-img-home" src="https://placehold.co/120x120/00A651/ffffff?text=Ayesha" alt="Ayesha Avatar" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h1 class="text-base font-bold leading-tight flex items-center gap-1.5">
+                Ayesha <i class="fa-solid fa-shield-halved text-xs text-yellow-300"></i>
+              </h1>
+              <span class="inline-flex items-center gap-1 bg-white/20 text-[10px] font-semibold px-2 py-0.5 rounded-full text-white mt-1">
+                <i class="fa-solid fa-gift text-yellow-300"></i> Rewards
+              </span>
+            </div>
+          </div>
+          <button onclick="auth('screen-home')" id="home-login-btn" class="bg-white text-[#008a43] px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-md hover:bg-emerald-50">
+            Sign In
+          </button>
+        </div>
+
+        <!-- Dynamic Balance / Unauthenticated Banner -->
+        <div class="mt-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+          <div id="unauth-banner" class="flex items-center justify-between">
+            <div>
+              <p class="text-xs text-white/90 font-medium">Safe & Secure Transactions</p>
+              <h3 class="text-sm font-bold text-white mt-0.5">Log in to Make Payments</h3>
+            </div>
+            <button onclick="go('screen-login')" class="bg-yellow-400 text-slate-900 px-3 py-1.5 rounded-xl text-xs font-bold">
+              Log In
+            </button>
+          </div>
+
+          <div id="auth-balance-panel" class="hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-emerald-100 font-medium">Easypaisa Available Balance</span>
+              <button onclick="toggleBalanceMask()" class="text-xs text-white/80 hover:text-white">
+                <i id="eye-icon" class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+            <div class="flex items-baseline gap-1 mt-1">
+              <span class="text-sm font-semibold text-white/90">Rs.</span>
+              <span id="display-balance" class="text-2xl font-black text-white tracking-tight">7,000.00</span>
+            </div>
+            <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10 text-[11px] text-white/80">
+              <span>Account: 0312-9876543</span>
+              <span class="text-yellow-300 font-bold hover:underline cursor-pointer" onclick="go('screen-statement')">View Ledger &rarr;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 Service Tiles Grid -->
+      <div class="p-5">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Main Services</h3>
+        <div class="grid grid-cols-3 gap-3">
+          <button onclick="auth('screen-transfer')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-2xl bg-[#dcfce7] text-[#00A651] flex items-center justify-center text-xl mb-2">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-700 leading-tight">Money Transfer</span>
+          </button>
+
+          <button onclick="auth('screen-bills')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-2">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-700 leading-tight">Bill Payment</span>
+          </button>
+
+          <button onclick="auth('screen-load')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-2">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-700 leading-tight">Load & Packages</span>
+          </button>
+
+          <button onclick="auth('screen-statement')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-2">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-700 leading-tight">Statement</span>
+          </button>
+
+          <button onclick="showToast('Favorites', 'Favorite contacts updated!')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-2xl bg-pink-50 text-pink-500 flex items-center justify-center text-xl mb-2">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-700 leading-tight">Favorites</span>
+          </button>
+
+          <button onclick="auth('screen-profile')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-[#008a43] flex items-center justify-center text-xl mb-2">
+              <i class="fa-solid fa-user-gear"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-700 leading-tight">Profile</span>
+          </button>
+        </div>
+
+        <div class="mt-5 bg-gradient-to-r from-emerald-900 to-slate-900 rounded-2xl p-4 text-white relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="text-[10px] uppercase font-black bg-[#facc15] text-slate-900 px-2 py-0.5 rounded-md">Digital Banking</span>
+            <h4 class="font-bold text-sm mt-1">Easypaisa Asaan Account</h4>
+            <p class="text-xs text-slate-300 mt-0.5">Enjoy zero-fee digital transfers across all Pakistani banks 24/7.</p>
+          </div>
+          <i class="fa-solid fa-building-columns text-6xl text-white/10 absolute -right-3 -bottom-2"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. MONEY TRANSFER WORKFLOW -->
+    <div id="screen-transfer" class="screen p-5 bg-white">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 class="font-bold text-slate-800 text-sm">Send Money</h3>
+        <div class="w-8"></div>
+      </div>
+
+      <div class="mt-5 space-y-4">
+        <div>
+          <label class="text-xs font-bold text-slate-600 block mb-1.5">Recipient Mobile / Account Number</label>
+          <div class="relative">
+            <input type="tel" id="transfer-number" oninput="onRecipientNumberInput(this.value)" placeholder="e.g. 03001234567" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#00A651]">
+            <span id="recipient-match-badge" class="hidden absolute right-3 top-3.5 text-xs text-emerald-600 font-bold flex items-center gap-1">
+              <i class="fa-solid fa-circle-check text-sm"></i> <span id="recipient-match-name">Found</span>
+            </span>
+          </div>
+          <span class="text-[11px] text-slate-400 mt-1 block">Tip: Auto-fill tests against Admin panel recipients!</span>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-600 block mb-1.5">Amount (PKR)</label>
+          <input type="number" id="transfer-amount" placeholder="Min. Rs 1 - Max. Rs 50,000" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-base font-bold text-slate-800 focus:outline-none focus:border-[#00A651]">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-600 block mb-1.5">Message / Purpose (Optional)</label>
+          <input type="text" id="transfer-comment" placeholder="Personal, Loan, Bill, etc." class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm text-slate-700 focus:outline-none focus:border-[#00A651]">
+        </div>
+      </div>
+
+      <div class="mt-auto pb-4">
+        <button onclick="startTransferReview()" class="w-full bg-[#00A651] hover:bg-[#008a43] text-white py-3.5 rounded-2xl font-bold text-sm shadow-md transition">
+          Next Step
+        </button>
+      </div>
+    </div>
+
+    <!-- Confirm Screen -->
+    <div id="screen-confirm" class="screen p-5 bg-slate-50 justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+          <button onclick="go('screen-transfer')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
+          <h3 class="font-bold text-slate-800 text-sm">Confirm Transaction</h3>
+          <div class="w-8"></div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mt-5">
+          <div class="text-center pb-4 border-b border-slate-100">
+            <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Sending Amount</span>
+            <div class="text-3xl font-extrabold text-[#00A651] mt-1">
+              Rs. <span id="confirm-amount">0.00</span>
+            </div>
+          </div>
+
+          <div class="space-y-3.5 mt-4 text-xs">
+            <div class="flex justify-between text-slate-500">
+              <span>Recipient Name</span>
+              <span id="confirm-name" class="font-bold text-slate-800">Muhammad Ali</span>
+            </div>
+            <div class="flex justify-between text-slate-500">
+              <span>Account Number</span>
+              <span id="confirm-number" class="font-bold text-slate-800">03001234567</span>
+            </div>
+            <div class="flex justify-between text-slate-500">
+              <span>Transfer Fee</span>
+              <span class="font-bold text-emerald-600">Rs. 0.00 (FREE)</span>
+            </div>
+            <div class="flex justify-between text-slate-500 pt-2 border-t border-slate-100 font-semibold">
+              <span class="text-slate-700 font-bold">Total Deduction</span>
+              <span id="confirm-total" class="font-extrabold text-slate-900">Rs. 0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pb-4">
+        <button onclick="executeTransferPayment()" class="w-full bg-[#00A651] hover:bg-[#008a43] text-white py-4 rounded-2xl font-bold text-sm shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Send Now
+        </button>
+      </div>
+    </div>
+
+    <!-- Processing -->
+    <div id="screen-processing" class="screen items-center justify-center bg-white text-center p-6 select-none">
+      <div class="w-20 h-20 spinner-ep mb-6"></div>
+      <h3 class="text-lg font-bold text-slate-800">Processing Payment...</h3>
+      <p class="text-xs text-slate-400 mt-2 max-w-xs">Connecting securely to State Bank 1-Link Switch network. Please do not close.</p>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="screen-success" class="screen p-5 bg-emerald-50/50 justify-between">
+      <div class="text-center pt-2">
+        <div class="w-16 h-16 rounded-full bg-[#22c55e] text-white flex items-center justify-center text-3xl mx-auto shadow-lg shadow-emerald-500/20 mb-3">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-xl font-black text-slate-800">Transaction Successful!</h2>
+        <p class="text-xs text-slate-500">Funds transferred successfully.</p>
+
+        <!-- Receipt Card -->
+        <div class="bg-white rounded-3xl p-5 shadow-sm border border-emerald-100 text-left mt-5 space-y-3">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <span class="text-xs font-bold text-slate-400 uppercase">TID #</span>
+            <span id="receipt-tid" class="text-xs font-mono font-bold text-slate-700">EP-8729104821</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-500">Amount Sent</span>
+            <span id="receipt-amount" class="text-base font-black text-[#00A651]">Rs. 500.00</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-500">Receiver</span>
+            <span id="receipt-name" class="text-xs font-bold text-slate-800">Kashif Khan</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-500">Mobile No.</span>
+            <span id="receipt-number" class="text-xs font-semibold text-slate-800">03001234567</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-500">Date & Time</span>
+            <span id="receipt-date" class="text-xs text-slate-600">Oct 08, 2026 - 06:30 PM</span>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+            <span class="text-xs text-slate-500">Status</span>
+            <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+              <i class="fa-solid fa-circle-check"></i> Completed
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pb-4">
+        <button onclick="go('screen-home')" class="w-full bg-[#00A651] hover:bg-[#008a43] text-white py-3.5 rounded-2xl font-bold text-sm shadow-md">
+          Back to Home
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. BILL PAYMENT SCREEN -->
+    <div id="screen-bills" class="screen p-5 bg-white">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 class="font-bold text-slate-800 text-sm">Pay Utility Bills</h3>
+        <div class="w-8"></div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3 mb-4">Select bill category to pay instantly:</p>
+
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="openQuickPayModal('Electricity Bill', 'fa-bolt', 'LESCO/IESCO Ref No.')" class="p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-2xl border border-slate-100 flex flex-col items-center text-center gap-2 transition">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl"><i class="fa-solid fa-bolt"></i></div>
+          <span class="text-xs font-bold text-slate-700">Electricity</span>
+        </button>
+        <button onclick="openQuickPayModal('Gas Bill', 'fa-fire-burner', 'SNGPL/SSGC Account ID')" class="p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-2xl border border-slate-100 flex flex-col items-center text-center gap-2 transition">
+          <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl"><i class="fa-solid fa-fire-burner"></i></div>
+          <span class="text-xs font-bold text-slate-700">Gas</span>
+        </button>
+        <button onclick="openQuickPayModal('Water Bill', 'fa-droplet', 'WASA Consumer No.')" class="p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-2xl border border-slate-100 flex flex-col items-center text-center gap-2 transition">
+          <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl"><i class="fa-solid fa-droplet"></i></div>
+          <span class="text-xs font-bold text-slate-700">Water</span>
+        </button>
+        <button onclick="openQuickPayModal('Internet Bill', 'fa-wifi', 'Nayatel / PTCL Fiber')" class="p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-2xl border border-slate-100 flex flex-col items-center text-center gap-2 transition">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl"><i class="fa-solid fa-wifi"></i></div>
+          <span class="text-xs font-bold text-slate-700">Internet</span>
+        </button>
+        <button onclick="openQuickPayModal('Telephone Bill', 'fa-phone', 'PTCL Landline')" class="p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-2xl border border-slate-100 flex flex-col items-center text-center gap-2 transition">
+          <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl"><i class="fa-solid fa-phone"></i></div>
+          <span class="text-xs font-bold text-slate-700">Telephone</span>
+        </button>
+        <button onclick="openQuickPayModal('Mobile Postpaid', 'fa-tower-cell', 'Postpaid Mobile No.')" class="p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-2xl border border-slate-100 flex flex-col items-center text-center gap-2 transition">
+          <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl"><i class="fa-solid fa-tower-cell"></i></div>
+          <span class="text-xs font-bold text-slate-700">Mobile</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 6. LOAD & PACKAGES SCREEN -->
+    <div id="screen-load" class="screen p-5 bg-white">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 class="font-bold text-slate-800 text-sm">Mobile Top-Up & Packages</h3>
+        <div class="w-8"></div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3 mb-4">Select mobile network operator:</p>
+
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="openQuickPayModal('Jazz Easyload', 'fa-sim-card', 'Jazz 030X Number')" class="p-4 bg-red-50 hover:bg-red-100/60 rounded-2xl border border-red-100 flex flex-col items-center text-center gap-2">
+          <span class="text-xl font-black text-red-600 brand-font">Jazz</span>
+          <span class="text-xs font-semibold text-slate-700">Jazz / Warid</span>
+        </button>
+        <button onclick="openQuickPayModal('Telenor Easyload', 'fa-sim-card', 'Telenor 034X Number')" class="p-4 bg-sky-50 hover:bg-sky-100/60 rounded-2xl border border-sky-100 flex flex-col items-center text-center gap-2">
+          <span class="text-xl font-black text-sky-500 brand-font">telenor</span>
+          <span class="text-xs font-semibold text-slate-700">Telenor 4G</span>
+        </button>
+        <button onclick="openQuickPayModal('Ufone Easyload', 'fa-sim-card', 'Ufone 033X Number')" class="p-4 bg-orange-50 hover:bg-orange-100/60 rounded-2xl border border-orange-100 flex flex-col items-center text-center gap-2">
+          <span class="text-xl font-black text-orange-600 brand-font">ufone</span>
+          <span class="text-xs font-semibold text-slate-700">Ufone Super 4G</span>
+        </button>
+        <button onclick="openQuickPayModal('Zong Easyload', 'fa-sim-card', 'Zong 031X Number')" class="p-4 bg-emerald-50 hover:bg-emerald-100/60 rounded-2xl border border-emerald-100 flex flex-col items-center text-center gap-2">
+          <span class="text-xl font-black text-emerald-600 brand-font">ZONG</span>
+          <span class="text-xs font-semibold text-slate-700">Zong 4G Digital</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 7. STATEMENT SCREEN -->
+    <div id="screen-statement" class="screen p-5 bg-slate-50 pb-20">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 class="font-bold text-slate-800 text-sm">Account Statement</h3>
+        <button onclick="renderTransactions()" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrows-rotate"></i></button>
+      </div>
+
+      <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-4 text-white shadow-sm mt-4">
+        <span class="text-[11px] text-slate-300">Total Available Balance</span>
+        <div class="text-2xl font-black mt-1">Rs. <span id="statement-balance">7,000.00</span></div>
+      </div>
+
+      <div class="mt-5">
+        <div class="flex items-center justify-between mb-3">
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Transaction Activity</h4>
+          <span id="trans-count" class="text-xs font-semibold text-slate-400">0 records</span>
+        </div>
+        <div id="transactions-list" class="space-y-2.5"></div>
+      </div>
+    </div>
+
+    <!-- 8. PROFILE SCREEN -->
+    <div id="screen-profile" class="screen p-5 bg-white pb-20">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 class="font-bold text-slate-800 text-sm">Account Profile</h3>
+        <div class="w-8"></div>
+      </div>
+
+      <div class="flex flex-col items-center mt-6">
+        <div class="relative group">
+          <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[#00A651] shadow-lg bg-emerald-50">
+            <img id="avatar-img-profile" src="https://placehold.co/120x120/00A651/ffffff?text=Ayesha" alt="Ayesha Profile" class="w-full h-full object-cover">
+          </div>
+          <label for="avatar-file-input" class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-[#00A651] text-white flex items-center justify-center cursor-pointer shadow-md hover:bg-[#008a43] transition">
+            <i class="fa-solid fa-camera text-xs"></i>
+          </label>
+          <input type="file" id="avatar-file-input" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+        </div>
+        <h2 class="text-lg font-black text-slate-800 mt-3">Ayesha</h2>
+        <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full mt-1">Easypaisa Verified Tier 1</span>
+      </div>
+
+      <div class="mt-8 space-y-3.5 text-xs">
+        <div class="p-3.5 bg-slate-50 rounded-2xl flex justify-between items-center border border-slate-100">
+          <span class="text-slate-500 font-medium">Mobile Account Number</span>
+          <span class="font-bold text-slate-800">0312-9876543</span>
+        </div>
+        <div class="p-3.5 bg-slate-50 rounded-2xl flex justify-between items-center border border-slate-100">
+          <span class="text-slate-500 font-medium">Registered CNIC</span>
+          <span class="font-bold text-slate-800 font-mono">35202-XXXXXXX-X</span>
+        </div>
+        <div class="p-3.5 bg-slate-50 rounded-2xl flex justify-between items-center border border-slate-100">
+          <span class="text-slate-500 font-medium">CNIC Expiry</span>
+          <span class="font-bold text-slate-800">31/12/2030</span>
+        </div>
+        <div class="p-3.5 bg-slate-50 rounded-2xl flex justify-between items-center border border-slate-100">
+          <span class="text-slate-500 font-medium">Daily Transfer Limit</span>
+          <span class="font-bold text-emerald-700">Rs. 50,000 / Rs. 50,000</span>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <button onclick="logoutUser()" class="w-full py-3.5 rounded-2xl border border-rose-200 text-rose-600 font-bold text-sm bg-rose-50/50 hover:bg-rose-100/50 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- 9. ADMIN PANEL -->
+    <div id="screen-admin" class="screen p-5 bg-slate-900 text-slate-100 pb-20">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-400">ADMIN ACCESS</span>
+          <h2 class="text-base font-black text-white">Welcome, Admin</h2>
+        </div>
+        <button onclick="go('screen-home')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-xl">
+          Exit Admin
+        </button>
+      </div>
+
+      <!-- Section 1: Notification Trigger -->
+      <div class="mt-5 bg-slate-800/80 rounded-2xl p-4 border border-slate-700">
+        <h4 class="text-xs font-bold text-white flex items-center gap-2 mb-3">
+          <i class="fa-solid fa-bullhorn text-emerald-400"></i> Send Native Push Notification
+        </h4>
+        <div class="space-y-2.5">
+          <input type="text" id="admin-notify-title" placeholder="Notification Title" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+          <input type="text" id="admin-notify-msg" placeholder="Notification Message Body" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+          <button onclick="sendAdminNotification()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl text-xs transition">
+            Dispatch Notification
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 2 & 3: Add & Delete Recipients -->
+      <div class="mt-4 bg-slate-800/80 rounded-2xl p-4 border border-slate-700">
+        <h4 class="text-xs font-bold text-white flex items-center gap-2 mb-3">
+          <i class="fa-solid fa-user-plus text-emerald-400"></i> Add Recipient for Auto-Fill
+        </h4>
+        <div class="space-y-2.5">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="admin-rec-name" placeholder="Full Name (e.g. Bilal)" class="bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+            <input type="tel" id="admin-rec-number" placeholder="03001234567" class="bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+          </div>
+          <button onclick="adminAddRecipient()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 rounded-xl text-xs transition">
+            Add Recipient
+          </button>
+        </div>
+
+        <h5 class="text-[11px] font-bold text-slate-400 mt-4 mb-2 uppercase">Configured Recipients</h5>
+        <div id="admin-recipient-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
+      </div>
+
+      <!-- Section 4: Balance Control -->
+      <div class="mt-4 bg-slate-800/80 rounded-2xl p-4 border border-slate-700 mb-6">
+        <h4 class="text-xs font-bold text-white flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-wallet text-emerald-400"></i> Balance Control
+        </h4>
+        <p class="text-xs text-slate-400 mb-2">Live Balance: <span class="text-emerald-400 font-bold" id="admin-live-balance">Rs. 7,000.00</span></p>
+        <div class="flex gap-2">
+          <input type="number" id="admin-add-balance-input" placeholder="Amount (e.g. 1000)" class="flex-1 bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+          <button onclick="adminAddBalance()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 rounded-xl text-xs">
+            Add Balance
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. BOTTOM NAVIGATION BAR (Visible when logged in) -->
+    <nav id="bottom-nav" class="hidden absolute bottom-0 inset-x-0 h-16 bg-white border-t border-slate-100 flex items-center justify-around px-2 z-30 shadow-lg">
+      <button onclick="go('screen-home')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
+        <i class="fa-solid fa-house text-base"></i>
+        <span class="text-[10px] font-semibold mt-1">Home</span>
+      </button>
+
+      <button onclick="auth('screen-statement')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
+        <i class="fa-solid fa-clock-rotate-left text-base"></i>
+        <span class="text-[10px] font-semibold mt-1">History</span>
+      </button>
+
+      <div class="relative -top-4">
+        <button onclick="auth('screen-transfer')" class="w-13 h-13 rounded-full bg-gradient-to-tr from-[#008a43] to-[#00A651] text-white flex items-center justify-center text-xl shadow-lg shadow-emerald-600/30 active:scale-95 transition">
+          <i class="fa-solid fa-paper-plane text-base"></i>
+        </button>
+      </div>
+
+      <button onclick="auth('screen-bills')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
+        <i class="fa-solid fa-receipt text-base"></i>
+        <span class="text-[10px] font-semibold mt-1">Bills</span>
+      </button>
+
+      <button onclick="auth('screen-profile')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
+        <i class="fa-solid fa-user text-base"></i>
+        <span class="text-[10px] font-semibold mt-1">Profile</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    // State Management
+    let walletBalance = 7000.00;
+    let transactions = [];
+    let recipients = [
+      { name: 'Kashif Khan', number: '03001234567' },
+      { name: 'Zainab Bibi', number: '03457654321' },
+      { name: 'Hamza Ali', number: '03129998877' }
+    ];
+    let logged = false;
+    let isAdmin = false;
+    let pinStr = '';
+    let admTries = 0;
+    let balanceMasked = false;
+    let pendingQuickType = '';
+    let splashCompleted = false;
+
+    let pendingTransfer = {
+      name: '',
+      number: '',
+      amount: 0,
+      comment: ''
+    };
+
+    /* Splash Screen: 1.5s solo logo -> orbit rings + typewriter text */
+    function runSplashSequence() {
+      const svg = document.getElementById('splash-orbit-svg');
+      const typewriterWrap = document.getElementById('typewriter-container');
+      const line1 = document.getElementById('typed-line-1');
+      const line2 = document.getElementById('typed-line-2');
+
+      // Phase 1: 0 to 1500ms -> sirf logo load rehta hai bilkul center mein
+
+      // Phase 2: Theek 1.5 seconds (1500ms) baad logo side pe slide hoga aur rings fade in honge
+      setTimeout(() => {
+        if (splashCompleted) return;
+
+        // Rings show karo
+        svg.classList.remove('opacity-0');
+        svg.classList.add('opacity-100');
+
+        // Text container activate karo
+        typewriterWrap.classList.remove('opacity-0', 'w-0');
+        typewriterWrap.classList.add('opacity-100', 'w-auto');
+
+        const word1 = "digital";
+        const word2 = "bank";
+        let i = 0;
+        let j = 0;
+
+        // Aram aram se letters type karo (130ms speed per letter)
+        const typeInterval = setInterval(() => {
+          if (splashCompleted) {
+            clearInterval(typeInterval);
+            return;
+          }
+
+          if (i < word1.length) {
+            line1.innerHTML = word1.slice(0, i + 1) + '<span class="cursor-line"></span>';
+            i++;
+          } else if (j < word2.length) {
+            line1.innerHTML = word1; // remove cursor from line 1
+            line2.innerHTML = word2.slice(0, j + 1) + '<span class="cursor-line"></span>';
+            j++;
+          } else {
+            clearInterval(typeInterval);
+            line2.innerHTML = word2; // text pura hogya
+
+            // Smooth transition to Home screen
+            setTimeout(() => {
+              skipSplash();
+            }, 1500);
+          }
+        }, 130);
+
+      }, 1500);
+    }
+
+    function skipSplash() {
+      if (splashCompleted) return;
+      splashCompleted = true;
+      go('screen-home');
+    }
+
+    /* Screen Navigation Logic */
+    function go(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+      const target = document.getElementById(screenId);
+      if (target) {
+        target.classList.add('on');
+      }
+
+      updateBalanceUI();
+
+      const bottomNav = document.getElementById('bottom-nav');
+      if (logged && screenId !== 'screen-splash' && screenId !== 'screen-login' && screenId !== 'screen-processing' && screenId !== 'screen-success') {
+        bottomNav.classList.remove('hidden');
+      } else {
+        bottomNav.classList.add('hidden');
+      }
+    }
+
+    function auth(screenId) {
+      if (!logged) {
+        go('screen-login');
+      } else {
+        go(screenId);
+      }
+    }
+
+    /* PIN Keypad & Admin Trigger */
+    function pin(val) {
+      if (pinStr.length >= 5) return;
+      pinStr += val;
+      updatePinDots();
+
+      if (pinStr.length === 5) {
+        setTimeout(verifyPin, 180);
+      }
+    }
+
+    function pinDel() {
+      if (pinStr.length > 0) {
+        pinStr = pinStr.slice(0, -1);
+        updatePinDots();
+        document.getElementById('pin-feedback').innerText = '';
+      }
+    }
+
+    function pinClear() {
+      pinStr = '';
+      updatePinDots();
+      document.getElementById('pin-feedback').innerText = '';
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 5; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i < pinStr.length) {
+          dot.classList.add('bg-[#00A651]', 'border-[#00A651]');
+          dot.classList.remove('bg-transparent', 'border-slate-300');
+        } else {
+          dot.classList.remove('bg-[#00A651]', 'border-[#00A651]');
+          dot.classList.add('bg-transparent', 'border-slate-300');
+        }
+      }
+    }
+
+    function verifyPin() {
+      const feedback = document.getElementById('pin-feedback');
+
+      // Admin PIN Check: 11111 entered 5 times in a row
+      if (pinStr === '11111') {
+        admTries++;
+        pinClear();
+        if (admTries >= 5) {
+          isAdmin = true;
+          admTries = 0;
+          showToast('Admin Mode', 'Master security unlocked!');
+          renderAdminRecipients();
+          go('screen-admin');
+          return;
+        } else {
+          const remaining = 5 - admTries;
+          const msg = `Admin PIN sahi. ${remaining} baar aur.`;
+          showToast('Admin Security', msg);
+          feedback.innerText = msg;
+          return;
+        }
+      }
+
+      // Normal User Login: 32303
+      if (pinStr === '32303') {
+        logged = true;
+        admTries = 0;
+        pinClear();
+        document.getElementById('unauth-banner').classList.add('hidden');
+        document.getElementById('auth-balance-panel').classList.remove('hidden');
+        document.getElementById('home-login-btn').classList.add('hidden');
+        showToast('Login Successful', 'Welcome back, Ayesha!');
+        go('screen-home');
+        return;
+      }
+
+      // Invalid PIN
+      feedback.innerText = 'Incorrect PIN. Try 32303';
+      admTries = 0;
+      setTimeout(() => {
+        pinClear();
+      }, 700);
+    }
+
+    function logoutUser() {
+      logged = false;
+      document.getElementById('unauth-banner').classList.remove('hidden');
+      document.getElementById('auth-balance-panel').classList.add('hidden');
+      document.getElementById('home-login-btn').classList.remove('hidden');
+      showToast('Logged Out', 'Signed out successfully.');
+      go('screen-home');
+    }
+
+    function formatMoney(amount) {
+      return Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function updateBalanceUI() {
+      const formatted = formatMoney(walletBalance);
+      const displayElem = document.getElementById('display-balance');
+      const stmtElem = document.getElementById('statement-balance');
+      const adminBalElem = document.getElementById('admin-live-balance');
+
+      if (displayElem) {
+        displayElem.innerText = balanceMasked ? '••••••••' : formatted;
+      }
+      if (stmtElem) {
+        stmtElem.innerText = formatted;
+      }
+      if (adminBalElem) {
+        adminBalElem.innerText = 'Rs. ' + formatted;
+      }
+    }
+
+    function toggleBalanceMask() {
+      balanceMasked = !balanceMasked;
+      const eye = document.getElementById('eye-icon');
+      if (balanceMasked) {
+        eye.classList.remove('fa-eye');
+        eye.classList.add('fa-eye-slash');
+      } else {
+        eye.classList.remove('fa-eye-slash');
+        eye.classList.add('fa-eye');
+      }
+      updateBalanceUI();
+    }
+
+    function showNotification(title, message) {
+      if (window.AndroidNotification && typeof window.AndroidNotification.showNotification === 'function') {
+        try {
+          window.AndroidNotification.showNotification(title, message);
+        } catch (e) {
+          console.warn('Native notification failed:', e);
+        }
+      }
+      showToast(title, message);
+    }
+
+    let toastTimeout = null;
+    function showToast(title, msg) {
+      const toast = document.getElementById('toast-banner');
+      document.getElementById('toast-title').innerText = title;
+      document.getElementById('toast-msg').innerText = msg;
+      toast.classList.remove('hidden');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        hideToast();
+      }, 4000);
+    }
+
+    function hideToast() {
+      document.getElementById('toast-banner').classList.add('hidden');
+    }
+
+    /* Recipient auto-lookup */
+    function onRecipientNumberInput(val) {
+      const badge = document.getElementById('recipient-match-badge');
+      const nameSpan = document.getElementById('recipient-match-name');
+      const cleanVal = val.trim();
+
+      const matched = recipients.find(r => r.number === cleanVal);
+      if (matched) {
+        nameSpan.innerText = matched.name;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    function startTransferReview() {
+      const numInput = document.getElementById('transfer-number').value.trim();
+      const amtInput = parseFloat(document.getElementById('transfer-amount').value);
+      const commentInput = document.getElementById('transfer-comment').value.trim();
+
+      if (!numInput || numInput.length < 8) {
+        showToast('Validation Error', 'Please enter a valid mobile number.');
+        return;
+      }
+      if (isNaN(amtInput) || amtInput <= 0) {
+        showToast('Validation Error', 'Please enter a valid transfer amount.');
+        return;
+      }
+      if (amtInput > walletBalance) {
+        showToast('Insufficient Balance', `Available balance is Rs. ${formatMoney(walletBalance)}.`);
+        return;
+      }
+
+      const matched = recipients.find(r => r.number === numInput);
+      const recipientName = matched ? matched.name : 'Recipient (' + numInput.slice(-4) + ')';
+
+      pendingTransfer = {
+        name: recipientName,
+        number: numInput,
+        amount: amtInput,
+        comment: commentInput || 'Money Transfer'
+      };
+
+      document.getElementById('confirm-amount').innerText = formatMoney(amtInput);
+      document.getElementById('confirm-total').innerText = 'Rs. ' + formatMoney(amtInput);
+      document.getElementById('confirm-name').innerText = recipientName;
+      document.getElementById('confirm-number').innerText = numInput;
+
+      go('screen-confirm');
+    }
+
+    function executeTransferPayment() {
+      go('screen-processing');
+
+      setTimeout(() => {
+        walletBalance -= pendingTransfer.amount;
+
+        const dateStr = new Date().toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        }) + ' - ' + new Date().toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        const tid = 'EP-' + Math.floor(1000000000 + Math.random() * 9000000000);
+
+        transactions.unshift({
+          type: 'Money Transfer',
+          recipient: pendingTransfer.name,
+          number: pendingTransfer.number,
+          amount: pendingTransfer.amount,
+          date: dateStr,
+          tid: tid
+        });
+
+        document.getElementById('receipt-tid').innerText = tid;
+        document.getElementById('receipt-amount').innerText = 'Rs. ' + formatMoney(pendingTransfer.amount);
+        document.getElementById('receipt-name').innerText = pendingTransfer.name;
+        document.getElementById('receipt-number').innerText = pendingTransfer.number;
+        document.getElementById('receipt-date').innerText = dateStr;
+
+        const voiceAudio = document.getElementById('voice');
+        if (voiceAudio) {
+          voiceAudio.currentTime = 0;
+          voiceAudio.play().catch(e => {
+            console.log('Audio autoplay blocked or file not found:', e);
+          });
+        }
+
+        showNotification(
+          'Easypaisa Sent!',
+          `Rs. ${formatMoney(pendingTransfer.amount)} sent to ${pendingTransfer.name} (${pendingTransfer.number}). TID: ${tid}`
+        );
+
+        document.getElementById('transfer-number').value = '';
+        document.getElementById('transfer-amount').value = '';
+        document.getElementById('transfer-comment').value = '';
+        document.getElementById('recipient-match-badge').classList.add('hidden');
+
+        go('screen-success');
+      }, 4000);
+    }
+
+    function openQuickPayModal(title, iconClass, refPlaceholder) {
+      pendingQuickType = title;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-ref-input').placeholder = refPlaceholder;
+      document.getElementById('modal-amount-input').value = '';
+      document.getElementById('quick-pay-modal').classList.remove('hidden');
+    }
+
+    function closeQuickModal() {
+      document.getElementById('quick-pay-modal').classList.add('hidden');
+    }
+
+    function confirmQuickPayment() {
+      const ref = document.getElementById('modal-ref-input').value.trim();
+      const amt = parseFloat(document.getElementById('modal-amount-input').value);
+
+      if (!ref) {
+        showToast('Error', 'Please enter reference / mobile number.');
+        return;
+      }
+      if (isNaN(amt) || amt <= 0) {
+        showToast('Error', 'Please enter a valid amount.');
+        return;
+      }
+      if (amt > walletBalance) {
+        showToast('Insufficient Balance', 'Not enough balance in account.');
+        return;
+      }
+
+      walletBalance -= amt;
+      closeQuickModal();
+
+      const dateStr = new Date().toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
+      }) + ' ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+      transactions.unshift({
+        type: pendingQuickType,
+        recipient: ref,
+        amount: amt,
+        date: dateStr
+      });
+
+      updateBalanceUI();
+      renderTransactions();
+
+      showNotification(
+        'Payment Paid Successfully',
+        `${pendingQuickType} of Rs. ${formatMoney(amt)} for Ref: ${ref} completed.`
+      );
+    }
+
+    function renderTransactions() {
+      const list = document.getElementById('transactions-list');
+      const count = document.getElementById('trans-count');
+      count.innerText = `${transactions.length} record${transactions.length === 1 ? '' : 's'}`;
+
+      if (transactions.length === 0) {
+        list.innerHTML = `
+          <div class="bg-white rounded-2xl p-8 text-center border border-slate-100">
+            <i class="fa-regular fa-folder-open text-3xl text-slate-300 mb-2"></i>
+            <p class="text-xs font-semibold text-slate-500">No transactions yet</p>
+            <p class="text-[11px] text-slate-400 mt-1">Payment transactions will be listed here.</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = transactions.map(item => `
+        <div class="bg-white p-3.5 rounded-2xl border border-slate-100 shadow-xs flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#00A651] flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </div>
+            <div>
+              <h5 class="text-xs font-bold text-slate-800">${item.recipient}</h5>
+              <span class="text-[10px] text-slate-400 block">${item.type} • ${item.date}</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-black text-rose-600">- Rs. ${formatMoney(item.amount)}</span>
+            <span class="text-[9px] block text-emerald-600 font-semibold">Success</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Img = e.target.result;
+        document.getElementById('avatar-img-profile').src = base64Img;
+        document.getElementById('avatar-img-home').src = base64Img;
+        showToast('Profile Updated', 'Profile photo updated!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderAdminRecipients() {
+      const list = document.getElementById('admin-recipient-list');
+      if (!list) return;
+
+      if (recipients.length === 0) {
+        list.innerHTML = `<p class="text-xs text-slate-400 italic">No custom recipients added.</p>`;
+        return;
+      }
+
+      list.innerHTML = recipients.map((r, idx) => `
+        <div class="flex items-center justify-between bg-slate-900 px-3 py-2 rounded-xl text-xs">
+          <div>
+            <span class="font-bold text-white">${r.name}</span>
+            <span class="text-slate-400 block font-mono text-[10px]">${r.number}</span>
+          </div>
+          <button onclick="adminDeleteRecipient(${idx})" class="text-rose-400 hover:text-rose-300 p-1">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function adminAddRecipient() {
+      const nameInput = document.getElementById('admin-rec-name');
+      const numInput = document.getElementById('admin-rec-number');
+      const name = nameInput.value.trim();
+      const num = numInput.value.trim();
+
+      if (!name || !num) {
+        showToast('Admin Error', 'Enter both name and number.');
+        return;
+      }
+
+      recipients.push({ name, number: num });
+      nameInput.value = '';
+      numInput.value = '';
+      renderAdminRecipients();
+      showToast('Recipient Added', `${name} (${num}) saved.`);
+    }
+
+    function adminDeleteRecipient(idx) {
+      recipients.splice(idx, 1);
+      renderAdminRecipients();
+    }
+
+    function adminAddBalance() {
+      const input = document.getElementById('admin-add-balance-input');
+      const amount = parseFloat(input.value);
+
+      if (isNaN(amount) || amount <= 0) {
+        showToast('Admin', 'Enter a valid amount.');
+        return;
+      }
+
+      walletBalance += amount;
+      input.value = '';
+      updateBalanceUI();
+      showToast('Funds Added', `Added Rs. ${formatMoney(amount)}.`);
+    }
+
+    function sendAdminNotification() {
+      const title = document.getElementById('admin-notify-title').value.trim() || 'Easypaisa Alert';
+      const msg = document.getElementById('admin-notify-msg').value.trim() || 'Your balance has been updated.';
+      showNotification(title, msg);
+    }
+
+    // App Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      updateBalanceUI();
+      renderTransactions();
+      renderAdminRecipients();
+      runSplashSequence();
+    });
+  </script>
+</body>
+</html>
+ 
