@@ -16,7 +16,7 @@
     :root {
       --ep-green: #00A651;
       --ep-dark-green: #008a43;
-      --ep-theme-dark: #261f30; /* Exact dark plum shade from screenshots */
+      --ep-theme-dark: #261f30;
     }
     * {
       box-sizing: border-box;
@@ -71,7 +71,7 @@
       display: none;
     }
 
-    /* Outer Orbit Rings Animation */
+    /* Orbit Text Animation */
     @keyframes spinClockwise {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -116,12 +116,6 @@
       transform: scale(0.92);
       background-color: #e2e8f0;
     }
-    .spinner-ep {
-      border: 4px solid #dcfce7;
-      border-top-color: #00A651;
-      border-radius: 50%;
-      animation: spinClockwise 0.9s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
-    }
   </style>
 </head>
 <body>
@@ -161,20 +155,20 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Exact Centered Square Box with Easypaisa Logo (Stays 3 Seconds) -->
+      <!-- STAGE 1: Exact Centered 1.png (Fixed 3 Seconds, No click-skip) -->
       <div id="splash-stage-1" class="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-700">
-        <div class="w-36 h-36 bg-white rounded-3xl flex items-center justify-center shadow-2xl p-4">
-          <img src="https://i.ibb.co/Lh0H11BY/138526.png" 
-               alt="Easypaisa Logo" 
-               class="w-full h-full object-contain pointer-events-none"
-               onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s';">
+        <div class="w-40 h-40 flex items-center justify-center p-2">
+          <!-- 1.png Path: Includes automatic fallback so screen never stays blank -->
+          <img id="img-first" src="1.png" alt="Easypaisa First Logo" 
+               class="max-w-full max-h-full object-contain pointer-events-none drop-shadow-xl"
+               onerror="this.onerror=null; this.src='https://i.ibb.co/Lh0H11BY/138526.png';">
         </div>
       </div>
 
-      <!-- STAGE 2: Distant Rings + Second Logo on Left + Big Digital Bank Typewriter -->
+      <!-- STAGE 2: 2.png on Left + Big Typewriter on Right + Outer Distant Rings -->
       <div id="splash-stage-2" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700 z-10">
         
-        <!-- Rotating Concentric Text Rings (Set Far Apart) -->
+        <!-- Rotating Text Rings (Distant from Center) -->
         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
@@ -200,16 +194,16 @@
           </g>
         </svg>
 
-        <!-- Center Unit: Logo on Left + Text on Right -->
+        <!-- Center Unit: 2.png on Left + Digital Bank Typewriter on Right -->
         <div class="relative z-20 flex items-center justify-center px-4">
-          <!-- 2nd Small Logo on the Left -->
+          <!-- 2.png Path: Left-side positioned -->
           <div class="w-16 h-16 shrink-0 flex items-center justify-center mr-3.5">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s" 
-                 alt="Easypaisa Small Logo" 
-                 class="w-full h-full object-contain drop-shadow-md">
+            <img id="img-second" src="2.png" alt="Easypaisa Second Logo" 
+                 class="max-w-full max-h-full object-contain drop-shadow-md pointer-events-none"
+                 onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s';">
           </div>
 
-          <!-- Typewriter Digital Bank Text -->
+          <!-- Typewriter Output -->
           <div class="flex flex-col justify-center leading-none text-left">
             <span id="typed-line-1" class="text-white text-[32px] font-black tracking-tight brand-font block mb-1 min-h-[38px]"></span>
             <span id="typed-line-2" class="text-white text-[32px] font-black tracking-tight brand-font block min-h-[38px]"></span>
@@ -220,7 +214,7 @@
 
     </div>
 
-    <!-- 2. LOGIN SCREEN (Direct Destination After Splash) -->
+    <!-- 2. LOGIN SCREEN (Opens directly after splash sequence finishes) -->
     <div id="screen-login" class="screen justify-between p-6 bg-white">
       <div class="flex items-center justify-between pt-4">
         <div class="w-8"></div>
@@ -293,38 +287,23 @@
               </span>
             </div>
           </div>
-          <button onclick="auth('screen-home')" id="home-login-btn" class="bg-white text-[#008a43] px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-md hover:bg-emerald-50">
-            Sign In
-          </button>
         </div>
 
         <!-- Balance Panel -->
         <div class="mt-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-          <div id="unauth-banner" class="flex items-center justify-between">
-            <div>
-              <p class="text-xs text-white/90 font-medium">Safe & Secure Transactions</p>
-              <h3 class="text-sm font-bold text-white mt-0.5">Log in to Make Payments</h3>
-            </div>
-            <button onclick="go('screen-login')" class="bg-yellow-400 text-slate-900 px-3 py-1.5 rounded-xl text-xs font-bold">
-              Log In
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-emerald-100 font-medium">Easypaisa Available Balance</span>
+            <button onclick="toggleBalanceMask()" class="text-xs text-white/80 hover:text-white">
+              <i id="eye-icon" class="fa-regular fa-eye"></i>
             </button>
           </div>
-
-          <div id="auth-balance-panel" class="hidden">
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-emerald-100 font-medium">Easypaisa Available Balance</span>
-              <button onclick="toggleBalanceMask()" class="text-xs text-white/80 hover:text-white">
-                <i id="eye-icon" class="fa-regular fa-eye"></i>
-              </button>
-            </div>
-            <div class="flex items-baseline gap-1 mt-1">
-              <span class="text-sm font-semibold text-white/90">Rs.</span>
-              <span id="display-balance" class="text-2xl font-black text-white tracking-tight">7,000.00</span>
-            </div>
-            <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10 text-[11px] text-white/80">
-              <span>Account: 0312-9876543</span>
-              <span class="text-yellow-300 font-bold hover:underline cursor-pointer" onclick="go('screen-statement')">View Ledger &rarr;</span>
-            </div>
+          <div class="flex items-baseline gap-1 mt-1">
+            <span class="text-sm font-semibold text-white/90">Rs.</span>
+            <span id="display-balance" class="text-2xl font-black text-white tracking-tight">7,000.00</span>
+          </div>
+          <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10 text-[11px] text-white/80">
+            <span>Account: 0312-9876543</span>
+            <span class="text-yellow-300 font-bold hover:underline cursor-pointer" onclick="go('screen-statement')">View Ledger &rarr;</span>
           </div>
         </div>
       </div>
@@ -347,32 +326,11 @@
             <span class="text-xs font-bold text-slate-700 leading-tight">Bill Payment</span>
           </button>
 
-          <button onclick="auth('screen-load')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
-            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-2">
-              <i class="fa-solid fa-mobile-screen-button"></i>
-            </div>
-            <span class="text-xs font-bold text-slate-700 leading-tight">Load & Packages</span>
-          </button>
-
           <button onclick="auth('screen-statement')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
             <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-2">
               <i class="fa-solid fa-receipt"></i>
             </div>
             <span class="text-xs font-bold text-slate-700 leading-tight">Statement</span>
-          </button>
-
-          <button onclick="showToast('Favorites', 'Favorite contacts updated!')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
-            <div class="w-12 h-12 rounded-2xl bg-pink-50 text-pink-500 flex items-center justify-center text-xl mb-2">
-              <i class="fa-solid fa-heart"></i>
-            </div>
-            <span class="text-xs font-bold text-slate-700 leading-tight">Favorites</span>
-          </button>
-
-          <button onclick="auth('screen-profile')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-[#008a43] flex items-center justify-center text-xl mb-2">
-              <i class="fa-solid fa-user-gear"></i>
-            </div>
-            <span class="text-xs font-bold text-slate-700 leading-tight">Profile</span>
           </button>
         </div>
       </div>
@@ -418,24 +376,6 @@
       </div>
     </div>
 
-    <!-- 6. PROFILE SCREEN -->
-    <div id="screen-profile" class="screen p-5 bg-white pb-20">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 class="font-bold text-slate-800 text-sm">Profile</h3>
-        <div class="w-8"></div>
-      </div>
-      <div class="flex flex-col items-center mt-6">
-        <div class="w-20 h-20 rounded-full border-4 border-[#00A651] overflow-hidden bg-slate-100">
-          <img src="https://placehold.co/120x120/00A651/ffffff?text=Ayesha" class="w-full h-full object-cover">
-        </div>
-        <h3 class="font-bold text-base mt-2">Ayesha</h3>
-        <button onclick="logoutUser()" class="mt-8 w-full py-3 rounded-2xl bg-rose-50 text-rose-600 font-bold text-xs">
-          Sign Out
-        </button>
-      </div>
-    </div>
-
     <!-- BOTTOM NAV -->
     <nav id="bottom-nav" class="hidden absolute bottom-0 inset-x-0 h-16 bg-white border-t border-slate-100 flex items-center justify-around px-2 z-30 shadow-lg">
       <button onclick="go('screen-home')" class="flex flex-col items-center justify-center text-[#00A651] w-12 py-1">
@@ -450,10 +390,6 @@
         <i class="fa-solid fa-paper-plane text-base"></i>
         <span class="text-[10px] font-semibold mt-1">Send</span>
       </button>
-      <button onclick="auth('screen-profile')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
-        <i class="fa-solid fa-user text-base"></i>
-        <span class="text-[10px] font-semibold mt-1">Profile</span>
-      </button>
     </nav>
 
   </div>
@@ -464,20 +400,19 @@
     let pinStr = '';
     let balanceMasked = false;
 
-    /* STRICT SPLASH ANIMATION SEQUENCE */
+    /* Splash Sequence Handler */
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Centered Square Logo
+      // 1. Stage 1: Stays exactly 3.0 Seconds (3000ms)
       setTimeout(() => {
-        // Fade out Stage 1
         stage1.classList.add('opacity-0');
-        setTimeout(() => stage1.classList.add('hidden'), 700);
+        setTimeout(() => stage1.classList.add('hidden'), 600);
 
-        // Activate Stage 2 (Second logo on left + Orbit rings + Typewriter)
+        // 2. Stage 2: Reveal 2.png + Circular Rings + Typewriter
         stage2.classList.remove('opacity-0', 'pointer-events-none');
         stage2.classList.add('opacity-100');
 
@@ -486,7 +421,6 @@
         let i = 0;
         let j = 0;
 
-        // Typewriter animation
         const typeInterval = setInterval(() => {
           if (i < word1.length) {
             line1.innerHTML = word1.slice(0, i + 1) + '<span class="cursor-caret"></span>';
@@ -497,19 +431,18 @@
             j++;
           } else {
             clearInterval(typeInterval);
-            line2.innerHTML = word2; // Completed typing
+            line2.innerHTML = word2; // Complete
 
-            // Wait 3 Seconds after typing, then go straight to LOGIN screen
+            // 3. Wait 3 seconds after text finishes, then navigate to LOGIN
             setTimeout(() => {
               go('screen-login');
             }, 3000);
           }
         }, 130);
 
-      }, 3000); // 3000ms strict stay for stage 1
+      }, 3000);
     }
 
-    /* Screen Transition */
     function go(screenId) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
       const target = document.getElementById(screenId);
@@ -535,7 +468,7 @@
       }
     }
 
-    /* PIN Keypad */
+    /* PIN verification */
     function pin(val) {
       if (pinStr.length >= 5) return;
       pinStr += val;
@@ -579,10 +512,7 @@
       if (pinStr === '32303') {
         logged = true;
         pinClear();
-        document.getElementById('unauth-banner').classList.add('hidden');
-        document.getElementById('auth-balance-panel').classList.remove('hidden');
-        document.getElementById('home-login-btn').classList.add('hidden');
-        showToast('Login Successful', 'Welcome back, Ayesha!');
+        showToast('Login Successful', 'Welcome back!');
         go('screen-home');
         return;
       }
@@ -591,15 +521,6 @@
       setTimeout(() => {
         pinClear();
       }, 700);
-    }
-
-    function logoutUser() {
-      logged = false;
-      document.getElementById('unauth-banner').classList.remove('hidden');
-      document.getElementById('auth-balance-panel').classList.add('hidden');
-      document.getElementById('home-login-btn').classList.remove('hidden');
-      showToast('Logged Out', 'Signed out successfully.');
-      go('screen-home');
     }
 
     function updateBalanceUI() {
