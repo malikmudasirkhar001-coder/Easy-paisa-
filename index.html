@@ -8,7 +8,7 @@
   <!-- Fonts & CDN Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -16,7 +16,7 @@
     :root {
       --ep-green: #00A651;
       --ep-dark-green: #008a43;
-      --ep-splash-bg: #282333; /* Dark grey/purple tone matching screenshots */
+      --ep-splash-bg: #282333;
     }
     * {
       box-sizing: border-box;
@@ -24,22 +24,23 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
-    body {
-      background-color: #0b0f19;
+    html, body {
+      background-color: #282333; /* Full screen seamless match */
+      margin: 0;
+      padding: 0;
+      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
       color: #1e293b;
+      overflow: hidden;
     }
     #phone-frame {
-      width: 100%;
+      width: 100vw;
+      height: 100vh;
       max-width: 412px;
-      height: 860px;
-      max-height: 100vh;
-      background: #f8fafc;
+      max-height: 860px;
+      background: #282333;
       position: relative;
       overflow: hidden;
       display: flex;
@@ -48,9 +49,9 @@
     }
     @media (min-width: 640px) {
       #phone-frame {
-        border-radius: 42px;
-        border: 9px solid #1e293b;
-        height: 830px;
+        border-radius: 40px;
+        border: 8px solid #1a1622;
+        height: 840px;
       }
     }
     .screen {
@@ -69,7 +70,7 @@
       display: none;
     }
 
-    /* Orbital Splash Animations matching screenshots */
+    /* Outer Orbit Ring Rotations (Wide Radius) */
     @keyframes spinClockwise {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -79,12 +80,12 @@
       to { transform: rotate(0deg); }
     }
     .orbit-ring-inner {
-      animation: spinClockwise 32s linear infinite;
-      transform-origin: 200px 200px;
+      animation: spinClockwise 34s linear infinite;
+      transform-origin: 250px 250px;
     }
     .orbit-ring-outer {
-      animation: spinCounter 44s linear infinite;
-      transform-origin: 200px 200px;
+      animation: spinCounter 46s linear infinite;
+      transform-origin: 250px 250px;
     }
 
     /* Typewriter Cursor */
@@ -94,10 +95,10 @@
     }
     .cursor-line {
       display: inline-block;
-      width: 2.5px;
+      width: 3px;
       height: 0.9em;
       background-color: #00A651;
-      margin-left: 2px;
+      margin-left: 3px;
       animation: cursorPulse 0.5s infinite;
       vertical-align: middle;
     }
@@ -177,9 +178,9 @@
       </div>
     </div>
 
-    <!-- 1. SPLASH SCREEN (PERFECT 1.5s LOGO -> ROTATING ORBITS + TYPEWRITER) -->
+    <!-- 1. SPLASH SCREEN (FULL SCREEN THEME #282333) -->
     <div id="screen-splash" class="screen on items-center justify-center !bg-[#282333] select-none overflow-hidden relative">
-      <!-- Status bar -->
+      <!-- Top Mobile Status Bar Simulation -->
       <div class="absolute top-3 inset-x-5 flex justify-between items-center text-[11px] text-white/50 font-semibold z-20">
         <span>5:55</span>
         <div class="flex items-center gap-1.5 text-[10px]">
@@ -189,26 +190,36 @@
         </div>
       </div>
 
-      <!-- Rotating Text Concentric Rings (SVG) -->
-      <div class="relative w-full h-[470px] flex items-center justify-center">
-        <svg id="splash-orbit-svg" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-700" viewBox="0 0 400 400">
+      <!-- Stage A: Initial Big Logo (stays for 3 seconds) -->
+      <div id="splash-stage-1" class="flex flex-col items-center justify-center transition-opacity duration-500 z-10">
+        <div class="w-48 h-48 flex items-center justify-center">
+          <img src="https://i.ibb.co/Lh0H11BY/138526.png" alt="Easypaisa Big Logo" class="w-full h-full object-contain drop-shadow-2xl">
+        </div>
+      </div>
+
+      <!-- Stage B: Wide Orbiting Text Rings & Side-by-Side Logo + Big Digital Bank Text -->
+      <div id="splash-stage-2" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700">
+        <!-- Wide Orbiting SVG (Circles are placed farther away from center) -->
+        <svg id="splash-orbit-svg" class="absolute inset-0 w-full h-full" viewBox="0 0 500 500">
           <defs>
-            <path id="innerCirclePath" d="M 200, 200 m -96, 0 a 96,96 0 1,1 192,0 a 96,96 0 1,1 -192,0" fill="none" />
-            <path id="outerCirclePath" d="M 200, 200 m -160, 0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0" fill="none" />
+            <!-- Inner Ring: Radius 160 (Farther out) -->
+            <path id="innerCirclePath" d="M 250, 250 m -160, 0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0" fill="none" />
+            <!-- Outer Ring: Radius 218 (Near edge) -->
+            <path id="outerCirclePath" d="M 250, 250 m -218, 0 a 218,218 0 1,1 436,0 a 218,218 0 1,1 -436,0" fill="none" />
           </defs>
 
-          <!-- Inner Ring -->
+          <!-- Inner Ring Text -->
           <g class="orbit-ring-inner">
-            <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="400" letter-spacing="3.2">
+            <text fill="#ffffff" fill-opacity="0.8" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
               <textPath href="#innerCirclePath" startOffset="0%">
                 is now a digital bank · easypaisa · is now a digital bank ·
               </textPath>
             </text>
           </g>
 
-          <!-- Outer Ring -->
+          <!-- Outer Ring Text -->
           <g class="orbit-ring-outer">
-            <text fill="#ffffff" fill-opacity="0.75" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="400" letter-spacing="4.5">
+            <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
                 skip going to the bank - skip going to the bank -
               </textPath>
@@ -216,22 +227,22 @@
           </g>
         </svg>
 
-        <!-- Center Brand Container -->
-        <div id="center-brand-wrap" class="relative z-10 flex items-center justify-center transition-all duration-700 ease-out">
-          <!-- Logo container -->
-          <div id="ep-emblem" class="w-20 h-20 shrink-0 flex items-center justify-center transition-all duration-700">
-            <img src="https://i.ibb.co/Lh0H11BY/138526.png" alt="Easypaisa Logo" class="w-full h-full object-contain drop-shadow-md">
+        <!-- Center Container: Small New Logo + Big "digital bank" Text -->
+        <div class="relative z-10 flex items-center justify-center px-4">
+          <!-- Second New Small Logo -->
+          <div class="w-14 h-14 shrink-0 flex items-center justify-center rounded-2xl overflow-hidden bg-transparent mr-2.5">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s" alt="Easypaisa Small Logo" class="w-full h-full object-contain">
           </div>
 
-          <!-- Typewriter Output Text -->
-          <div id="typewriter-container" class="overflow-hidden whitespace-nowrap pl-3 w-0 opacity-0 transition-all duration-500 flex flex-col justify-center leading-none">
-            <span id="typed-line-1" class="text-white text-[27px] font-black tracking-tight brand-font block mb-0.5"></span>
-            <span id="typed-line-2" class="text-white text-[27px] font-black tracking-tight brand-font block"></span>
+          <!-- Typewriter Big Text -->
+          <div class="flex flex-col justify-center leading-none">
+            <span id="typed-line-1" class="text-white text-[32px] font-black tracking-tight brand-font block mb-0.5"></span>
+            <span id="typed-line-2" class="text-white text-[32px] font-black tracking-tight brand-font block"></span>
           </div>
         </div>
       </div>
 
-      <div class="absolute bottom-10 text-center">
+      <div class="absolute bottom-10 text-center z-20">
         <p class="text-white/40 text-[11px] font-medium tracking-widest uppercase">Tap anywhere to enter</p>
       </div>
       <button onclick="skipSplash()" class="absolute inset-0 w-full h-full opacity-0 z-30 cursor-pointer"></button>
@@ -794,33 +805,30 @@
       comment: ''
     };
 
-    /* Splash Screen: 1.5s solo logo -> orbit rings + typewriter text */
+    /* Splash Screen: 3s Big Logo -> Fade into Small Logo + Big "digital bank" Typewriter */
     function runSplashSequence() {
-      const svg = document.getElementById('splash-orbit-svg');
-      const typewriterWrap = document.getElementById('typewriter-container');
+      const stage1 = document.getElementById('splash-stage-1');
+      const stage2 = document.getElementById('splash-stage-2');
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // Phase 1: 0 to 1500ms -> sirf logo load rehta hai bilkul center mein
-
-      // Phase 2: Theek 1.5 seconds (1500ms) baad logo side pe slide hoga aur rings fade in honge
+      // 1. Stage 1: Big Logo remains in center for 3.0 Seconds (3000ms)
       setTimeout(() => {
         if (splashCompleted) return;
 
-        // Rings show karo
-        svg.classList.remove('opacity-0');
-        svg.classList.add('opacity-100');
+        // Hide Stage 1 smoothly
+        stage1.classList.add('opacity-0', 'hidden');
 
-        // Text container activate karo
-        typewriterWrap.classList.remove('opacity-0', 'w-0');
-        typewriterWrap.classList.add('opacity-100', 'w-auto');
+        // Reveal Stage 2 (Far concentric rings & side-by-side logo + text)
+        stage2.classList.remove('opacity-0', 'pointer-events-none');
+        stage2.classList.add('opacity-100');
 
         const word1 = "digital";
         const word2 = "bank";
         let i = 0;
         let j = 0;
 
-        // Aram aram se letters type karo (130ms speed per letter)
+        // 2. Typewriter Effect for "digital bank"
         const typeInterval = setInterval(() => {
           if (splashCompleted) {
             clearInterval(typeInterval);
@@ -831,21 +839,21 @@
             line1.innerHTML = word1.slice(0, i + 1) + '<span class="cursor-line"></span>';
             i++;
           } else if (j < word2.length) {
-            line1.innerHTML = word1; // remove cursor from line 1
+            line1.innerHTML = word1; // finalize first line
             line2.innerHTML = word2.slice(0, j + 1) + '<span class="cursor-line"></span>';
             j++;
           } else {
             clearInterval(typeInterval);
-            line2.innerHTML = word2; // text pura hogya
+            line2.innerHTML = word2; // finalize second line
 
-            // Smooth transition to Home screen
+            // Auto navigate smoothly to Home screen after typing finishes
             setTimeout(() => {
               skipSplash();
-            }, 1500);
+            }, 1800);
           }
-        }, 130);
+        }, 140);
 
-      }, 1500);
+      }, 3000); // 3 seconds stay
     }
 
     function skipSplash() {
@@ -1316,4 +1324,3 @@
   </script>
 </body>
 </html>
- 
