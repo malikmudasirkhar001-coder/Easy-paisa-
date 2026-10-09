@@ -61,7 +61,7 @@
       padding: 16px 18px 12px 18px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
       background: #ffffff;
       border-bottom: 1px solid #f1f5f9;
       z-index: 10;
@@ -77,8 +77,38 @@
       cursor: pointer;
       color: #334155;
     }
+    .help-btn-box {
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+    }
 
-    /* STEP 1: Modal Screen (Image 139570) */
+    /* Tabs (Send Money / History) */
+    .subnav-tabs-row {
+      display: flex;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+    .subnav-tab-item {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+    }
+    .subnav-tab-item.active-tab {
+      color: var(--ep-green);
+      border-bottom-color: var(--ep-green);
+    }
+
+    /* Step 1: Popup Modal (139570) */
     #step-1-modal {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -116,21 +146,13 @@
       cursor: pointer;
       overflow: hidden;
       background: #ffffff;
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.15s ease;
     }
-    .option-item-box:active {
-      transform: scale(0.96);
-      border-color: var(--ep-green);
-    }
-    .option-item-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .option-item-box:active { transform: scale(0.96); }
+    .option-item-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* STEP 2: Contacts & 11-Digit Input (Image 139571) */
-    #step-2-contacts {
+    /* Universal Listing View (Bank, Wallet, Easypaisa) */
+    .view-screen-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: #ffffff;
@@ -138,98 +160,146 @@
       flex-direction: column;
       z-index: 40;
     }
-    .search-input-pill {
-      flex: 1;
+    .list-search-bar-wrap {
+      padding: 14px 18px 8px 18px;
+    }
+    .search-field-pill {
+      width: 100%;
       height: 46px;
-      border: 1.5px solid #00A651;
+      border: 1px solid #cbd5e1;
       border-radius: 999px;
-      padding: 0 12px 0 16px;
+      padding: 0 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
-    .search-input-pill input {
+    .search-field-pill input {
       border: none;
       outline: none;
       width: 100%;
-      font-size: 15px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 600;
       color: #1e293b;
     }
-    .search-submit-arrow-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #cbd5e1;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-size: 13px;
-      cursor: not-allowed;
-      transition: background 0.2s ease;
-    }
-    .search-submit-arrow-btn.active-btn {
-      background: #00A651;
-      cursor: pointer;
-    }
-    .contacts-list-scroll {
+
+    .bank-directory-scroll {
       flex: 1;
       overflow-y: auto;
       padding: 10px 18px 24px 18px;
     }
-    .contact-item-row {
+    .bank-list-item-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 0;
+      padding: 12px 0;
       border-bottom: 1px solid #f8fafc;
       cursor: pointer;
     }
-    .contact-left-meta {
+    .bank-item-left-meta {
       display: flex;
       align-items: center;
       gap: 14px;
     }
-    .avatar-circle-icon {
-      width: 46px;
-      height: 46px;
+    .bank-logo-circle {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      overflow: hidden;
+      background: #ffffff;
+      font-size: 13px;
       font-weight: 800;
-      color: #475569;
-      position: relative;
+      color: #0369a1;
     }
-    .ep-badge-small {
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 16px;
-      height: 16px;
-      background: var(--ep-green);
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 8px;
-      color: #ffffff;
-      font-weight: 900;
+    .bank-logo-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
-    /* STEP 3: Enter Amount (Image 139572) */
-    #step-3-amount {
+    /* Form Fields for Raast & CNIC */
+    .form-inputs-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px 24px 18px;
+    }
+    .form-field-card {
+      margin-bottom: 18px;
+    }
+    .form-field-card label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .form-field-card input, 
+    .form-field-card select {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+      outline: none;
+      background: #ffffff;
+    }
+    .form-field-card input:focus { border-color: var(--ep-green); }
+
+    /* Raast Sub-Chips (Raast ID, IBAN, Account No.) */
+    .raast-segmented-control {
+      display: flex;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+    .raast-chip-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .raast-chip-tab.active-chip {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .form-next-btn {
+      width: 100%;
+      height: 48px;
+      background: #94a3b8;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: not-allowed;
+      margin-top: 10px;
+    }
+    .form-next-btn.ready-btn {
+      background: #00A651;
+      cursor: pointer;
+    }
+
+    /* STEP: Enter Amount Screen (139572) */
+    #step-amount-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: #f8fafc;
       display: none;
       flex-direction: column;
-      z-index: 40;
+      z-index: 45;
     }
     .amount-header-card {
       background: #ffffff;
@@ -255,35 +325,16 @@
       margin-bottom: 12px;
       padding: 10px 24px;
       border-radius: 16px;
-      transition: background 0.2s ease;
     }
     .amount-large-input-wrap.active-focus-box { background: #e2e8f0; }
-    .amount-large-input-wrap span.currency { font-size: 26px; font-weight: 700; color: #1e293b; }
-    .amount-large-input-wrap span.val { font-size: 54px; font-weight: 800; color: #64748b; }
-    .add-message-pill {
-      background: #e6f4ea;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 24px;
-      color: #065f46;
-      font-size: 14px;
-      font-weight: 700;
-      margin-top: 14px;
-      cursor: pointer;
-    }
 
-    /* Mathematical Keypad (Numbers Only) */
+    /* In-App Math Dialpad */
     #inapp-keypad-panel {
       background: #ffffff;
       border-top: 1px solid #e2e8f0;
       display: none;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      animation: slideKeypadUp 0.25s ease forwards;
-    }
-    @keyframes slideKeypadUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
     }
     .key-unit-btn {
       height: 52px;
@@ -299,28 +350,23 @@
     }
     .key-unit-btn:active { background: #f1f5f9; }
 
-    /* STEP 4: Confirm Transaction (Image 139573) */
-    #step-4-confirm {
+    /* STEP: Confirm Transaction Screen (139573) */
+    #step-confirm-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: #ffffff;
       display: none;
       flex-direction: column;
-      z-index: 40;
+      z-index: 45;
       overflow-y: auto;
       padding: 16px 18px 24px 18px;
-    }
-    .confirm-section-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: #475569;
-      margin: 14px 0 8px 0;
     }
     .confirm-white-card {
       border: 1px solid #e2e8f0;
       border-radius: 18px;
       padding: 16px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      margin-bottom: 14px;
     }
     .confirm-detail-row {
       display: flex;
@@ -329,8 +375,8 @@
       font-size: 13px;
     }
 
-    /* STEP 5: Sending Screen & Spinning Video/GIF Animation (Image 139574) */
-    #step-5-sending {
+    /* STEP: Sending Animation (139574) */
+    #step-sending-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: #f1f5f9;
@@ -339,21 +385,6 @@
       align-items: center;
       justify-content: center;
       z-index: 60;
-    }
-    .gold-coin-pulsar-wrapper {
-      width: 140px;
-      height: 140px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-    .video-coin-loop {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: none;
     }
     .css-coin-graphic {
       width: 110px;
@@ -365,19 +396,12 @@
       justify-content: center;
       box-shadow: 0 10px 25px rgba(202, 138, 4, 0.35);
       animation: coinPulse 1s ease-in-out infinite alternate;
+      margin-bottom: 24px;
     }
-    @keyframes coinPulse {
-      from { transform: scale(0.96); }
-      to { transform: scale(1.06); }
-    }
-    .css-coin-graphic span {
-      font-size: 42px;
-      font-weight: 900;
-      color: #00A651;
-    }
+    @keyframes coinPulse { from { transform: scale(0.96); } to { transform: scale(1.06); } }
 
-    /* STEP 6: Success Screen with 12.png Chroma-Keyed (Image 139575) */
-    #step-6-success {
+    /* STEP: Success Screen (139575) */
+    #step-success-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: var(--ep-success-bg);
@@ -389,8 +413,8 @@
       padding: 36px 24px 30px 24px;
     }
     .chroma-sun-wrapper {
-      width: 170px;
-      height: 170px;
+      width: 160px;
+      height: 160px;
       position: relative;
       display: flex;
       align-items: center;
@@ -414,39 +438,8 @@
     }
     .fallback-sun-badge i { font-size: 48px; color: #00A651; }
 
-    .success-action-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-    }
-    .home-green-pill-btn {
-      flex: 1;
-      height: 50px;
-      border-radius: 999px;
-      border: 1.5px solid #00A651;
-      background: #ffffff;
-      color: #065f46;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .icon-circle-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: 1.5px solid #00A651;
-      background: #ffffff;
-      color: #00A651;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    /* STEP 7: DETAILED TRANSACTION RECEIPT MODAL (Exact match with Image 139674) */
-    #step-7-receipt-full {
+    /* STEP: Detailed Transaction Receipt (139674) */
+    #step-receipt-full {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 35%);
@@ -467,20 +460,10 @@
       margin: 0 auto 14px auto;
       box-shadow: 0 6px 18px rgba(202, 138, 4, 0.3);
     }
-    .receipt-top-badge-gold i {
-      font-size: 38px;
-      color: #00A651;
-    }
     .receipt-info-block {
       margin-top: 24px;
       border-top: 1px solid #f1f5f9;
       padding-top: 16px;
-    }
-    .receipt-sec-heading {
-      font-size: 13.5px;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 8px;
     }
     .receipt-row-meta {
       display: flex;
@@ -536,78 +519,208 @@
         <h3 style="text-align: center; font-size: 18px; font-weight: 800; color: #1e293b;">Send Money</h3>
         
         <div class="options-grid-2x2">
-          <div class="option-item-box" onclick="goToStep2('easypaisa')">
+          <div class="option-item-box" onclick="routeOption('easypaisa')">
             <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" alt="easypaisa">
           </div>
-          <div class="option-item-box" onclick="goToStep2('Bank')">
+          <div class="option-item-box" onclick="routeOption('Bank')">
             <img src="https://i.ibb.co/5xtFkKQS/139662.jpg" alt="Bank">
           </div>
-          <div class="option-item-box" onclick="goToStep2('Wallet')">
+          <div class="option-item-box" onclick="routeOption('Wallet')">
             <img src="https://i.ibb.co/1tKxKKYZ/139663.jpg" alt="Wallet">
           </div>
-          <div class="option-item-box" onclick="goToStep2('Raast')">
+          <div class="option-item-box" onclick="routeOption('Raast')">
             <img src="https://i.ibb.co/ks4DzgZG/139664.jpg" alt="Raast">
           </div>
         </div>
 
         <div style="display:flex; justify-content:center; margin-top: 14px;">
-          <div class="option-item-box" style="width: 140px;" onclick="goToStep2('CNIC')">
+          <div class="option-item-box" style="width: 140px;" onclick="routeOption('CNIC')">
             <img src="https://i.ibb.co/jPHFjwJ3/139665.jpg" alt="CNIC">
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 2. CONTACTS & 11-DIGIT INPUT (139571) -->
-    <div id="step-2-contacts">
+    <!-- 2. EASYPAISA CONTACTS SCREEN (139571) -->
+    <div id="view-easypaisa" class="view-screen-pane">
       <div class="top-header-nav">
-        <div class="back-btn-box" onclick="window.location.href='index.html'"><i class="fa-solid fa-chevron-left"></i></div>
-        <div class="search-input-pill">
-          <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
-          <input type="tel" id="phone-search-input" placeholder="Enter 11 Digit Number" maxlength="12" oninput="onNumberTyped()">
-          <button id="search-submit-btn" class="search-submit-arrow-btn" onclick="submitNumberForVerification()">
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
+        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div style="flex:1; margin:0 10px;">
+          <div class="search-field-pill" style="border-color:#00A651;">
+            <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
+            <input type="tel" id="ep-number-input" placeholder="Enter 11 Digit Number" maxlength="12" oninput="onEpNumberTyped()">
+            <button id="ep-submit-arrow" style="border:none; width:30px; height:30px; border-radius:50%; background:#cbd5e1; color:#fff; cursor:not-allowed;" onclick="submitEpNumber()">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
+      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 21px; font-weight: 800; color: #1e293b;">easypaisa Transfer</h2></div>
+      <div class="bank-directory-scroll" id="ep-contacts-scroll"></div>
+    </div>
 
-      <div style="padding: 14px 18px 4px 18px;">
-        <h2 id="transfer-heading-title" style="font-size: 21px; font-weight: 800; color: #1e293b;">easypaisa Transfer</h2>
+    <!-- 3. BANK TRANSFER SCREEN (139684) -->
+    <div id="view-bank" class="view-screen-pane">
+      <div class="top-header-nav">
+        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div class="help-btn-box">Help</div>
       </div>
+      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">Bank Transfer</h2></div>
+      <div class="subnav-tabs-row">
+        <div class="subnav-tab-item active-tab">Send Money</div>
+        <div class="subnav-tab-item">History</div>
+      </div>
+      <div class="list-search-bar-wrap">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:13px; font-weight:700; color:#1e293b;">My Bank Favourites</span>
+          <span style="font-size:12px; font-weight:700; color:#00A651; cursor:pointer;">+ Add Favourite</span>
+        </div>
+        <p style="font-size:12px; color:#64748b; margin-bottom:12px;">You don't have any favourites added</p>
+        <div class="search-field-pill">
+          <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
+          <input type="text" id="bank-search-query" placeholder="Search Bank by Name" oninput="filterBanksList()">
+        </div>
+      </div>
+      <div class="bank-directory-scroll" id="banks-list-scroll"></div>
+    </div>
 
-      <div class="contacts-list-scroll" id="contacts-list-container">
-        <!-- Dynamic contact rows -->
+    <!-- 4. WALLET TRANSFER SCREEN (139685) -->
+    <div id="view-wallet" class="view-screen-pane">
+      <div class="top-header-nav">
+        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div class="help-btn-box">Help</div>
+      </div>
+      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">Wallet Transfer</h2></div>
+      <div class="subnav-tabs-row">
+        <div class="subnav-tab-item active-tab">Send Money</div>
+        <div class="subnav-tab-item">History</div>
+      </div>
+      <div class="list-search-bar-wrap">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:13px; font-weight:700; color:#1e293b;">My Bank Favourites</span>
+          <span style="font-size:12px; font-weight:700; color:#00A651; cursor:pointer;">+ Add Favourite</span>
+        </div>
+        <p style="font-size:12px; color:#64748b; margin-bottom:12px;">You don't have any favourites added</p>
+        <div class="search-field-pill">
+          <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
+          <input type="text" id="wallet-search-query" placeholder="Search Wallet by Name" oninput="filterWalletsList()">
+        </div>
+      </div>
+      <div class="bank-directory-scroll" id="wallets-list-scroll"></div>
+    </div>
+
+    <!-- 5. RAAST TRANSFER SCREEN (139686) -->
+    <div id="view-raast" class="view-screen-pane">
+      <div class="top-header-nav">
+        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div class="help-btn-box">Help</div>
+      </div>
+      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">Raast Transfer</h2></div>
+      <div class="subnav-tabs-row">
+        <div class="subnav-tab-item active-tab">Send Money</div>
+        <div class="subnav-tab-item">Raast ID Managment</div>
+      </div>
+      <div class="form-inputs-scroll">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <span style="font-size:13px; font-weight:700; color:#1e293b;">My Raast Favourites</span>
+          <span style="font-size:12px; font-weight:700; color:#1e293b; cursor:pointer;">See All</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; width:70px; margin-bottom:18px;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:700; color:#64748b;">MA</div>
+          <span style="font-size:9.5px; text-align:center; color:#64748b; margin-top:4px;">MUDDASIR ABBAS</span>
+        </div>
+
+        <div class="raast-segmented-control">
+          <div class="raast-chip-tab active-chip" id="r-chip-id" onclick="setRaastChip('Raast ID')">Raast ID</div>
+          <div class="raast-chip-tab" id="r-chip-iban" onclick="setRaastChip('IBAN')">IBAN</div>
+          <div class="raast-chip-tab" id="r-chip-acc" onclick="setRaastChip('Account No.')">Account No.</div>
+        </div>
+
+        <div class="form-field-card">
+          <label>Enter Receiver's Raast ID</label>
+          <input type="text" id="raast-target-input" placeholder="Enter Here" oninput="checkRaastFormValid()">
+        </div>
+
+        <div class="form-field-card">
+          <label>Select Purpose of Payment</label>
+          <select id="raast-purpose-input">
+            <option value="Others">Others</option>
+            <option value="Family Support">Family Support</option>
+            <option value="Educational Payments">Educational Payments</option>
+          </select>
+        </div>
+
+        <button class="form-next-btn" id="raast-submit-btn" onclick="submitRaastFlow()">Next</button>
       </div>
     </div>
 
-    <!-- 3. ENTER AMOUNT SCREEN (139572) -->
-    <div id="step-3-amount">
+    <!-- 6. CNIC TRANSFER SCREEN (139687) -->
+    <div id="view-cnic" class="view-screen-pane">
+      <div class="top-header-nav">
+        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div class="help-btn-box">Help</div>
+      </div>
+      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">CNIC Transfer</h2></div>
+      <div class="subnav-tabs-row">
+        <div class="subnav-tab-item active-tab">Send Money</div>
+        <div class="subnav-tab-item">History</div>
+      </div>
+      <div class="form-inputs-scroll">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:13px; font-weight:700; color:#1e293b;">My CNIC Favourites</span>
+          <span style="font-size:12px; font-weight:700; color:#00A651; cursor:pointer;">+ Add Favourite</span>
+        </div>
+        <p style="font-size:12px; color:#64748b; margin-bottom:14px;">You don't have any favourites added</p>
+
+        <div class="form-field-card">
+          <label>Enter CNIC Number</label>
+          <input type="text" id="cnic-card-input" placeholder="XXXXX-XXXXXXX-X" maxlength="15" oninput="formatCnicInput(this); checkCnicFormValid();">
+        </div>
+
+        <div class="form-field-card">
+          <label>Enter Mobile Number</label>
+          <input type="tel" id="cnic-phone-input" placeholder="Enter Receiver's Number or Search Contacts" maxlength="12" oninput="checkCnicFormValid()">
+        </div>
+
+        <div class="form-field-card">
+          <label>Select Purpose of Payment</label>
+          <select id="cnic-purpose-input">
+            <option value="Others">Others</option>
+            <option value="Family Support">Family Support</option>
+            <option value="Medical Expenses">Medical Expenses</option>
+          </select>
+        </div>
+
+        <button class="form-next-btn" id="cnic-submit-btn" onclick="submitCnicFlow()">Next</button>
+      </div>
+    </div>
+
+    <!-- 7. ENTER AMOUNT PANE (139572) -->
+    <div id="step-amount-pane">
       <div class="amount-header-card">
         <div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <div class="back-btn-box" style="width:30px; height:30px;" onclick="backToStep2()"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="back-btn-box" style="width:30px; height:30px;" onclick="backToActiveChannel()"><i class="fa-solid fa-chevron-left"></i></div>
             <h3 style="font-size: 19px; font-weight: 800; color: #1e293b;">Enter Amount</h3>
           </div>
           <div style="font-size: 13px; color: #64748b; margin-top: 4px; margin-left: 38px;">
             Pay To: <strong style="color: #1e293b;" id="receiver-title-lbl">Mudaser</strong>
           </div>
         </div>
-        <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width: 38px; height: 38px; object-fit: contain;" alt="">
+        <img id="amount-method-icon" src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width: 38px; height: 38px; object-fit: contain;" alt="">
       </div>
 
-      <!-- Clicking amount area loads keypad -->
       <div class="amount-center-content" onclick="loadMathematicalKeypad()">
         <div class="amount-large-input-wrap" id="amount-focus-wrapper">
-          <span class="currency">Rs.</span>
-          <span class="val" id="typed-amount-display">0</span>
+          <span style="font-size:26px; font-weight:700; color:#1e293b;">Rs.</span>
+          <span style="font-size:54px; font-weight:800; color:#64748b;" id="typed-amount-display">0</span>
         </div>
         <div style="font-size: 13px; color: #64748b; font-weight: 600;">
           My Balance: <span style="color: #00A651; font-weight: 800;" id="amount-screen-balance">Rs. 20,090.00</span>
         </div>
-        <button class="add-message-pill" onclick="event.stopPropagation()">+ Add a Message</button>
+        <button style="background:#e6f4ea; border:none; border-radius:12px; padding:12px 24px; color:#065f46; font-size:14px; font-weight:700; margin-top:14px;">+ Add a Message</button>
       </div>
 
-      <!-- Dialpad (Numbers Only) -->
       <div class="inapp-keypad-panel" id="inapp-keypad-panel">
         <button class="key-unit-btn" onclick="onNumKey('1')">1</button>
         <button class="key-unit-btn" onclick="onNumKey('2')">2</button>
@@ -620,18 +733,18 @@
         <button class="key-unit-btn" onclick="onNumKey('9')">9</button>
         <button class="key-unit-btn" onclick="onNumKeyBackspace()"><i class="fa-solid fa-delete-left"></i></button>
         <button class="key-unit-btn" onclick="onNumKey('0')">0</button>
-        <button class="key-unit-btn" style="background:#00A651; color:#fff; font-size:15px; font-weight:800;" onclick="goToStep4()">NEXT</button>
+        <button class="key-unit-btn" style="background:#00A651; color:#fff; font-size:15px; font-weight:800;" onclick="goToConfirmPane()">NEXT</button>
       </div>
     </div>
 
-    <!-- 4. CONFIRM TRANSACTION SCREEN (139573) -->
-    <div id="step-4-confirm">
+    <!-- 8. CONFIRM TRANSACTION PANE (139573) -->
+    <div id="step-confirm-pane">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-        <div class="back-btn-box" onclick="backToStep3()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div class="back-btn-box" onclick="backToAmountPane()"><i class="fa-solid fa-chevron-left"></i></div>
         <h2 style="font-size: 21px; font-weight: 800; color: #1e293b;">Confirm Transaction</h2>
       </div>
 
-      <div class="confirm-section-label">Pay From</div>
+      <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:8px;">Pay From</div>
       <div class="confirm-white-card" style="display:flex; align-items:center; justify-content:space-between;">
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="width:40px; height:28px; background:#00A651; border-radius:8px;"></div>
@@ -643,10 +756,10 @@
         <span style="font-size:12px; font-weight:700; color:#00A651;">Change <i class="fa-solid fa-chevron-down"></i></span>
       </div>
 
-      <div class="confirm-section-label">Pay To</div>
+      <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:8px;">Pay To</div>
       <div class="confirm-white-card" style="display:flex; align-items:center; justify-content:space-between;">
         <div style="display:flex; align-items:center; gap:12px;">
-          <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:36px; height:36px; object-fit:contain;" alt="">
+          <img id="confirm-badge-icon" src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:36px; height:36px; object-fit:contain;" alt="">
           <div>
             <div style="font-size:15px; font-weight:800; color:#1e293b;" id="confirm-payto-name">Mudaser</div>
             <div style="font-size:12px; color:#64748b;" id="confirm-payto-num">03084191378</div>
@@ -655,7 +768,7 @@
         <i class="fa-regular fa-circle-check" style="font-size:22px; color:#00A651;"></i>
       </div>
 
-      <div class="confirm-section-label">Payment Summary</div>
+      <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:8px;">Payment Summary</div>
       <div class="confirm-white-card">
         <div class="confirm-detail-row">
           <span style="color:#64748b;">Transfer Amount</span>
@@ -672,33 +785,21 @@
         </div>
       </div>
 
-      <div style="display:flex; align-items:center; gap:10px; margin: 18px 0;">
-        <input type="checkbox" id="fav-box" style="accent-color:#00A651; width:18px; height:18px;">
-        <div>
-          <div style="font-size:13px; font-weight:700; color:#1e293b;">Favourite Contact</div>
-          <div style="font-size:11px; color:#64748b;">Favourite this recipient for quicker payments.</div>
-        </div>
-      </div>
-
-      <button style="width:100%; height:50px; background:#00A651; color:#fff; border:none; border-radius:999px; font-size:16px; font-weight:800; cursor:pointer;" onclick="executeStep5Sending()">Send Now</button>
+      <button style="width:100%; height:50px; background:#00A651; color:#fff; border:none; border-radius:999px; font-size:16px; font-weight:800; cursor:pointer; margin-top:20px;" onclick="executeSendingMoney()">Send Now</button>
     </div>
 
-    <!-- 5. 2 SECONDS SENDING ANIMATION / VIDEO LOOP (Image 139574) -->
-    <div id="step-5-sending">
-      <div class="gold-coin-pulsar-wrapper">
-        <video id="coin-spinning-video" class="video-coin-loop" autoplay loop muted playsinline></video>
-        <div id="css-coin-fallback" class="css-coin-graphic">
-          <span>e</span>
-        </div>
+    <!-- 9. SENDING MONEY PULSE PANE (139574) -->
+    <div id="step-sending-pane">
+      <div class="css-coin-graphic">
+        <span style="font-size:42px; font-weight:900; color:#00A651;">e</span>
       </div>
       <h2 style="font-size: 22px; font-weight: 800; color: #1e293b; margin-bottom: 6px;">Sending Money</h2>
       <p style="font-size: 14px; color: #64748b;">Please wait</p>
     </div>
 
-    <!-- 6. SUCCESS SCREEN (Image 139575) - Auto-Cleans 12.png Chroma -->
-    <div id="step-6-success">
+    <!-- 10. SUCCESS PANE (139575) -->
+    <div id="step-success-pane">
       <div style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:20px;">
-        
         <div class="chroma-sun-wrapper">
           <canvas id="canvas-12-clean"></canvas>
           <div id="sun-badge-fallback" class="fallback-sun-badge">
@@ -711,102 +812,66 @@
 
         <div style="display:flex; flex-direction:column; align-items:center; margin-top: 26px;">
           <div style="width:58px; height:58px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-bottom:10px;">
-            <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:42px; height:42px; object-fit:contain;" alt="">
+            <img id="success-avatar-icon" src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:42px; height:42px; object-fit:contain;" alt="">
           </div>
           <h3 style="font-size: 18px; font-weight: 800; color: #1e293b;" id="success-receiver-name">Mudaser</h3>
           <p style="font-size: 13px; color: #475569; font-weight: 600; margin-top: 2px;" id="success-receiver-num">03084191378</p>
         </div>
       </div>
 
-      <div class="success-action-row">
-        <button class="home-green-pill-btn" onclick="finishAndGoHome()">Back to home</button>
-        <button class="icon-circle-btn"><i class="fa-solid fa-share-nodes"></i></button>
-        <!-- Opens Image 139674 Detailed Receipt -->
-        <button class="icon-circle-btn" onclick="openStep7FullReceipt()"><i class="fa-regular fa-file-lines"></i></button>
+      <div style="display:flex; align-items:center; gap:12px; width:100%;">
+        <button style="flex:1; height:50px; border-radius:999px; border:1.5px solid #00A651; background:#fff; color:#065f46; font-size:15px; font-weight:700; cursor:pointer;" onclick="finishAndGoHome()">Back to home</button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;"><i class="fa-solid fa-share-nodes"></i></button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;" onclick="openFullReceiptPane()"><i class="fa-regular fa-file-lines"></i></button>
       </div>
     </div>
 
-    <!-- 7. DETAILED TRANSACTION RECEIPT MODAL (Image 139674) -->
-    <div id="step-7-receipt-full">
+    <!-- 11. DETAILED RECEIPT PANE (139674) -->
+    <div id="step-receipt-full">
       <div class="receipt-top-badge-gold">
-        <i class="fa-solid fa-check"></i>
+        <i class="fa-solid fa-check" style="font-size:38px; color:#00A651;"></i>
       </div>
       <h2 style="text-align:center; font-size: 20px; font-weight: 800; color: #1e293b;">Transaction Successful</h2>
       <p style="text-align:center; font-size: 13px; color: #64748b; margin-top: 4px;">Money has been sent</p>
 
-      <!-- Transaction Meta -->
       <div class="receipt-info-block" style="border-top:none;">
-        <div class="receipt-row-meta">
-          <span class="lbl">Transaction ID</span>
-          <span class="vl" id="rcpt-full-txid">#57093641736</span>
-        </div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Date & Time</span>
-          <span class="vl" id="rcpt-full-datetime">09 October 2026, 2:42 PM</span>
-        </div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Funding Source</span>
-          <span class="vl">easypaisa Account</span>
-        </div>
+        <div class="receipt-row-meta"><span class="lbl">Transaction ID</span><span class="vl" id="rcpt-full-txid">#57093641736</span></div>
+        <div class="receipt-row-meta"><span class="lbl">Date & Time</span><span class="vl" id="rcpt-full-datetime">09 October 2026, 2:42 PM</span></div>
+        <div class="receipt-row-meta"><span class="lbl">Funding Source</span><span class="vl">easypaisa Account</span></div>
       </div>
 
-      <!-- Sent To -->
       <div class="receipt-info-block">
-        <div class="receipt-sec-heading">Sent to</div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Name</span>
-          <span class="vl" id="rcpt-full-recv-name">Mudaser</span>
-        </div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Account Number</span>
-          <span class="vl" id="rcpt-full-recv-num">03084191378</span>
-        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Sent to</div>
+        <div class="receipt-row-meta"><span class="lbl">Name</span><span class="vl" id="rcpt-full-recv-name">Mudaser</span></div>
+        <div class="receipt-row-meta"><span class="lbl">Account Number</span><span class="vl" id="rcpt-full-recv-num">03084191378</span></div>
       </div>
 
-      <!-- Sent By -->
       <div class="receipt-info-block">
-        <div class="receipt-sec-heading">Sent by</div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Name</span>
-          <span class="vl" id="rcpt-full-sender-name">Muddasir Abbas</span>
-        </div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Account Number</span>
-          <span class="vl">03291667662</span>
-        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Sent by</div>
+        <div class="receipt-row-meta"><span class="lbl">Name</span><span class="vl" id="rcpt-full-sender-name">Muddasir Abbas</span></div>
+        <div class="receipt-row-meta"><span class="lbl">Account Number</span><span class="vl">03291667662</span></div>
       </div>
 
-      <!-- Charges -->
       <div class="receipt-info-block">
-        <div class="receipt-sec-heading">Charges</div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Amount</span>
-          <span class="vl" id="rcpt-full-subtotal">Rs. 10.00</span>
-        </div>
-        <div class="receipt-row-meta">
-          <span class="lbl">Fee</span>
-          <span class="vl">Rs. 0.00</span>
-        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Charges</div>
+        <div class="receipt-row-meta"><span class="lbl">Amount</span><span class="vl" id="rcpt-full-subtotal">Rs. 10.00</span></div>
+        <div class="receipt-row-meta"><span class="lbl">Fee</span><span class="vl">Rs. 0.00</span></div>
         <hr style="border:0; border-top:1px solid #f1f5f9; margin:10px 0;">
-        <div class="receipt-row-meta" style="font-size:15px;">
-          <strong style="color:#1e293b;">Total Amount</strong>
-          <strong style="color:#1e293b; font-size:17px;" id="rcpt-full-total">Rs. 10.00</strong>
-        </div>
+        <div class="receipt-row-meta" style="font-size:15px;"><strong style="color:#1e293b;">Total Amount</strong><strong style="color:#1e293b; font-size:17px;" id="rcpt-full-total">Rs. 10.00</strong></div>
       </div>
 
-      <!-- Paid Via Branding -->
       <div style="text-align:center; margin: 24px 0 16px 0; font-size:12px; color:#64748b;">
         Paid via <strong style="color:#00A651;">easypaisa</strong> <span style="font-size:10px; color:#1e293b;">digital bank</span>
       </div>
 
-      <div class="success-action-row" style="margin-top:auto;">
-        <button class="home-green-pill-btn" onclick="finishAndGoHome()">Back to Home</button>
-        <button class="icon-circle-btn"><i class="fa-solid fa-share-nodes"></i></button>
-        <button class="icon-circle-btn"><i class="fa-solid fa-arrow-down-to-line"></i></button>
+      <div style="display:flex; align-items:center; gap:12px; width:100%; margin-top:auto;">
+        <button style="flex:1; height:50px; border-radius:999px; border:1.5px solid #00A651; background:#fff; color:#065f46; font-size:15px; font-weight:700; cursor:pointer;" onclick="finishAndGoHome()">Back to Home</button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;"><i class="fa-solid fa-share-nodes"></i></button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;"><i class="fa-solid fa-arrow-down-to-line"></i></button>
       </div>
     </div>
 
-    <!-- Verification Error Modal -->
+    <!-- 12. BENEFICIARY ERROR MODAL -->
     <div id="verification-error-modal">
       <div class="error-dialog-box">
         <div style="width:52px; height:52px; border-radius:50%; background:#fee2e2; color:#ef4444; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px auto;">
@@ -827,23 +892,42 @@
     let userBalance = parseFloat(userBalanceStr.replace(/,/g, '')) || 20090;
     let senderName = localStorage.getItem("ep_name") || "Muddasir Abbas";
 
-    // Beneficiaries Database synced with Admin Panel
+    // Synced Directory from Admin Panel
     let bankDirectory = JSON.parse(localStorage.getItem("ep_bank_directory")) || [
       { bank: "easypaisa", number: "03084191378", owner: "Mudaser" },
       { bank: "easypaisa", number: "03280591997", owner: "Farhad Ali" },
       { bank: "easypaisa", number: "03287830570", owner: "Zahid Khan" },
-      { bank: "easypaisa", number: "03290221378", owner: "Usman Ghani" },
-      { bank: "easypaisa", number: "03428710349", owner: "Asif Ali" },
-      { bank: "easypaisa", number: "03106131957", owner: "Caco Yakob Sh" },
-      { bank: "easypaisa", number: "03288642452", owner: "Raza Shah" },
-      { bank: "easypaisa", number: "03443006425", owner: "Hamza" }
+      { bank: "JazzCash", number: "03001234567", owner: "Ali Raza" },
+      { bank: "Allied Bank", number: "03291667662", owner: "Muddasir Abbas" },
+      { bank: "Raast ID", number: "03084191378", owner: "Mudaser" },
+      { bank: "CNIC", number: "31202-1234567-1", owner: "Mudaser" }
     ];
 
+    // Bank & Wallet list catalogs
+    const banksCatalog = [
+      { name: "ABHI Microfinance Bank", tag: "ABHI" },
+      { name: "Aik Digital", tag: "AIK" },
+      { name: "Al Baraka Islamic Bank Limited", tag: "BARAKA" },
+      { name: "Alfa Pay", tag: "ALFA" },
+      { name: "Allied Bank Limited", tag: "ABL" },
+      { name: "Apna Microfinance Bank", tag: "APNA" }
+    ];
+
+    const walletsCatalog = [
+      { name: "ABHI Microfinance Bank", tag: "ABHI" },
+      { name: "Alfa Pay", tag: "ALFA" },
+      { name: "Digitt", tag: "DIGITT" },
+      { name: "FirstPay", tag: "FIRSTPAY" },
+      { name: "HBL Konnect", tag: "KONNECT" },
+      { name: "JazzCash", tag: "JAZZCASH" }
+    ];
+
+    let currentActiveView = "step-1-modal";
     let currentMethod = "easypaisa";
-    let selectedContact = null;
+    let selectedContact = { name: "Mudaser", number: "03084191378" };
     let enteredAmount = "0";
 
-    // 12.png Chroma-Key Auto-Background Remover for Success Screen (139678)
+    // 12.png Chroma-Key Auto Background Cleaner
     function initChromaSuccessLogo(imgSrc) {
       const img = new Image();
       img.src = imgSrc;
@@ -858,15 +942,10 @@
           const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
           const d = imgData.data;
 
-          // Remove light green or white backgrounds accurately
           for (let i = 0; i < d.length; i += 4) {
             const r = d[i], g = d[i+1], b = d[i+2];
-            // If background is pale green/light teal
-            if (g > 180 && r > 160 && b > 180) {
-              d[i+3] = 0;
-            } else if (r > 235 && g > 235 && b > 235) {
-              d[i+3] = 0;
-            }
+            if (g > 175 && r > 155 && b > 170) d[i+3] = 0;
+            else if (r > 230 && g > 230 && b > 230) d[i+3] = 0;
           }
           ctx.putImageData(imgData, 0, 0);
           document.getElementById('sun-badge-fallback').style.display = 'none';
@@ -875,117 +954,223 @@
       };
     }
 
-    // Set Video loop if user provides video link
-    function setCoinAnimationVideo(videoUrl) {
-      if (!videoUrl) return;
-      const vid = document.getElementById('coin-spinning-video');
-      const fallback = document.getElementById('css-coin-fallback');
-      vid.src = videoUrl;
-      vid.style.display = 'block';
-      fallback.style.display = 'none';
-    }
-
-    // Step 1 -> Step 2
-    function goToStep2(method) {
-      currentMethod = method;
+    // Step 1 Navigation Routing
+    function routeOption(opt) {
+      currentMethod = opt;
       document.getElementById('step-1-modal').style.display = 'none';
-      document.getElementById('step-2-contacts').style.display = 'flex';
-      document.getElementById('transfer-heading-title').innerText = method + " Transfer";
-      renderContactsList();
+
+      if (opt === 'easypaisa') {
+        currentActiveView = 'view-easypaisa';
+        document.getElementById('view-easypaisa').style.display = 'flex';
+        renderEpContacts();
+      } else if (opt === 'Bank') {
+        currentActiveView = 'view-bank';
+        document.getElementById('view-bank').style.display = 'flex';
+        renderBanksList();
+      } else if (opt === 'Wallet') {
+        currentActiveView = 'view-wallet';
+        document.getElementById('view-wallet').style.display = 'flex';
+        renderWalletsList();
+      } else if (opt === 'Raast') {
+        currentActiveView = 'view-raast';
+        document.getElementById('view-raast').style.display = 'flex';
+      } else if (opt === 'CNIC') {
+        currentActiveView = 'view-cnic';
+        document.getElementById('view-cnic').style.display = 'flex';
+      }
     }
 
-    function renderContactsList(filterText = "") {
-      const container = document.getElementById('contacts-list-container');
-      container.innerHTML = '';
+    function backToMainModal() {
+      document.querySelectorAll('.view-screen-pane').forEach(v => v.style.display = 'none');
+      document.getElementById('step-1-modal').style.display = 'flex';
+    }
 
-      const list = filterText 
-        ? bankDirectory.filter(c => c.number.includes(filterText) || c.owner.toLowerCase().includes(filterText.toLowerCase())) 
-        : bankDirectory;
+    // Easypaisa Contacts Flow
+    function renderEpContacts(filter = "") {
+      const container = document.getElementById('ep-contacts-scroll');
+      container.innerHTML = '';
+      const list = filter ? bankDirectory.filter(c => c.number.includes(filter)) : bankDirectory;
 
       list.forEach(c => {
         const row = document.createElement('div');
-        row.className = 'contact-item-row';
+        row.className = 'bank-list-item-row';
         row.onclick = () => selectContactAndProceed(c.owner, c.number);
         row.innerHTML = `
-          <div class="contact-left-meta">
-            <div class="avatar-circle-icon">
-              ${c.owner.charAt(0)}
-              <div class="ep-badge-small">e</div>
-            </div>
+          <div class="bank-item-left-meta">
+            <div class="bank-logo-circle">${c.owner.charAt(0)}</div>
             <div>
               <div style="font-size:14px; font-weight:700; color:#1e293b;">${c.number}</div>
               <div style="font-size:12px; color:#64748b;">${c.owner}</div>
             </div>
           </div>
-          <i class="fa-solid fa-chevron-right" style="color:#cbd5e1; font-size:14px;"></i>
+          <i class="fa-solid fa-chevron-right" style="color:#cbd5e1; font-size:13px;"></i>
         `;
         container.appendChild(row);
       });
     }
 
-    function onNumberTyped() {
-      const val = document.getElementById('phone-search-input').value.trim();
-      const submitBtn = document.getElementById('search-submit-btn');
-      renderContactsList(val);
-
+    function onEpNumberTyped() {
+      const val = document.getElementById('ep-number-input').value.trim();
+      const btn = document.getElementById('ep-submit-arrow');
+      renderEpContacts(val);
       if (val.length >= 11) {
-        submitBtn.classList.add('active-btn');
+        btn.style.background = '#00A651';
+        btn.style.cursor = 'pointer';
       } else {
-        submitBtn.classList.remove('active-btn');
+        btn.style.background = '#cbd5e1';
+        btn.style.cursor = 'not-allowed';
       }
     }
 
-    function submitNumberForVerification() {
-      const val = document.getElementById('phone-search-input').value.trim();
+    function submitEpNumber() {
+      const val = document.getElementById('ep-number-input').value.trim();
       if (val.length < 11) return;
+      validateNumberAndProceed(val);
+    }
 
-      const matched = bankDirectory.find(b => b.number === val);
-      if (matched) {
-        selectContactAndProceed(matched.owner, matched.number);
-      } else {
-        showVerificationError(`Beneficiary verification failed for (${val}). Record not registered in verified directory database.`);
+    // Banks Listing (139684)
+    function renderBanksList(filter = "") {
+      const container = document.getElementById('banks-list-scroll');
+      container.innerHTML = '';
+      const list = filter ? banksCatalog.filter(b => b.name.toLowerCase().includes(filter.toLowerCase())) : banksCatalog;
+
+      list.forEach(b => {
+        const row = document.createElement('div');
+        row.className = 'bank-list-item-row';
+        row.onclick = () => promptAccountForInstitution(b.name);
+        row.innerHTML = `
+          <div class="bank-item-left-meta">
+            <div class="bank-logo-circle">${b.tag}</div>
+            <span style="font-size:13.5px; font-weight:700; color:#1e293b;">${b.name}</span>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#cbd5e1; font-size:13px;"></i>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function filterBanksList() {
+      renderBanksList(document.getElementById('bank-search-query').value.trim());
+    }
+
+    // Wallets Listing (139685)
+    function renderWalletsList(filter = "") {
+      const container = document.getElementById('wallets-list-scroll');
+      container.innerHTML = '';
+      const list = filter ? walletsCatalog.filter(w => w.name.toLowerCase().includes(filter.toLowerCase())) : walletsCatalog;
+
+      list.forEach(w => {
+        const row = document.createElement('div');
+        row.className = 'bank-list-item-row';
+        row.onclick = () => promptAccountForInstitution(w.name);
+        row.innerHTML = `
+          <div class="bank-item-left-meta">
+            <div class="bank-logo-circle" style="color:#059669;">${w.tag}</div>
+            <span style="font-size:13.5px; font-weight:700; color:#1e293b;">${w.name}</span>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#cbd5e1; font-size:13px;"></i>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function filterWalletsList() {
+      renderWalletsList(document.getElementById('wallet-search-query').value.trim());
+    }
+
+    function promptAccountForInstitution(instName) {
+      const num = prompt(`Enter Account / Mobile Number for ${instName}:`);
+      if (num && num.length >= 10) {
+        validateNumberAndProceed(num.trim(), instName);
       }
     }
 
-    function selectContactAndProceed(name, number) {
-      selectedContact = { name, number };
+    // Raast Flow (139686)
+    function setRaastChip(chipType) {
+      document.querySelectorAll('.raast-chip-tab').forEach(c => c.classList.remove('active-chip'));
+      if (chipType === 'Raast ID') document.getElementById('r-chip-id').classList.add('active-chip');
+      if (chipType === 'IBAN') document.getElementById('r-chip-iban').classList.add('active-chip');
+      if (chipType === 'Account No.') document.getElementById('r-chip-acc').classList.add('active-chip');
+    }
+
+    function checkRaastFormValid() {
+      const val = document.getElementById('raast-target-input').value.trim();
+      const btn = document.getElementById('raast-submit-btn');
+      if (val.length >= 11) btn.classList.add('ready-btn');
+      else btn.classList.remove('ready-btn');
+    }
+
+    function submitRaastFlow() {
+      const val = document.getElementById('raast-target-input').value.trim();
+      if (val.length < 11) return;
+      validateNumberAndProceed(val, "Raast ID");
+    }
+
+    // CNIC Flow (139687)
+    function formatCnicInput(el) {
+      let v = el.value.replace(/\D/g, '');
+      if (v.length > 5 && v.length <= 12) v = v.slice(0,5) + '-' + v.slice(5);
+      else if (v.length > 12) v = v.slice(0,5) + '-' + v.slice(5,12) + '-' + v.slice(12,13);
+      el.value = v;
+    }
+
+    function checkCnicFormValid() {
+      const cnic = document.getElementById('cnic-card-input').value.trim();
+      const ph = document.getElementById('cnic-phone-input').value.trim();
+      const btn = document.getElementById('cnic-submit-btn');
+      if (cnic.length >= 15 && ph.length >= 11) btn.classList.add('ready-btn');
+      else btn.classList.remove('ready-btn');
+    }
+
+    function submitCnicFlow() {
+      const cnic = document.getElementById('cnic-card-input').value.trim();
+      if (cnic.length < 15) return;
+      validateNumberAndProceed(cnic, "CNIC");
+    }
+
+    // Strict Admin Verification Rule
+    function validateNumberAndProceed(targetNumber, inst = "easypaisa") {
+      const matched = bankDirectory.find(b => b.number === targetNumber || targetNumber.includes(b.number));
+      if (matched) {
+        selectContactAndProceed(matched.owner, targetNumber, inst);
+      } else {
+        showVerificationError(`Beneficiary verification failed for (${targetNumber}). Record not registered in verified directory database.`);
+      }
+    }
+
+    function selectContactAndProceed(name, number, inst = "easypaisa") {
+      selectedContact = { name, number, inst };
       document.getElementById('receiver-title-lbl').innerText = name;
       document.getElementById('amount-screen-balance').innerText = "Rs. " + userBalance.toLocaleString() + ".00";
       enteredAmount = "0";
       updateAmountDisplay();
 
+      document.querySelectorAll('.view-screen-pane').forEach(v => v.style.display = 'none');
+      document.getElementById('step-amount-pane').style.display = 'flex';
       document.getElementById('inapp-keypad-panel').style.display = 'none';
       document.getElementById('amount-focus-wrapper').classList.remove('active-focus-box');
-
-      document.getElementById('step-2-contacts').style.display = 'none';
-      document.getElementById('step-3-amount').style.display = 'flex';
     }
 
-    function backToStep2() {
-      document.getElementById('step-3-amount').style.display = 'none';
-      document.getElementById('step-2-contacts').style.display = 'flex';
+    function backToActiveChannel() {
+      document.getElementById('step-amount-pane').style.display = 'none';
+      document.getElementById(currentActiveView).style.display = 'flex';
     }
 
+    // Math Keypad Handlers
     function loadMathematicalKeypad() {
       document.getElementById('inapp-keypad-panel').style.display = 'grid';
       document.getElementById('amount-focus-wrapper').classList.add('active-focus-box');
     }
 
     function onNumKey(digit) {
-      if (enteredAmount === "0") {
-        enteredAmount = digit;
-      } else if (enteredAmount.length < 6) {
-        enteredAmount += digit;
-      }
+      if (enteredAmount === "0") enteredAmount = digit;
+      else if (enteredAmount.length < 6) enteredAmount += digit;
       updateAmountDisplay();
     }
 
     function onNumKeyBackspace() {
-      if (enteredAmount.length > 1) {
-        enteredAmount = enteredAmount.slice(0, -1);
-      } else {
-        enteredAmount = "0";
-      }
+      if (enteredAmount.length > 1) enteredAmount = enteredAmount.slice(0, -1);
+      else enteredAmount = "0";
       updateAmountDisplay();
     }
 
@@ -993,7 +1178,8 @@
       document.getElementById('typed-amount-display').innerText = enteredAmount;
     }
 
-    function goToStep4() {
+    // Amount -> Confirm (139573)
+    function goToConfirmPane() {
       const amt = parseFloat(enteredAmount);
       if (!amt || amt < 1) {
         alert("Please enter a valid amount!");
@@ -1004,42 +1190,34 @@
         return;
       }
 
-      const isVerified = bankDirectory.some(b => b.number === selectedContact.number);
-      if (!isVerified) {
-        showVerificationError(`Security Check Failed: Beneficiary ${selectedContact.number} could not be validated against Admin Directory.`);
-        return;
-      }
-
       document.getElementById('confirm-wallet-balance').innerText = "Balance: Rs. " + userBalance.toLocaleString() + ".00";
       document.getElementById('confirm-payto-name').innerText = selectedContact.name;
       document.getElementById('confirm-payto-num').innerText = selectedContact.number;
       document.getElementById('confirm-summary-amount').innerText = "Rs. " + amt.toLocaleString();
       document.getElementById('confirm-summary-total').innerText = "Rs. " + amt.toFixed(2);
 
-      document.getElementById('step-3-amount').style.display = 'none';
-      document.getElementById('step-4-confirm').style.display = 'flex';
+      document.getElementById('step-amount-pane').style.display = 'none';
+      document.getElementById('step-confirm-pane').style.display = 'flex';
     }
 
-    function backToStep3() {
-      document.getElementById('step-4-confirm').style.display = 'none';
-      document.getElementById('step-3-amount').style.display = 'flex';
+    function backToAmountPane() {
+      document.getElementById('step-confirm-pane').style.display = 'none';
+      document.getElementById('step-amount-pane').style.display = 'flex';
     }
 
-    // Step 4 -> Step 5 -> Step 6
-    function executeStep5Sending() {
-      document.getElementById('step-4-confirm').style.display = 'none';
-      document.getElementById('step-5-sending').style.display = 'flex';
+    // Confirm -> Sending (139574) -> Success (139575)
+    function executeSendingMoney() {
+      document.getElementById('step-confirm-pane').style.display = 'none';
+      document.getElementById('step-sending-pane').style.display = 'flex';
 
       const amt = parseFloat(enteredAmount);
-      const generatedTxId = "#" + Math.floor(10000000000 + Math.random() * 90000000000);
+      const generatedTxId = "#570936" + Math.floor(10000 + Math.random() * 90000);
       const nowStr = "09 October 2026, 2:42 PM";
 
       setTimeout(() => {
-        // Balance Deduct
         userBalance -= amt;
         localStorage.setItem("ep_balance", userBalance.toLocaleString() + ".00");
 
-        // Statement Add
         let statements = JSON.parse(localStorage.getItem("ep_statements")) || [];
         statements.unshift({
           type: "Money Transfer (" + currentMethod + ")",
@@ -1050,18 +1228,17 @@
         });
         localStorage.setItem("ep_statements", JSON.stringify(statements));
 
-        // Push Notification
         localStorage.setItem("ep_pending_notif", JSON.stringify({
-          title: "Transfer Successful!",
-          message: `Rs. ${amt.toLocaleString()} successfully sent to ${selectedContact.name}.`
+          title: "Transaction Successful!",
+          message: `Rs. ${amt.toLocaleString()} sent to ${selectedContact.name}.`
         }));
 
-        // Render Success (Image 139575)
+        // Populate Success (139575)
         document.getElementById('success-final-amt').innerText = "Rs. " + amt.toFixed(2);
         document.getElementById('success-receiver-name').innerText = selectedContact.name;
         document.getElementById('success-receiver-num').innerText = selectedContact.number;
 
-        // Populate Detailed Receipt (Image 139674)
+        // Populate Detailed Receipt (139674)
         document.getElementById('rcpt-full-txid').innerText = generatedTxId;
         document.getElementById('rcpt-full-datetime').innerText = nowStr;
         document.getElementById('rcpt-full-recv-name').innerText = selectedContact.name;
@@ -1070,15 +1247,15 @@
         document.getElementById('rcpt-full-subtotal').innerText = "Rs. " + amt.toFixed(2);
         document.getElementById('rcpt-full-total').innerText = "Rs. " + amt.toFixed(2);
 
-        document.getElementById('step-5-sending').style.display = 'none';
-        document.getElementById('step-6-success').style.display = 'flex';
+        document.getElementById('step-sending-pane').style.display = 'none';
+        document.getElementById('step-success-pane').style.display = 'flex';
       }, 2000);
     }
 
-    // Step 6 -> Step 7 Detailed Receipt (Image 139674)
-    function openStep7FullReceipt() {
-      document.getElementById('step-6-success').style.display = 'none';
-      document.getElementById('step-7-receipt-full').style.display = 'flex';
+    // Success -> Detailed Receipt (139674)
+    function openFullReceiptPane() {
+      document.getElementById('step-success-pane').style.display = 'none';
+      document.getElementById('step-receipt-full').style.display = 'flex';
     }
 
     function showVerificationError(msg) {
@@ -1095,7 +1272,6 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // 12.png clean chroma initialization
       initChromaSuccessLogo('12.png');
     });
   </script>
