@@ -106,7 +106,7 @@
       display: block;
     }
 
-    /* STAGE 2: Splash Rings & Typography */
+    /* STAGE 2: Splash Rings & Motion Sequence */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -230,11 +230,10 @@
       z-index: 40;
     }
 
-    /* باٹم بار کے اوپر اٹھنے کی وجہ سے نیچے پیڈنگ 125px کر دی گئی ہے تاکہ مواد نہ دبے */
     .home-scrollable-body {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 125px;
+      padding-bottom: 130px;
     }
     .home-scrollable-body::-webkit-scrollbar { display: none; }
 
@@ -245,7 +244,7 @@
       justify-content: space-between;
       margin-top: 24px;
     }
-    .user-meta-left { display: flex; align-items: center; gap: 12px; }
+    .user-meta-left { display: flex; align-items: center; gap: 12px; cursor: pointer; }
     .user-avatar-circle {
       width: 44px;
       height: 44px;
@@ -449,12 +448,9 @@
       justify-content: space-between;
       height: 136px;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease;
     }
-    .hub-card-item:active {
-      transform: scale(0.97);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    }
+    .hub-card-item:active { transform: scale(0.97); }
     .hub-card-title {
       font-size: 13px;
       font-weight: 700;
@@ -476,13 +472,13 @@
       display: block;
     }
 
-    /* BOTTOM NAVIGATION BAR: 3 سَتر اوپر اٹھایا ہوا اور 3 سے 4 سَتر بڑے آئیکونز */
+    /* BOTTOM NAVIGATION BAR: 3 سَتر اوپر اٹھایا گیا اور بڑے آئیکونز */
     .bottom-navbar-fixed {
       position: absolute;
-      bottom: 36px; /* 3 سَتر (24px) مزید اوپر لفٹ کیا گیا */
+      bottom: 34px;
       left: 12px;
       right: 12px;
-      height: 74px; /* تھوڑا کشادہ */
+      height: 74px;
       background: #ffffff;
       border-radius: 28px;
       border: 1px solid #e2e8f0;
@@ -508,16 +504,13 @@
       width: 60px;
       height: 100%;
     }
-    /* آئیکونز کا سائز 3 سے 4 سَتر بڑا (34px) */
     .nav-item-unit img {
       width: 34px;
       height: 34px;
       object-fit: contain;
       transition: transform 0.15s ease;
     }
-    .nav-item-unit:active img {
-      transform: scale(0.92);
-    }
+    .nav-item-unit:active img { transform: scale(0.92); }
 
     /* 6 SECONDS EXACT EASYPAISA LOADING STRIP */
     #ep-loading-overlay {
@@ -558,18 +551,14 @@
       align-items: center;
       justify-content: center;
     }
-    @keyframes spinLoader {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spinLoader { to { transform: rotate(360deg); } }
     .ep-spinner-inner-e {
       font-weight: 900;
       font-size: 13px;
       color: #00A651;
       animation: counterSpin 0.8s linear infinite;
     }
-    @keyframes counterSpin {
-      to { transform: rotate(-360deg); }
-    }
+    @keyframes counterSpin { to { transform: rotate(-360deg); } }
     .ep-loading-text {
       font-size: 14px;
       font-weight: 500;
@@ -650,9 +639,7 @@
       background: #ffffff;
       transition: border-color 0.2s ease;
     }
-    .pin-dot-cell.active-focus {
-      border-color: #00A651;
-    }
+    .pin-dot-cell.active-focus { border-color: #00A651; }
     .pin-proceed-btn {
       width: 100%;
       height: 44px;
@@ -702,7 +689,6 @@
       cursor: pointer;
     }
 
-    /* Keypad Grid */
     .pin-keypad-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -724,80 +710,102 @@
       justify-content: center;
       border-radius: 8px;
     }
-    .num-key-btn:active {
-      background: #f1f5f9;
-    }
-    .num-key-done {
-      font-size: 12px;
-      font-weight: 800;
-      color: #64748b;
-    }
+    .num-key-btn:active { background: #f1f5f9; }
+    .num-key-done { font-size: 12px; font-weight: 800; color: #64748b; }
 
-    /* Process Action Screen */
-    #process-modal {
+    /* STATEMENT BOTTOM-SHEET MODAL */
+    #statement-modal {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      z-index: 90;
+      background: rgba(0,0,0,0.5);
+      z-index: 92;
       display: none;
       align-items: flex-end;
       justify-content: center;
     }
-    .process-modal-card {
+    .statement-sheet {
       width: 100%;
+      max-height: 80%;
       background: #ffffff;
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      padding: 24px 20px 32px 20px;
-      animation: slideModalUp 0.3s ease forwards;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      animation: sheetUp 0.3s ease forwards;
     }
-    @keyframes slideModalUp {
+    @keyframes sheetUp {
       from { transform: translateY(100%); }
       to { transform: translateY(0); }
     }
-    .process-header {
+    .statement-list-wrap {
+      flex: 1;
+      overflow-y: auto;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .statement-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
-    }
-    .process-close-btn {
-      background: #f1f5f9;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .process-input-box {
-      width: 100%;
-      height: 48px;
+      padding: 12px;
+      background: #f8fafc;
       border-radius: 14px;
-      border: 1px solid #cbd5e1;
-      padding: 0 14px;
-      font-size: 15px;
-      margin-top: 10px;
+      border: 1px solid #f1f5f9;
+    }
+
+    /* SECRET ADMIN PANEL MODAL (PIN: 11111) */
+    #admin-panel-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0f172a;
+      z-index: 99;
+      display: none;
+      flex-direction: column;
+      padding: 24px 20px;
+      color: #ffffff;
+      overflow-y: auto;
+    }
+    .admin-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .admin-input-group label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+    .admin-input-group input, 
+    .admin-input-group select {
+      height: 44px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      color: #ffffff;
+      padding: 0 12px;
+      font-size: 14px;
       outline: none;
     }
-    .process-action-btn {
-      width: 100%;
-      height: 48px;
-      background: var(--ep-green);
-      color: #ffffff;
-      border-radius: 14px;
+    .admin-save-btn {
+      height: 46px;
+      background: #00A651;
       border: none;
-      font-size: 15px;
+      border-radius: 12px;
+      color: #ffffff;
       font-weight: 700;
-      margin-top: 18px;
+      font-size: 15px;
       cursor: pointer;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -823,7 +831,6 @@
 
     <!-- 2. STAGE 2: Splash Rings & Typography -->
     <div id="splash-stage-2">
-      
       <div class="orbit-container">
         <svg class="orbit-svg" viewBox="0 0 600 600">
           <defs>
@@ -864,7 +871,6 @@
           <div id="row-bank" class="brand-text-row"></div>
         </div>
       </div>
-
     </div>
 
     <!-- 3. EXACT HOME SCREEN -->
@@ -874,16 +880,16 @@
         
         <!-- User Greeting -->
         <div class="user-header-bar">
-          <div class="user-meta-left">
+          <div class="user-meta-left" onclick="openPage('profile.html')">
             <div class="user-avatar-circle" id="user-avatar-text">MA</div>
             <span class="user-greet-text" id="user-greeting-text">Hey There 👋</span>
           </div>
-          <i class="fa-regular fa-bell notif-bell-icon" onclick="triggerActionWithLoading('Notifications')"></i>
+          <i class="fa-regular fa-bell notif-bell-icon" onclick="onlyShowLoadingAction()"></i>
         </div>
 
         <!-- Search Bar -->
         <div class="search-wrap-ello">
-          <div class="search-input-box" onclick="triggerActionWithLoading('Search')">
+          <div class="search-input-box" onclick="onlyShowLoadingAction()">
             <div class="ello-badge-avatar">🦁</div>
             <span class="search-placeholder-text">Search or Ask Ello</span>
           </div>
@@ -891,8 +897,8 @@
 
         <!-- Cards Slider -->
         <div class="cards-slider-container">
-          <!-- Permanent Green Sign-In Card (PIN Screen Modal trigger) -->
-          <div class="card-ep-account-fixed" id="green-main-card" onclick="openPinModal()">
+          <!-- Permanent Green Sign-In / Balance Card -->
+          <div class="card-ep-account-fixed" id="green-main-card" onclick="handleMainCardClick()">
             <div>
               <div class="card-top-icon-wrap" style="display:flex; align-items:center;">
                 <div class="box-3d-graphic">
@@ -912,7 +918,7 @@
           </div>
 
           <!-- Dynamic Rotating Ad Card -->
-          <div class="card-dynamic-ad" id="rotating-ad-card" onclick="triggerActionWithLoading('Borrow Money Ad')">
+          <div class="card-dynamic-ad" id="rotating-ad-card" onclick="onlyShowLoadingAction()">
             <div>
               <div id="ad-tag" style="font-size: 12px; font-weight: 800; text-transform: uppercase;">BORROW MONEY</div>
               <div id="ad-title" style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
@@ -954,25 +960,25 @@
 
       </div>
 
-      <!-- NORMAL UNIFORM BOTTOM NAVIGATION BAR (Raised by 3 lines and icons enlarged) -->
+      <!-- BOTTOM NAVIGATION BAR -->
       <nav class="bottom-navbar-fixed">
-        <button class="nav-item-unit" onclick="triggerActionWithLoading('Home')">
+        <button class="nav-item-unit" onclick="onlyShowLoadingAction()">
           <img id="nav-img-home" src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
           <span style="color: var(--ep-green);">Home</span>
         </button>
-        <button class="nav-item-unit" onclick="triggerActionWithLoading('Cards')">
+        <button class="nav-item-unit" onclick="openPage('cards.html')">
           <img id="nav-img-cards" src="https://i.ibb.co/zWF0PYtp/139550.jpg" alt="">
           <span>Cards</span>
         </button>
-        <button class="nav-item-unit" onclick="triggerActionWithLoading('Pay')">
+        <button class="nav-item-unit" onclick="openPage('pay.html')">
           <img id="nav-img-pay" src="https://i.ibb.co/bRy88CZf/139551.jpg" alt="">
           <span>Pay</span>
         </button>
-        <button class="nav-item-unit" onclick="triggerActionWithLoading('Promotions')">
+        <button class="nav-item-unit" onclick="openPage('promotions.html')">
           <img id="nav-img-promotions" src="https://i.ibb.co/0R92CYBH/139552.jpg" alt="">
           <span>Promotions</span>
         </button>
-        <button class="nav-item-unit" onclick="triggerActionWithLoading('Zen')">
+        <button class="nav-item-unit" onclick="openPage('zen.html')">
           <img id="nav-img-zen" src="https://i.ibb.co/sc0H3p5/139553.jpg" alt="">
           <span>Zen</span>
         </button>
@@ -990,7 +996,7 @@
       </div>
     </div>
 
-    <!-- 5. 5-DIGIT PIN AUTH SCREEN (Exact match with 139561 & 139562) -->
+    <!-- 5. 5-DIGIT PIN AUTH SCREEN -->
     <div id="pin-screen-modal">
       <div class="pin-card-box">
         <button class="pin-close-x" onclick="closePinModal()">✕</button>
@@ -1008,8 +1014,8 @@
         <button class="pin-proceed-btn" id="pin-proceed-action" onclick="submitPinProceed()">Proceed</button>
 
         <div class="pin-action-row">
-          <button class="pin-forgot-pill" onclick="triggerActionWithLoading('Forgot Password')">Forgot Password</button>
-          <button class="pin-finger-btn" onclick="triggerActionWithLoading('Fingerprint Login', () => executeSuccessfulLogin())">
+          <button class="pin-forgot-pill" onclick="onlyShowLoadingAction()">Forgot Password</button>
+          <button class="pin-finger-btn" onclick="executeSuccessfulLogin()">
             <i class="fa-solid fa-fingerprint"></i>
           </button>
         </div>
@@ -1032,18 +1038,64 @@
       </div>
     </div>
 
-    <!-- 6. Process Modal Screen -->
-    <div id="process-modal">
-      <div class="process-modal-card">
-        <div class="process-header">
-          <h3 id="modal-process-title" style="font-size: 18px; font-weight: 800; color: #1e293b;">Process</h3>
-          <button class="process-close-btn" onclick="closeProcessModal()">✕</button>
+    <!-- 6. ACCOUNT STATEMENT SHEET (Opened on Balance Click) -->
+    <div id="statement-modal">
+      <div class="statement-sheet">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px;">
+          <div>
+            <h3 style="font-size:16px; font-weight:800; color:#1e293b;">Account Statement</h3>
+            <span style="font-size:11px; color:#64748b;" id="statement-acc-title">Mudasir Abbas</span>
+          </div>
+          <button onclick="closeStatementModal()" style="border:none; background:#f1f5f9; width:30px; height:30px; border-radius:50%; cursor:pointer;">✕</button>
         </div>
-        <p id="modal-process-desc" style="font-size: 13px; color: #64748b; margin-bottom: 8px;">Enter details to continue</p>
-        <input type="text" id="modal-process-input" class="process-input-box" placeholder="Enter Mobile Number / Account">
-        <input type="number" id="modal-process-amount" class="process-input-box" placeholder="Enter Amount (Rs.)" style="margin-top: 10px;">
-        <button class="process-action-btn" onclick="submitProcessAction()">Continue</button>
+
+        <div class="statement-list-wrap" id="statement-items-container">
+          <!-- Dynamic Statement Items Render Here -->
+        </div>
       </div>
+    </div>
+
+    <!-- 7. SECRET ADMIN PANEL (Triggered via PIN 11111) -->
+    <div id="admin-panel-modal">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:14px; margin-bottom:16px;">
+        <h2 style="font-size:18px; font-weight:800; color:#00A651;">🛠️ Master Admin Panel</h2>
+        <button onclick="closeAdminModal()" style="background:#1e293b; border:1px solid #334155; color:#fff; border-radius:8px; padding:6px 12px; cursor:pointer;">Exit</button>
+      </div>
+
+      <div class="admin-input-group">
+        <label>Account Title (Name):</label>
+        <input type="text" id="admin-user-name" value="Mudasir Abbas">
+      </div>
+
+      <div class="admin-input-group">
+        <label>Live Balance (Rs.):</label>
+        <input type="text" id="admin-user-balance" value="48,250.00">
+      </div>
+
+      <hr style="border:0; border-top:1px solid #334155; margin:16px 0;">
+      <h4 style="font-size:14px; font-weight:700; color:#cbd5e1; margin-bottom:12px;">Add Statement Record:</h4>
+
+      <div class="admin-input-group">
+        <label>Transaction Type:</label>
+        <select id="admin-tx-type">
+          <option value="Money Transfer">Money Transfer (Sent)</option>
+          <option value="Received Money">Received Money</option>
+          <option value="Easyload">Easyload</option>
+          <option value="Bill Payment">Bill Payment</option>
+        </select>
+      </div>
+
+      <div class="admin-input-group">
+        <label>Target Number / Receiver:</label>
+        <input type="text" id="admin-tx-target" placeholder="03001234567">
+      </div>
+
+      <div class="admin-input-group">
+        <label>Amount (Rs.):</label>
+        <input type="number" id="admin-tx-amount" placeholder="2500">
+      </div>
+
+      <button class="admin-save-btn" onclick="saveAdminData()">Save & Update Live App</button>
     </div>
 
   </div>
@@ -1051,10 +1103,19 @@
   <script>
     let dynamicAds = [];
     let enteredPin = "";
-    let userBalance = "48,250.00";
+    let userBalance = localStorage.getItem("ep_balance") || "48,250.00";
+    let accountTitle = localStorage.getItem("ep_name") || "Mudasir Abbas";
     let isLoggedIn = false;
 
-    // Red Chroma Key Cleaner for 2.png
+    // Statements Data (Default + Local Storage)
+    let statements = JSON.parse(localStorage.getItem("ep_statements")) || [
+      { type: "Money Transfer", target: "03041234567", amount: "-1,500.00", date: "Today, 01:15 PM", isDebit: true },
+      { type: "Received Money", target: "03217654321", amount: "+5,000.00", date: "Yesterday, 04:30 PM", isDebit: false },
+      { type: "Easyload", target: "03009876543", amount: "-300.00", date: "08 Oct 2026", isDebit: true },
+      { type: "Bill Payment", target: "MEPCO Electricity", amount: "-4,210.00", date: "05 Oct 2026", isDebit: true }
+    ];
+
+    // Red Chroma Key Cleaner
     function initChromaKeyRed(imgSrc) {
       const img = new Image();
       img.src = imgSrc;
@@ -1082,29 +1143,29 @@
       };
     }
 
-    // Load Data from icons.json
+    // Load JSON Data
     async function loadDataFromJSON() {
       const servicesContainer = document.getElementById('services-grid-container');
       const hubsContainer = document.getElementById('hubs-grid-container');
       const storiesContainer = document.getElementById('stories-scroll-container');
 
       const fallbackServices = [
-        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg", zoomOut: false },
-        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg", zoomOut: false },
-        { id: "load_packages", name: "Loads & Packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg", zoomOut: true },
-        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg", zoomOut: false },
-        { id: "easy_cash", name: "Easycash", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg", zoomOut: false },
-        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg", zoomOut: false },
-        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg", zoomOut: false },
-        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg", zoomOut: false },
-        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg", zoomOut: false }
+        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg", zoomOut: false, file: "send_money.html" },
+        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg", zoomOut: false, file: "bill_payment.html" },
+        { id: "load_packages", name: "Loads & Packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg", zoomOut: true, file: "loads_packages.html" },
+        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg", zoomOut: false, file: "" },
+        { id: "easy_cash", name: "Easycash", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg", zoomOut: false, file: "" },
+        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg", zoomOut: false, file: "" },
+        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg", zoomOut: false, file: "" },
+        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg", zoomOut: false, file: "" },
+        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg", zoomOut: false, file: "" }
       ];
 
       const fallbackHubs = [
-        { id: "hub_load", name: "Load & Packages", image: "https://i.ibb.co/60T3n7fM/139536.jpg" },
-        { id: "hub_ins", name: "Insurance", image: "https://i.ibb.co/7xcytnPd/139537.jpg" },
-        { id: "hub_mini", name: "Mini Apps", image: "https://i.ibb.co/27yLsNkS/139538.jpg" },
-        { id: "hub_help", name: "Help Center", image: "https://i.ibb.co/wZd1dBCL/139539.jpg" }
+        { id: "hub_load", name: "Load & Packages", image: "https://i.ibb.co/60T3n7fM/139536.jpg", file: "loads_packages.html" },
+        { id: "hub_ins", name: "Insurance", image: "https://i.ibb.co/7xcytnPd/139537.jpg", file: "" },
+        { id: "hub_mini", name: "Mini Apps", image: "https://i.ibb.co/27yLsNkS/139538.jpg", file: "" },
+        { id: "hub_help", name: "Help Center", image: "https://i.ibb.co/wZd1dBCL/139539.jpg", file: "" }
       ];
 
       const fallbackStories = [
@@ -1122,7 +1183,13 @@
           btn.className = 'service-btn-tile' + (item.zoomOut ? ' zoom-out-item' : '');
           btn.setAttribute('data-id', item.id);
           btn.setAttribute('aria-label', item.name);
-          btn.onclick = () => triggerActionWithLoading(item.name, () => openProcessModal(item.name, "Enter details for " + item.name));
+          btn.onclick = () => {
+            if (item.file) {
+              openPage(item.file);
+            } else {
+              onlyShowLoadingAction();
+            }
+          };
           btn.innerHTML = `<img src="${item.image}" alt="">`;
           servicesContainer.appendChild(btn);
         });
@@ -1133,7 +1200,13 @@
         items.forEach(item => {
           const card = document.createElement('div');
           card.className = 'hub-card-item';
-          card.onclick = () => triggerActionWithLoading(item.name, () => openProcessModal(item.name, "Enter details for " + item.name));
+          card.onclick = () => {
+            if (item.file) {
+              openPage(item.file);
+            } else {
+              onlyShowLoadingAction();
+            }
+          };
           card.innerHTML = `
             <span class="hub-card-title">${item.name}</span>
             <div class="hub-card-image-wrap">
@@ -1149,7 +1222,7 @@
         items.forEach(story => {
           const bubble = document.createElement('div');
           bubble.className = 'story-bubble-ring';
-          bubble.onclick = () => triggerActionWithLoading(story.title, () => openProcessModal(story.title, "Deal details: " + story.sub));
+          bubble.onclick = () => onlyShowLoadingAction();
           bubble.innerHTML = `
             <div class="story-bubble-inner" style="background: ${story.bg || '#064e3b'};">
               <span class="${story.highlight ? 'green-txt' : ''}">${story.title}</span>
@@ -1163,12 +1236,6 @@
       try {
         const response = await fetch('icons.json');
         const data = await response.json();
-
-        if (data.user) {
-          if (data.user.initials) document.getElementById('user-avatar-text').innerText = data.user.initials;
-          if (data.user.greeting) document.getElementById('user-greeting-text').innerText = data.user.greeting;
-          if (data.user.balance) userBalance = data.user.balance;
-        }
 
         renderServices(data.services || fallbackServices);
         renderHubs(data.hubs || fallbackHubs);
@@ -1190,27 +1257,36 @@
       }
     }
 
-    // 6 SECONDS LOADING TRIGGER FUNCTION
-    function triggerActionWithLoading(actionName, callback) {
+    // صرف 6 سیکنڈ کی لوڈنگ پٹی دکھانا اور آگے کچھ نہ کرنا
+    function onlyShowLoadingAction() {
       const loader = document.getElementById('ep-loading-overlay');
       loader.style.display = 'flex';
-
       setTimeout(() => {
         loader.style.display = 'none';
-        if (callback) {
-          callback();
-        } else {
-          openProcessModal(actionName, "Enter details for " + actionName);
-        }
       }, 6000);
     }
 
-    // PIN Screen Functions
-    function openPinModal() {
-      if (isLoggedIn) {
-        triggerActionWithLoading("Account Details");
-        return;
+    // لوڈنگ کے بعد دوسری فائل پر نیویگیٹ کرنا
+    function openPage(pageUrl) {
+      const loader = document.getElementById('ep-loading-overlay');
+      loader.style.display = 'flex';
+      setTimeout(() => {
+        loader.style.display = 'none';
+        window.location.href = pageUrl;
+      }, 6000);
+    }
+
+    // مین گرین کارڈ کلک ہینڈلر
+    function handleMainCardClick() {
+      if (!isLoggedIn) {
+        openPinModal();
+      } else {
+        openStatementModal();
       }
+    }
+
+    // PIN Screen Handlers
+    function openPinModal() {
       enteredPin = "";
       updatePinDisplay();
       document.getElementById('pin-screen-modal').style.display = 'flex';
@@ -1257,39 +1333,119 @@
       }
     }
 
+    // PIN Submit (Admin trigger '11111' + Normal Login)
     function submitPinProceed() {
+      if (enteredPin === "11111") {
+        // ماسٹر ایڈمن پینل ٹریگر
+        closePinModal();
+        openAdminModal();
+        return;
+      }
+
       if (enteredPin.length === 5) {
         closePinModal();
-        triggerActionWithLoading("Verifying PIN", () => {
-          executeSuccessfulLogin();
-        });
+        executeSuccessfulLogin();
       }
     }
 
     function executeSuccessfulLogin() {
-      isLoggedIn = true;
-      const cardArea = document.getElementById('card-content-area');
-      cardArea.innerHTML = `
-        <div style="font-size: 13px; font-weight: 700; color: #064e3b; text-transform: uppercase;">Available Balance</div>
-        <div style="font-size: 26px; font-weight: 800; color: #064e3b; letter-spacing: -0.5px; line-height: 1.1;">Rs. ${userBalance}</div>
-      `;
+      const loader = document.getElementById('ep-loading-overlay');
+      loader.style.display = 'flex';
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+        isLoggedIn = true;
+        const cardArea = document.getElementById('card-content-area');
+        cardArea.innerHTML = `
+          <div style="font-size: 13px; font-weight: 700; color: #064e3b; text-transform: uppercase;">Available Balance</div>
+          <div style="font-size: 26px; font-weight: 800; color: #064e3b; letter-spacing: -0.5px; line-height: 1.1;">Rs. ${userBalance}</div>
+        `;
+      }, 6000);
     }
 
-    function openProcessModal(title, placeholder) {
-      document.getElementById('modal-process-title').innerText = title;
-      document.getElementById('modal-process-input').placeholder = placeholder;
-      document.getElementById('process-modal').style.display = 'flex';
+    // Statement Modal Handlers
+    function openStatementModal() {
+      const loader = document.getElementById('ep-loading-overlay');
+      loader.style.display = 'flex';
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+        renderStatements();
+        document.getElementById('statement-acc-title').innerText = accountTitle;
+        document.getElementById('statement-modal').style.display = 'flex';
+      }, 2000);
     }
 
-    function closeProcessModal() {
-      document.getElementById('process-modal').style.display = 'none';
+    function closeStatementModal() {
+      document.getElementById('statement-modal').style.display = 'none';
     }
 
-    function submitProcessAction() {
-      triggerActionWithLoading("Processing", () => {
-        alert("درخواست کامیابی سے مکمل ہو چکی ہے!");
-        closeProcessModal();
+    function renderStatements() {
+      const container = document.getElementById('statement-items-container');
+      container.innerHTML = '';
+      statements.forEach(st => {
+        const item = document.createElement('div');
+        item.className = 'statement-item';
+        item.innerHTML = `
+          <div>
+            <div style="font-size:13.5px; font-weight:700; color:#1e293b;">${st.type}</div>
+            <div style="font-size:11.5px; color:#64748b;">${st.target}</div>
+            <div style="font-size:10px; color:#94a3b8; margin-top:2px;">${st.date}</div>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:${st.isDebit ? '#ef4444' : '#00A651'};">
+            ${st.amount}
+          </div>
+        `;
+        container.appendChild(item);
       });
+    }
+
+    // Admin Panel Handlers
+    function openAdminModal() {
+      document.getElementById('admin-user-name').value = accountTitle;
+      document.getElementById('admin-user-balance').value = userBalance;
+      document.getElementById('admin-panel-modal').style.display = 'flex';
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-panel-modal').style.display = 'none';
+    }
+
+    function saveAdminData() {
+      accountTitle = document.getElementById('admin-user-name').value;
+      userBalance = document.getElementById('admin-user-balance').value;
+
+      localStorage.setItem("ep_name", accountTitle);
+      localStorage.setItem("ep_balance", userBalance);
+
+      // نئی ٹرانزیکشن ایڈ کرنا
+      const txType = document.getElementById('admin-tx-type').value;
+      const txTarget = document.getElementById('admin-tx-target').value;
+      const txAmount = document.getElementById('admin-tx-amount').value;
+
+      if (txTarget && txAmount) {
+        const isDebit = txType !== "Received Money";
+        const newRecord = {
+          type: txType,
+          target: txTarget,
+          amount: (isDebit ? "-" : "+") + parseFloat(txAmount).toLocaleString() + ".00",
+          date: "Just Now",
+          isDebit: isDebit
+        };
+        statements.unshift(newRecord);
+        localStorage.setItem("ep_statements", JSON.stringify(statements));
+      }
+
+      closeAdminModal();
+      alert("ایڈمن ڈیٹا لائیو اپ ڈیٹ ہو گیا ہے!");
+
+      if (isLoggedIn) {
+        const cardArea = document.getElementById('card-content-area');
+        cardArea.innerHTML = `
+          <div style="font-size: 13px; font-weight: 700; color: #064e3b; text-transform: uppercase;">Available Balance</div>
+          <div style="font-size: 26px; font-weight: 800; color: #064e3b; letter-spacing: -0.5px; line-height: 1.1;">Rs. ${userBalance}</div>
+        `;
+      }
     }
 
     // Rotating 50,000 Ad Card
