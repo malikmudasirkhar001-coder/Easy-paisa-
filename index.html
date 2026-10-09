@@ -245,7 +245,7 @@
     .home-scrollable-body {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 100px;
+      padding-bottom: 105px;
     }
     .home-scrollable-body::-webkit-scrollbar { display: none; }
 
@@ -397,8 +397,15 @@
     .dot-bullet { width: 6px; height: 6px; border-radius: 50%; background: #cbd5e1; }
     .dot-bullet.active-dot { background: var(--ep-green); }
 
+    /* STORIES: Rotating 15+ Suggestions */
     .stories-container-wrap { padding: 0 18px 24px 18px; }
-    .stories-scroll-row { display: flex; gap: 14px; overflow-x: auto; padding-top: 6px; }
+    .stories-scroll-row {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-top: 6px;
+      scroll-behavior: smooth;
+    }
     .stories-scroll-row::-webkit-scrollbar { display: none; }
     .story-bubble-ring {
       width: 106px;
@@ -411,12 +418,14 @@
       justify-content: center;
       flex-shrink: 0;
       background: #ffffff;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
+    .story-bubble-ring:active { transform: scale(0.95); }
     .story-bubble-inner {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: #064e3b;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -430,6 +439,7 @@
     }
     .story-bubble-inner span.green-txt { color: #a7f3d0; }
 
+    /* HUBS: Title on Top, Image on Bottom, Sleek Rectangular Layout */
     .hubs-container-wrap { padding: 0 18px 24px 18px; }
     .hubs-cards-grid {
       display: grid;
@@ -438,27 +448,43 @@
     }
     .hub-card-item {
       background: #ffffff;
-      border-radius: 20px;
-      padding: 0;
-      border: 1px solid #f1f5f9;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      border-radius: 18px;
+      padding: 12px 14px 10px 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 136px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .hub-card-item:active {
+      transform: scale(0.97);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .hub-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    .hub-card-image-wrap {
+      width: 100%;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
-      aspect-ratio: 1.3 / 1;
-      cursor: pointer;
       overflow: hidden;
-      transition: transform 0.15s ease;
     }
-    .hub-card-item:active { transform: scale(0.97); }
-    .hub-card-item img {
+    .hub-card-image-wrap img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
     }
 
-    /* Fixed Bottom Navigation Bar */
+    /* Fixed Lifted Bottom Navigation Bar */
     .bottom-navbar-fixed {
       position: absolute;
       bottom: 12px;
@@ -471,7 +497,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 0 10px;
+      padding: 0 8px;
       z-index: 60;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
@@ -481,35 +507,46 @@
       align-items: center;
       justify-content: center;
       color: #64748b;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      gap: 4px;
+      gap: 3px;
       background: none;
       border: none;
       cursor: pointer;
-      width: 56px;
+      width: 58px;
       height: 100%;
     }
-    .nav-item-unit img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-item-unit img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
     .nav-pay-btn-custom {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: var(--ep-green);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: -24px;
+      margin-top: -22px;
       box-shadow: 0 6px 14px rgba(0, 166, 81, 0.45);
       border: none;
       cursor: pointer;
-      padding: 10px;
+      padding: 6px;
     }
     .nav-pay-btn-custom img {
-      width: 100%;
-      height: 100%;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
       filter: brightness(0) invert(1);
+    }
+    .nav-pay-btn-custom span {
+      font-size: 8px;
+      color: #ffffff;
+      font-weight: 700;
+      margin-top: 1px;
     }
 
     /* Process Modal Screen */
@@ -600,7 +637,7 @@
       </div>
     </div>
 
-    <!-- 2. STAGE 2: Splash Matrix Animation -->
+    <!-- 2. STAGE 2: Splash Rings & Motion Sequence -->
     <div id="splash-stage-2">
       
       <div class="orbit-container">
@@ -660,7 +697,7 @@
           <i class="fa-regular fa-bell notif-bell-icon"></i>
         </div>
 
-        <!-- Search Bar -->
+        <!-- Ello Search Bar -->
         <div class="search-wrap-ello">
           <div class="search-input-box">
             <div class="ello-badge-avatar">🦁</div>
@@ -670,7 +707,8 @@
 
         <!-- Cards Slider -->
         <div class="cards-slider-container">
-          <!-- Permanent Green Sign-In Card -->
+          
+          <!-- 1. Permanent Green Sign-In Card -->
           <div class="card-ep-account-fixed">
             <div>
               <div class="card-top-icon-wrap" style="display:flex; align-items:center;">
@@ -690,7 +728,7 @@
             </div>
           </div>
 
-          <!-- Rotating Ad Card -->
+          <!-- 2. Dynamic Rotating 50,000 Ad Card -->
           <div class="card-dynamic-ad" id="rotating-ad-card">
             <div>
               <div id="ad-tag" style="font-size: 12px; font-weight: 800; text-transform: uppercase;">BORROW MONEY</div>
@@ -700,13 +738,14 @@
             </div>
             <div id="ad-action" style="font-size: 11px; font-weight: 700;">Instant Loan →</div>
           </div>
+
         </div>
 
-        <!-- More with easypaisa Grid -->
+        <!-- More with easypaisa Grid (Strict Order) -->
         <div class="services-main-wrapper">
           <h3 class="section-title-label">More with easypaisa</h3>
           <div class="services-cards-grid" id="services-grid-container">
-            <!-- Dynamic Grid from JSON -->
+            <!-- 9 Service Buttons render here -->
           </div>
 
           <div class="slider-dots-center">
@@ -715,67 +754,51 @@
           </div>
         </div>
 
-        <!-- Stories Section -->
+        <!-- Stories Section (15+ Rotating Deal Bubbles) -->
         <div class="stories-container-wrap">
           <h3 class="section-title-label">Stories</h3>
-          <div class="stories-scroll-row">
-            <div class="story-bubble-ring">
-              <div class="story-bubble-inner" style="background: #022c22;">
-                <span class="green-txt">Rs. 70 cashback</span>
-                <span>on Cornetto!</span>
-              </div>
-            </div>
-            <div class="story-bubble-ring">
-              <div class="story-bubble-inner" style="background: #064e3b;">
-                <span class="green-txt">Xtra savings,</span>
-                <span>all week long!</span>
-              </div>
-            </div>
-            <div class="story-bubble-ring">
-              <div class="story-bubble-inner" style="background: #047857;">
-                <span>go max,</span>
-                <span class="green-txt">spend less</span>
-              </div>
-            </div>
+          <div class="stories-scroll-row" id="stories-scroll-container">
+            <!-- Dynamic stories populate here -->
           </div>
         </div>
 
-        <!-- Hubs Section -->
+        <!-- Hubs Section (Title on Top, Image on Bottom) -->
         <div class="hubs-container-wrap">
           <h3 class="section-title-label">Hubs</h3>
           <div class="hubs-cards-grid" id="hubs-grid-container">
-            <!-- Dynamic Hubs from JSON -->
+            <!-- Hub Cards populate here -->
           </div>
         </div>
 
       </div>
 
-      <!-- Bottom Navigation Bar -->
+      <!-- Lifted Bottom Navigation Bar with Names & Images -->
       <nav class="bottom-navbar-fixed">
-        <button class="nav-item-unit" onclick="onNavClick('home')">
+        <button class="nav-item-unit" onclick="onNavClick('Home')">
           <img id="nav-img-home" src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
-          <span style="color: #00A651;">Home</span>
+          <span style="color: var(--ep-green);">Home</span>
         </button>
-        <button class="nav-item-unit" onclick="onNavClick('cards')">
-          <img id="nav-img-cards" src="https://i.ibb.co/Tx5fqRJR/139527.jpg" alt="">
+        <button class="nav-item-unit" onclick="onNavClick('Cards')">
+          <img id="nav-img-cards" src="https://i.ibb.co/zWF0PYtp/139550.jpg" alt="">
           <span>Cards</span>
         </button>
-        <button class="nav-pay-btn-custom" onclick="onNavClick('pay')">
-          <img id="nav-img-pay" src="https://i.ibb.co/rRDf8PBz/139528.jpg" alt="">
+        <button class="nav-pay-btn-custom" onclick="onNavClick('Pay')">
+          <img id="nav-img-pay" src="https://i.ibb.co/bRy88CZf/139551.jpg" alt="">
+          <span>Pay</span>
         </button>
-        <button class="nav-item-unit" onclick="onNavClick('promotions')">
-          <i class="fa-solid fa-tags" style="font-size: 22px;"></i>
+        <button class="nav-item-unit" onclick="onNavClick('Promotions')">
+          <img id="nav-img-promotions" src="https://i.ibb.co/0R92CYBH/139552.jpg" alt="">
           <span>Promotions</span>
         </button>
-        <button class="nav-item-unit" onclick="onNavClick('zen')">
-          <i class="fa-solid fa-circle-nodes" style="font-size: 22px;"></i>
+        <button class="nav-item-unit" onclick="onNavClick('Zen')">
+          <img id="nav-img-zen" src="https://i.ibb.co/sc0H3p5/139553.jpg" alt="">
           <span>Zen</span>
         </button>
       </nav>
 
     </div>
 
-    <!-- Process Modal -->
+    <!-- Process Modal Screen -->
     <div id="process-modal">
       <div class="process-modal-card">
         <div class="process-header">
@@ -826,6 +849,7 @@
     async function loadDataFromJSON() {
       const servicesContainer = document.getElementById('services-grid-container');
       const hubsContainer = document.getElementById('hubs-grid-container');
+      const storiesContainer = document.getElementById('stories-scroll-container');
 
       const fallbackServices = [
         { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg", zoomOut: false },
@@ -844,6 +868,24 @@
         { id: "hub_ins", name: "Insurance", image: "https://i.ibb.co/7xcytnPd/139537.jpg" },
         { id: "hub_mini", name: "Mini Apps", image: "https://i.ibb.co/27yLsNkS/139538.jpg" },
         { id: "hub_help", name: "Help Center", image: "https://i.ibb.co/wZd1dBCL/139539.jpg" }
+      ];
+
+      const fallbackStories = [
+        { id: "s1", title: "Rs. 70 Cashback", sub: "on Cornetto!", bg: "#022c22", highlight: true },
+        { id: "s2", title: "Xtra savings,", sub: "all week long!", bg: "#064e3b", highlight: true },
+        { id: "s3", title: "go max,", sub: "spend less", bg: "#047857", highlight: false },
+        { id: "s4", title: "Flat 20% Off", sub: "Daraz Shopping", bg: "#0f766e", highlight: true },
+        { id: "s5", title: "Send Rs. 500+", sub: "Win Rs. 50,000", bg: "#115e59", highlight: false },
+        { id: "s6", title: "Free Minutes", sub: "Weekly Bundle", bg: "#046c4e", highlight: true },
+        { id: "s7", title: "Pay Bill", sub: "Get Rs. 100", bg: "#065f46", highlight: false },
+        { id: "s8", title: "Earn Profit", sub: "Daily Interest", bg: "#022c22", highlight: true },
+        { id: "s9", title: "Scan & Pay", sub: "30% Cashback", bg: "#064e3b", highlight: true },
+        { id: "s10", title: "Buy Voucher", sub: "Netflix & PUBG", bg: "#047857", highlight: false },
+        { id: "s11", title: "Instant Loan", sub: "No Paperwork", bg: "#0f766e", highlight: true },
+        { id: "s12", title: "Rs. 1 Game", sub: "Win iPhone 15", bg: "#115e59", highlight: true },
+        { id: "s13", title: "Safe Travel", sub: "Bus Booking", bg: "#046c4e", highlight: false },
+        { id: "s14", title: "Gold Vault", sub: "Invest in Gold", bg: "#065f46", highlight: true },
+        { id: "s15", title: "Invite Friends", sub: "Earn Rs. 200", bg: "#022c22", highlight: true }
       ];
 
       function renderServices(items) {
@@ -865,8 +907,29 @@
           const card = document.createElement('div');
           card.className = 'hub-card-item';
           card.onclick = () => onHubClick(item.name);
-          card.innerHTML = `<img src="${item.image}" alt="${item.name}">`;
+          card.innerHTML = `
+            <span class="hub-card-title">${item.name}</span>
+            <div class="hub-card-image-wrap">
+              <img src="${item.image}" alt="${item.name}">
+            </div>
+          `;
           hubsContainer.appendChild(card);
+        });
+      }
+
+      function renderStories(items) {
+        storiesContainer.innerHTML = '';
+        items.forEach(story => {
+          const bubble = document.createElement('div');
+          bubble.className = 'story-bubble-ring';
+          bubble.onclick = () => openProcessModal(story.title, "Deal details: " + story.sub);
+          bubble.innerHTML = `
+            <div class="story-bubble-inner" style="background: ${story.bg || '#064e3b'};">
+              <span class="${story.highlight ? 'green-txt' : ''}">${story.title}</span>
+              <span>${story.sub}</span>
+            </div>
+          `;
+          storiesContainer.appendChild(bubble);
         });
       }
 
@@ -881,19 +944,23 @@
 
         renderServices(data.services || fallbackServices);
         renderHubs(data.hubs || fallbackHubs);
+        renderStories(data.stories || fallbackStories);
 
         if (data.rotating_ads) {
           dynamicAds = data.rotating_ads;
         }
 
         if (data.bottom_nav) {
-          if (data.bottom_nav.home) document.getElementById('nav-img-home').src = data.bottom_nav.home;
-          if (data.bottom_nav.cards) document.getElementById('nav-img-cards').src = data.bottom_nav.cards;
-          if (data.bottom_nav.pay) document.getElementById('nav-img-pay').src = data.bottom_nav.pay;
+          if (data.bottom_nav.home && data.bottom_nav.home.image) document.getElementById('nav-img-home').src = data.bottom_nav.home.image;
+          if (data.bottom_nav.cards && data.bottom_nav.cards.image) document.getElementById('nav-img-cards').src = data.bottom_nav.cards.image;
+          if (data.bottom_nav.pay && data.bottom_nav.pay.image) document.getElementById('nav-img-pay').src = data.bottom_nav.pay.image;
+          if (data.bottom_nav.promotions && data.bottom_nav.promotions.image) document.getElementById('nav-img-promotions').src = data.bottom_nav.promotions.image;
+          if (data.bottom_nav.zen && data.bottom_nav.zen.image) document.getElementById('nav-img-zen').src = data.bottom_nav.zen.image;
         }
       } catch(e) {
         renderServices(fallbackServices);
         renderHubs(fallbackHubs);
+        renderStories(fallbackStories);
       }
     }
 
@@ -921,7 +988,7 @@
     }
 
     function submitProcessAction() {
-      alert("درخواست کامیابی کے ساتھ پروسیس ہو چکی ہے!");
+      alert("Application processed successfully!");
       closeProcessModal();
     }
 
@@ -930,7 +997,7 @@
     }
 
     function onNavClick(tab) {
-      console.log("Nav Tab:", tab);
+      console.log("Nav clicked:", tab);
     }
 
     // Rotating 50,000 Ad Card
@@ -979,6 +1046,19 @@
       }, 4000);
     }
 
+    // Auto-scroll stories container gently
+    function startStoriesAutoScroll() {
+      const container = document.getElementById('stories-scroll-container');
+      if (!container) return;
+      setInterval(() => {
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: 120, behavior: 'smooth' });
+        }
+      }, 3500);
+    }
+
     // Matrix Scramble Text Animation
     const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
     function animateToFinalWord(container, word, onComplete) {
@@ -1015,6 +1095,7 @@
               const home = document.getElementById('screen-home');
               if (home) home.classList.add('active-home');
               startRotatingAdCard();
+              startStoriesAutoScroll();
             }, 600);
           });
         }, 50);
