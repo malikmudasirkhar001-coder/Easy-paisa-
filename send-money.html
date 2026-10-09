@@ -105,7 +105,6 @@
       box-shadow: 0 4px 12px rgba(0, 166, 81, 0.2);
     }
 
-    /* Input Field Container */
     .field-label {
       font-size: 13px;
       font-weight: 700;
@@ -247,7 +246,7 @@
       color: #94a3b8;
     }
 
-    /* TRANSACTION RECEIPT MODAL (Success Screen) */
+    /* TRANSACTION RECEIPT MODAL */
     #receipt-modal {
       position: absolute;
       top: 0;
@@ -303,7 +302,6 @@
 
   <div id="phone-frame">
 
-    <!-- Top Navigation Header -->
     <header class="top-header-bar">
       <div class="back-btn-circle" onclick="window.location.href='index.html'">
         <i class="fa-solid fa-arrow-left"></i>
@@ -312,16 +310,13 @@
       <div style="width: 36px;"></div>
     </header>
 
-    <!-- Main Transfer Form -->
     <div class="send-scrollable-body">
       
-      <!-- Current Balance Ribbon -->
       <div class="balance-info-ribbon">
         <span style="font-size: 12px; font-weight: 600;">Available Balance:</span>
         <span style="font-size: 17px; font-weight: 800;" id="live-balance-txt">Rs. 48,250.00</span>
       </div>
 
-      <!-- 1. Select Bank / Wallet -->
       <div class="form-group-wrap">
         <label class="field-label">Select Destination Bank / Wallet</label>
         <select id="send-bank-select" class="select-dropdown-styled" onchange="onBankOrNumberChanged()">
@@ -339,12 +334,10 @@
         </select>
       </div>
 
-      <!-- 2. Account / Mobile Number -->
       <div class="form-group-wrap">
         <label class="field-label">Receiver Account / Mobile Number</label>
         <input type="text" id="send-acc-number" class="input-box-styled" placeholder="e.g. 03001234567 or IBAN" oninput="onBankOrNumberChanged()">
         
-        <!-- Live Auto-Fetched Title Display -->
         <div class="account-title-preview-box" id="title-preview-box">
           <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 18px;"></i>
           <div>
@@ -354,12 +347,10 @@
         </div>
       </div>
 
-      <!-- 3. Transfer Amount -->
       <div class="form-group-wrap">
         <label class="field-label">Amount (Rs.)</label>
         <input type="number" id="send-amount-input" class="input-box-styled" placeholder="Enter amount (min Rs. 10)">
         
-        <!-- Quick Select Chips -->
         <div class="amount-chips-row">
           <button class="amount-chip-btn" onclick="setQuickAmount(500)">Rs. 500</button>
           <button class="amount-chip-btn" onclick="setQuickAmount(1000)">Rs. 1,000</button>
@@ -368,7 +359,6 @@
         </div>
       </div>
 
-      <!-- 4. Purpose of Payment -->
       <div class="form-group-wrap">
         <label class="field-label">Purpose of Payment</label>
         <select id="send-purpose" class="select-dropdown-styled">
@@ -379,7 +369,6 @@
         </select>
       </div>
 
-      <!-- Proceed Button -->
       <button class="send-action-btn" onclick="executeSendMoneyFlow()">Send Now</button>
 
     </div>
@@ -431,11 +420,9 @@
   </div>
 
   <script>
-    // Live Balance from LocalStorage
     let userBalanceStr = localStorage.getItem("ep_balance") || "48,250.00";
     let userBalance = parseFloat(userBalanceStr.replace(/,/g, '')) || 48250;
 
-    // Beneficiaries Database synced with Admin Panel
     let bankDirectory = JSON.parse(localStorage.getItem("ep_bank_directory")) || [
       { bank: "JazzCash", number: "03001234567", owner: "Ali Raza" },
       { bank: "Easypaisa", number: "03451122334", owner: "Usman Ghani" },
@@ -445,14 +432,12 @@
 
     document.getElementById('live-balance-txt').innerText = "Rs. " + userBalance.toLocaleString() + ".00";
 
-    // Auto Fetch Title from Directory as user types
     function onBankOrNumberChanged() {
       const selectedBank = document.getElementById('send-bank-select').value;
       const enteredNum = document.getElementById('send-acc-number').value.trim();
       const previewBox = document.getElementById('title-preview-box');
       const ownerLabel = document.getElementById('fetched-owner-name');
 
-      // Search match in Directory
       const matched = bankDirectory.find(b => b.number === enteredNum);
 
       if (matched) {
@@ -470,7 +455,6 @@
       document.getElementById('send-amount-input').value = amt;
     }
 
-    // Execute Transfer Flow
     function executeSendMoneyFlow() {
       const bank = document.getElementById('send-bank-select').value;
       const num = document.getElementById('send-acc-number').value.trim();
@@ -478,30 +462,27 @@
       const ownerTitle = document.getElementById('fetched-owner-name').innerText;
 
       if (!num || num.length < 5) {
-        alert("براہ کرم درست اکاؤنٹ یا موبائل نمبر درج کریں!");
+        alert("Please enter a valid account or mobile number!");
         return;
       }
       if (!amtVal || amtVal < 10) {
-        alert("براہ کرم کم از کم 10 روپے کی رقم درج کریں!");
+        alert("Minimum transfer amount is Rs. 10!");
         return;
       }
       if (amtVal > userBalance) {
-        alert("آپ کے پاس ناکافی بیلنس ہے!");
+        alert("Insufficient balance!");
         return;
       }
 
-      // 6 Seconds Easypaisa Loading Strip
       const loader = document.getElementById('ep-loading-overlay');
       loader.style.display = 'flex';
 
       setTimeout(() => {
         loader.style.display = 'none';
 
-        // 1. Balance Deduct
         userBalance -= amtVal;
         localStorage.setItem("ep_balance", userBalance.toLocaleString() + ".00");
 
-        // 2. Add New Statement Record
         let statements = JSON.parse(localStorage.getItem("ep_statements")) || [];
         statements.unshift({
           type: "Money Transfer (" + bank + ")",
@@ -512,13 +493,11 @@
         });
         localStorage.setItem("ep_statements", JSON.stringify(statements));
 
-        // 3. Queue Live Push Notification for Main App
         localStorage.setItem("ep_pending_notif", JSON.stringify({
           title: "Transfer Successful!",
           message: `Rs. ${amtVal.toLocaleString()} successfully sent to ${ownerTitle} (${bank}).`
         }));
 
-        // 4. Show Digital Receipt
         document.getElementById('receipt-amt').innerText = "Rs. " + amtVal.toLocaleString() + ".00";
         document.getElementById('receipt-receiver-title').innerText = ownerTitle;
         document.getElementById('receipt-receiver-num').innerText = num;
