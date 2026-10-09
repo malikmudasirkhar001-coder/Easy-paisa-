@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Comfortaa:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -75,6 +75,8 @@
       background-color: #261f30;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
     .status-bar {
       position: absolute;
@@ -135,26 +137,30 @@
       z-index: 10;
     }
 
-    /* مجموعی مرکز میں کمپوزیشن (اسکرین کے دائیں بائیں برابر توازن) */
+    /* مکمل مرکز میں کمپوزیشن (اسکرین کے دائیں بائیں برابر توازن) */
     .stage2-content {
       position: relative;
-      z-index: 20;
+      z-index: 25;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      padding: 0 20px;
+      transform: translateX(0px);
+      transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+    .stage2-content.shifted {
+      transform: translateX(-40px);
     }
 
     .red-removed-logo-box {
-      width: 86px;
-      height: 86px;
+      width: 88px;
+      height: 88px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
       background: transparent;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
     }
     .red-removed-logo-box canvas {
       width: 100%;
@@ -163,7 +169,7 @@
       object-fit: contain;
     }
 
-    /* برانڈ ٹائپوگرافی بالکل 139456 کے مطابق */
+    /* برانڈ ٹائپوگرافی بالکل ویڈیو اور اسکرین شاٹ 139456 کے مطابق */
     .brand-type-wrap {
       display: flex;
       flex-direction: column;
@@ -178,20 +184,20 @@
     .brand-text-row {
       display: flex;
       align-items: baseline;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       font-weight: 800;
-      font-size: 40px;
+      font-size: 44px;
       line-height: 0.94;
       color: #ffffff;
-      letter-spacing: -2px;
-      min-height: 40px;
+      letter-spacing: -2.2px;
+      min-height: 44px;
     }
 
     .char-code {
       display: inline-block;
       font-family: monospace;
       font-weight: 800;
-      font-size: 36px;
+      font-size: 38px;
       color: #00A651;
       text-shadow: 0 0 10px rgba(0, 166, 81, 0.7);
     }
@@ -200,13 +206,13 @@
       color: #ffffff;
     }
 
-    /* سرکلز جو دونوں طرف بالکل برابر کٹتے ہیں (Symmetric Side Cutting) */
+    /* فل اسکرین اوربٹ سرکلز جو دونوں طرف بالکل برابر کٹتے ہیں */
     .orbit-container {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 480px;
-      height: 480px;
+      width: 600px;
+      height: 600px;
       transform: translate(-50%, -50%);
       pointer-events: none;
       overflow: visible;
@@ -226,11 +232,11 @@
     }
     .orbit-ring-inner {
       animation: spinClockwise 38s linear infinite;
-      transform-origin: 240px 240px;
+      transform-origin: 300px 300px;
     }
     .orbit-ring-outer {
       animation: spinCounter 50s linear infinite;
-      transform-origin: 240px 240px;
+      transform-origin: 300px 300px;
     }
 
     /* HOME SCREEN */
@@ -405,36 +411,36 @@
         </div>
       </div>
 
-      <!-- STAGE 1: 11.jpeg -->
+      <!-- STAGE 1: 11.jpeg (Strict 3.0 Seconds Stay) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
           <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: Slide + Balanced Side Cutting Circles -->
+      <!-- STAGE 2: Slide + Balanced Side Cutting Circles + Bold Typography -->
       <div id="splash-stage-2">
         
-        <!-- دونوں اطراف سے متناسب اور برابر کٹتے ہوئے کشادہ سرکلز -->
+        <!-- دونوں کناروں سے متوازن اور برابر کٹتے ہوئے وسیع دائرے (Radius 145 / Radius 240) -->
         <div class="orbit-container">
-          <svg class="orbit-svg" viewBox="0 0 480 480">
+          <svg class="orbit-svg" viewBox="0 0 600 600">
             <defs>
-              <path id="innerCirclePath" d="M 240, 240 m -126, 0 a 126,126 0 1,1 252,0 a 126,126 0 1,1 -252,0" fill="none" />
-              <path id="outerCirclePath" d="M 240, 240 m -216, 0 a 216,216 0 1,1 432,0 a 216,216 0 1,1 -432,0" fill="none" />
+              <path id="innerCirclePath" d="M 300, 300 m -145, 0 a 145,145 0 1,1 290,0 a 145,145 0 1,1 -290,0" fill="none" />
+              <path id="outerCirclePath" d="M 300, 300 m -240, 0 a 240,240 0 1,1 480,0 a 240,240 0 1,1 -480,0" fill="none" />
             </defs>
 
-            <!-- Inner Ring -->
+            <!-- Inner Ring: 'is now a digital bank · easypaisa ·' -->
             <g class="orbit-ring-inner">
-              <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3">
+              <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="16" font-weight="500" letter-spacing="3.2">
                 <textPath href="#innerCirclePath" startOffset="0%">
                   is now a digital bank · easypaisa · is now a digital bank ·
                 </textPath>
               </text>
             </g>
 
-            <!-- Outer Ring (دونوں کناروں سے برابر کٹے گا) -->
+            <!-- Outer Ring (دونوں کناروں سے برابر کٹ کر باہر جائے گا) -->
             <g class="orbit-ring-outer">
-              <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.5">
+              <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="17" font-weight="500" letter-spacing="4.8">
                 <textPath href="#outerCirclePath" startOffset="0%">
                   skip going to the bank - skip going to the bank -
                 </textPath>
@@ -443,7 +449,7 @@
           </svg>
         </div>
 
-        <!-- سینٹرل کمپوزیشن (لوگو بائیں طرف اسکرین سے باہر نہیں بھاگے گا) -->
+        <!-- سینٹرل کمپوزیشن (لوگو اور ٹیکسٹ متوازن مرکز میں) -->
         <div class="stage2-content">
           <div class="red-removed-logo-box">
             <canvas id="red-clean-canvas"></canvas>
@@ -601,7 +607,7 @@
       };
     }
 
-    /* ڈیجیٹل کوڈز سے اصل الفاظ بننے کی اینیمیشن */
+    /* ویڈیو کے عین مطابق گرین/گرے ڈیجیٹل کوڈز سے اصل الفاظ بننے کا اینیمیشن */
     const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
 
     function animateToFinalWord(container, word, onComplete) {
@@ -623,12 +629,13 @@
           container.innerHTML = `<span class="char-solid">${word}</span>`;
           if (onComplete) onComplete();
         }
-      }, 42);
+      }, 45);
     }
 
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
+      const stage2Wrapper = document.getElementById('stage2-wrapper');
       const brandTypeWrap = document.getElementById('brand-type-wrap');
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
@@ -645,20 +652,25 @@
 
         // 3. ڈیجیٹل بینک کی فلوئنگ ٹائپنگ
         setTimeout(() => {
-          brandTypeWrap.classList.add('active');
+          stage2Wrapper.classList.add('shifted');
 
-          animateToFinalWord(rowDigital, "digital", () => {
-            setTimeout(() => {
-              animateToFinalWord(rowBank, "bank", () => {
-                // 4. اینیمیشن مکمل ہوتے ہی سیدھا ہوم پیج
-                setTimeout(() => {
-                  go('screen-home');
-                }, 650);
-              });
-            }, 35);
-          });
+          setTimeout(() => {
+            brandTypeWrap.classList.add('active');
 
-        }, 300);
+            animateToFinalWord(rowDigital, "digital", () => {
+              setTimeout(() => {
+                animateToFinalWord(rowBank, "bank", () => {
+                  // 4. اینیمیشن مکمل ہوتے ہی سیدھا ہوم پیج
+                  setTimeout(() => {
+                    go('screen-home');
+                  }, 650);
+                });
+              }, 40);
+            });
+
+          }, 280);
+
+        }, 200);
 
       }, 3000);
     }
