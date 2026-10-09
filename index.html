@@ -90,7 +90,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Exact Centered Box */
+    /* STAGE 1: Centered 11.jpeg (3 Seconds Stay) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -118,7 +118,7 @@
       display: block;
     }
 
-    /* STAGE 2: 2.png + Typewriter + Rings */
+    /* STAGE 2: Slide Container */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -130,17 +130,27 @@
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.5s ease;
       z-index: 10;
     }
+
+    /* Center-to-Left Sliding Wrapper */
     .stage2-content {
       position: relative;
       z-index: 20;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 16px;
+      /* شروع میں بلکل سینٹر پر ہوگا */
+      transform: translateX(0px);
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     }
+
+    /* جب کلاس لگے گی تو یہ بائیں طرف تقریباً 3 انچ (80px) شفٹ ہوگا */
+    .stage2-content.shifted {
+      transform: translateX(-80px);
+    }
+
     .left-logo-wrap {
       width: 70px;
       height: 70px;
@@ -156,11 +166,17 @@
       object-fit: contain;
       display: block;
     }
+
     .typewriter-box {
       display: flex;
       flex-direction: column;
       justify-content: center;
       min-width: 170px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .typewriter-box.active {
+      opacity: 1;
     }
     .typewriter-line {
       font-family: 'Space Grotesk', sans-serif;
@@ -171,7 +187,7 @@
       min-height: 36px;
     }
 
-    /* Orbit Rings */
+    /* Orbit SVG Rings */
     .orbit-svg {
       position: absolute;
       top: 0;
@@ -196,7 +212,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* Cursor */
+    /* Typewriter Caret */
     @keyframes cursorPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
@@ -228,16 +244,17 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Exact GitHub File Name (11.jpeg) -->
+      <!-- STAGE 1: 11.jpeg (Strict 3 Seconds Stay) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
           <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: 2.png + Typewriter + Rings -->
+      <!-- STAGE 2: 2.png Starts at Center -> Slides Left -> Typewriter Starts -->
       <div id="splash-stage-2">
         
+        <!-- Background Orbit Rings -->
         <svg class="orbit-svg" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
@@ -261,12 +278,13 @@
           </g>
         </svg>
 
-        <div class="stage2-content">
+        <!-- Center Unit -->
+        <div id="stage2-wrapper" class="stage2-content">
           <div class="left-logo-wrap">
             <img src="2.png" alt="Logo 2">
           </div>
 
-          <div class="typewriter-box">
+          <div id="typewriter-box" class="typewriter-box">
             <span id="typed-line-1" class="typewriter-line"></span>
             <span id="typed-line-2" class="typewriter-line"></span>
           </div>
@@ -318,44 +336,58 @@
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
+      const stage2Wrapper = document.getElementById('stage2-wrapper');
+      const typewriterBox = document.getElementById('typewriter-box');
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg رکے گی
+      // 1. پہلا مرحلہ: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 500);
 
-        // 2. Stage 2: 2.png + Rings + Typewriter شروع
+        // 2. دوسرا مرحلہ: 2.png بالکل سینٹر میں شو ہوگی
         stage2.style.opacity = '1';
 
-        const word1 = "digital";
-        const word2 = "bank";
-        let i = 0;
-        let j = 0;
+        // 3. 400ms بعد لوگو ہمواری سے بائیں طرف 3 انچ سلائیڈ کرے گا
+        setTimeout(() => {
+          stage2Wrapper.classList.add('shifted');
 
-        const typeInterval = setInterval(() => {
-          if (i < word1.length) {
-            line1.innerHTML = word1.slice(0, i + 1) + '<span class="cursor-caret"></span>';
-            i++;
-          } else if (j < word2.length) {
-            line1.innerHTML = word1;
-            line2.innerHTML = word2.slice(0, j + 1) + '<span class="cursor-caret"></span>';
-            j++;
-          } else {
-            clearInterval(typeInterval);
-            line2.innerHTML = word2;
+          // 4. سلائیڈ مکمل ہوتے ہی (800ms بعد) ٹائپنگ شروع ہوگی
+          setTimeout(() => {
+            typewriterBox.classList.add('active');
 
-            // 3. اینیمیشن مکمل ہوتے ہی سیدھا ہوم پیج
-            setTimeout(() => {
-              go('screen-home');
-            }, 800);
-          }
-        }, 130);
+            const word1 = "digital";
+            const word2 = "bank";
+            let i = 0;
+            let j = 0;
 
-      }, 3000);
+            const typeInterval = setInterval(() => {
+              if (i < word1.length) {
+                line1.innerHTML = word1.slice(0, i + 1) + '<span class="cursor-caret"></span>';
+                i++;
+              } else if (j < word2.length) {
+                line1.innerHTML = word1;
+                line2.innerHTML = word2.slice(0, j + 1) + '<span class="cursor-caret"></span>';
+                j++;
+              } else {
+                clearInterval(typeInterval);
+                line2.innerHTML = word2;
+
+                // 5. ٹائپنگ مکمل ہونے پر ہوم اسکرین پر جائیں
+                setTimeout(() => {
+                  go('screen-home');
+                }, 800);
+              }
+            }, 130);
+
+          }, 800); // لوگو کے بائیں جانے کا انتظار
+
+        }, 400); // سینٹر میں ہلکا سا رکنے کا وقت
+
+      }, 3000); // 3 سیکنڈز
     }
 
     function go(screenId) {
