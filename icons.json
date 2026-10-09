@@ -1,7 +1,9 @@
 {
   "user": {
     "initials": "MA",
-    "greeting": "Hey There 👋"
+    "greeting": "Hey There 👋",
+    "balance": "48,250.00",
+    "account_title": "Mudasir Abbas"
   },
   "rotating_ads": [
     {
