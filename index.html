@@ -52,7 +52,6 @@
       }
     }
 
-    /* Top Status Bar */
     .status-bar {
       position: absolute;
       top: 14px;
@@ -68,7 +67,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg (Strictly 3s CSS Animation) */
+    /* STAGE 1: 11.jpeg (Strictly 3.0s Stay) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -80,10 +79,10 @@
       justify-content: center;
       z-index: 30;
       background-color: #261f30;
-      animation: stage1FadeOut 0.4s ease 3s forwards;
+      animation: hideStage1 0.35s ease 3s forwards;
       pointer-events: none;
     }
-    @keyframes stage1FadeOut {
+    @keyframes hideStage1 {
       0% { opacity: 1; visibility: visible; }
       99% { opacity: 0; visibility: visible; }
       100% { opacity: 0; visibility: hidden; display: none; }
@@ -104,7 +103,7 @@
       display: block;
     }
 
-    /* STAGE 2: Splash Rings & Brand Typewriter */
+    /* STAGE 2: Splash Rings & Motion Sequence */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -116,52 +115,55 @@
       justify-content: center;
       z-index: 20;
       opacity: 0;
-      animation: stage2FadeIn 0.4s ease 3s forwards;
+      animation: showStage2 0.4s ease 3s forwards;
     }
-    @keyframes stage2FadeIn {
-      from { opacity: 0; }
+    @keyframes showStage2 {
       to { opacity: 1; }
     }
 
-    /* Slide Group */
+    /* Left-To-Right Initial Slide followed by Central Fix */
     .stage2-content {
       position: relative;
       z-index: 25;
       display: flex;
       align-items: center;
       justify-content: center;
-      transform: translateX(0px);
-      animation: slideLeftAnim 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 3.3s forwards;
+      transform: translateX(-15px);
+      animation: slideLeftToRight 0.65s cubic-bezier(0.2, 0.8, 0.3, 1) 3.2s forwards;
     }
-    @keyframes slideLeftAnim {
-      from { transform: translateX(0px); }
-      to { transform: translateX(-40px); }
+    @keyframes slideLeftToRight {
+      from { transform: translateX(20px); opacity: 0.5; }
+      to { transform: translateX(-40px); opacity: 1; }
     }
 
-    .pure-vector-logo {
-      width: 84px;
-      height: 84px;
+    /* ریڈ بیک گراؤنڈ خودکار شفاف کرنے والا کنٹینر + اوریجنل ویکٹر فال بیک */
+    .red-filter-logo {
+      width: 86px;
+      height: 86px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 12px;
+      margin-right: 14px;
       flex-shrink: 0;
+      position: relative;
       filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
     }
-    .pure-vector-logo svg {
+    .red-filter-logo canvas, 
+    .red-filter-logo svg {
       width: 100%;
       height: 100%;
       display: block;
     }
 
+    /* ٹائپوگرافی کا فلو (Left to Right then Up to Down) */
     .brand-type-wrap {
       display: flex;
       flex-direction: column;
       justify-content: center;
       opacity: 0;
-      animation: showTypeBox 0.2s ease 3.8s forwards;
+      animation: revealTypeContainer 0.2s ease 3.8s forwards;
     }
-    @keyframes showTypeBox {
+    @keyframes revealTypeContainer {
       to { opacity: 1; }
     }
 
@@ -176,6 +178,18 @@
       letter-spacing: -2px;
       min-height: 42px;
     }
+
+    /* نیچے والی لائن کے لیے Up to Down سلائیڈ موشن */
+    #row-bank {
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.3s ease;
+    }
+    #row-bank.bank-flow-down {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
     .char-code {
       display: inline-block;
       font-family: monospace;
@@ -189,7 +203,7 @@
       color: #ffffff;
     }
 
-    /* Orbit SVG Rings */
+    /* دائیں بائیں سے کٹتے ہوئے فل اسکرین سرکلز */
     .orbit-container {
       position: absolute;
       top: 50%;
@@ -222,7 +236,7 @@
       transform-origin: 300px 300px;
     }
 
-    /* HOME SCREEN */
+    /* HOME / SIGN-IN SCREEN */
     #screen-home {
       position: absolute;
       top: 0;
@@ -414,14 +428,14 @@
       </div>
     </div>
 
-    <!-- 1. STAGE 1: Centered 11.jpeg (Strictly 3s Auto-Fading) -->
+    <!-- 1. STAGE 1: Centered 11.jpeg (Strictly 3s) -->
     <div id="splash-stage-1">
       <div class="center-logo-box">
         <img src="11.jpeg" alt="Logo 1">
       </div>
     </div>
 
-    <!-- 2. STAGE 2: Slide + Balanced Side Cutting Circles + Bold Typography -->
+    <!-- 2. STAGE 2: Slide + Balanced Side Cutting Circles + Cascading Motion -->
     <div id="splash-stage-2">
       
       <div class="orbit-container">
@@ -451,10 +465,11 @@
         </svg>
       </div>
 
-      <!-- مرکزی کمپوزیشن: 'e' لوگو + ڈیجیٹل بینک -->
+      <!-- مرکزی کمپوزیشن: 'e' لوگو (ریڈ بیک گراؤنڈ ریموور کے ساتھ) -->
       <div class="stage2-content">
-        <div class="pure-vector-logo">
-          <svg viewBox="0 0 120 120">
+        <div class="red-filter-logo">
+          <canvas id="red-clean-canvas" style="display:none;"></canvas>
+          <svg viewBox="0 0 120 120" id="vector-egg-svg">
             <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
             <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
             <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
@@ -469,7 +484,7 @@
 
     </div>
 
-    <!-- 3. HOME SCREEN -->
+    <!-- 3. HOME & SIGN-IN SCREEN -->
     <div id="screen-home">
       
       <div class="home-top-bar">
@@ -580,6 +595,37 @@
   </div>
 
   <script>
+    /* سیف کروما کی کلینر: صرف سرخ رنگ کو شفاف بنانا */
+    function initSafeRedRemover(imgSrc) {
+      const img = new Image();
+      img.src = imgSrc;
+      img.onload = function() {
+        try {
+          const canvas = document.getElementById('red-clean-canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i+1], b = d[i+2];
+            // اگر رنگ سرخ ہو
+            if (r > 120 && (r - g) > 40 && (r - b) > 40) {
+              d[i+3] = 0;
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+          document.getElementById('vector-egg-svg').style.display = 'none';
+          canvas.style.display = 'block';
+        } catch(e) {
+          // کسی بھی سیکیورٹی بلاک کی صورت میں ویکٹر بغیر کسی رکاوٹ کے جاری رہے گا
+        }
+      };
+    }
+
     const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
 
     function animateToFinalWord(container, word, onComplete) {
@@ -604,23 +650,30 @@
       }, 45);
     }
 
-    // سی ایس ایس اینیمیشن کے ساتھ سنکرونائزڈ ٹائپنگ
+    // ترتیب وار فلو: پہلے Left to Right ٹائپنگ پھر Up to Down فلو
     setTimeout(() => {
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
 
+      // پہلی لائن 'digital'
       animateToFinalWord(rowDigital, "digital", () => {
+        // فلو موشن کے ساتھ نیچے 'bank' آئے گا
         setTimeout(() => {
+          rowBank.classList.add('bank-flow-down');
           animateToFinalWord(rowBank, "bank", () => {
-            // ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج فعال
+            // سائن ان اسکرین پر منتقلی
             setTimeout(() => {
               const home = document.getElementById('screen-home');
               if (home) home.classList.add('active-home');
             }, 600);
           });
-        }, 40);
+        }, 50);
       });
     }, 3900);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initSafeRedRemover('2.png');
+    });
   </script>
 </body>
 </html>
