@@ -90,7 +90,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.png (No Border, No White Box) */
+    /* STAGE 1: Exact Centered Box (3 Seconds Strict Stay) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -104,21 +104,25 @@
       transition: opacity 0.5s ease;
       pointer-events: none;
     }
-    .pure-image-container {
+    .center-logo-box {
       width: 175px;
       height: 175px;
+      background-color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
     }
-    .pure-image-container img {
+    .center-logo-box img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
 
-    /* STAGE 2: 2.png + Typewriter + Orbit Rings */
+    /* STAGE 2: Slide to Left + Rings + Typewriter */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -149,6 +153,7 @@
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
+      position: relative;
     }
     .left-logo-wrap img {
       width: 100%;
@@ -171,7 +176,7 @@
       min-height: 36px;
     }
 
-    /* Orbit SVG Text Rings */
+    /* Orbit SVG Rings */
     .orbit-svg {
       position: absolute;
       top: 0;
@@ -196,7 +201,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* Typewriter Cursor */
+    /* Typewriter Caret */
     @keyframes cursorPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
@@ -229,23 +234,24 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Exact Centered 11.png Path (No white border, 3 Seconds Fix Stay) -->
+      <!-- STAGE 1: Exact Centered Box (3 Seconds Stay) -->
       <div id="splash-stage-1">
-        <div class="pure-image-container">
-          <img src="11.png" alt="Easypaisa Logo 1">
+        <div class="center-logo-box">
+          <img id="img-11" src="11.png" alt="" onerror="tryNextPath(this, ['/11.png', './11.png', '11.PNG', 'https://i.ibb.co/Lh0H11BY/138526.png']);">
         </div>
       </div>
 
-      <!-- STAGE 2: Left Side 2.png Path + Typewriter Digital Bank + Distant Rings -->
+      <!-- STAGE 2: Left Side Logo + Typewriter Digital Bank + Distant Rings -->
       <div id="splash-stage-2">
         
-        <!-- Distant Rotating Rings -->
+        <!-- Distant Concentric Rings -->
         <svg class="orbit-svg" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
             <path id="outerCirclePath" d="M 250, 250 m -225, 0 a 225,225 0 1,1 450,0 a 225,225 0 1,1 -450,0" fill="none" />
           </defs>
 
+          <!-- Inner Ring -->
           <g class="orbit-ring-inner">
             <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
               <textPath href="#innerCirclePath" startOffset="0%">
@@ -254,6 +260,7 @@
             </text>
           </g>
 
+          <!-- Outer Ring -->
           <g class="orbit-ring-outer">
             <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
@@ -266,7 +273,7 @@
         <!-- Center Unit: Left Logo + Typewriter -->
         <div class="stage2-content">
           <div class="left-logo-wrap">
-            <img src="2.png" alt="Easypaisa Logo 2">
+            <img id="img-2" src="2.png" alt="" onerror="tryNextPath(this, ['/2.png', './2.png', '2.PNG', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s']);">
           </div>
 
           <div class="typewriter-box">
@@ -279,7 +286,7 @@
 
     </div>
 
-    <!-- 2. HOME SCREEN (Splash ختم ہوتے ہی سیدھا یہاں آئے گا) -->
+    <!-- 2. HOME SCREEN -->
     <div id="screen-home" class="screen" style="padding-bottom:80px;">
       <div style="background:linear-gradient(135deg, #008a43, #00A651); color:#ffffff; padding:20px; border-bottom-left-radius:28px; border-bottom-right-radius:28px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -318,20 +325,30 @@
   </div>
 
   <script>
+    /* Robust Path Resolver: اگر ورسل پر فائل پاتھ 404 ہو تو خود بخود درست سورس لے آئے */
+    function tryNextPath(imgElement, paths) {
+      if (!paths || paths.length === 0) return;
+      const next = paths.shift();
+      imgElement.onerror = function() {
+        tryNextPath(imgElement, paths);
+      };
+      imgElement.src = next;
+    }
+
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) 11.png Stays
+      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Centered Box Stays
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 500);
 
-        // 2. Stage 2: Reveal 2.png + Rings + Typewriter starts
+        // 2. Stage 2: Reveal Left Logo + Rings + Typewriter starts
         stage2.style.opacity = '1';
 
         const word1 = "digital";
@@ -351,7 +368,7 @@
             clearInterval(typeInterval);
             line2.innerHTML = word2;
 
-            // 3. ٹائپنگ مکمل ہوتے ہی سیدھا Easypaisa کے ہوم پیج پر جائیں
+            // 3. ٹائپنگ ختم ہونے کے بعد سیدھا ہوم پیج پر جائیں
             setTimeout(() => {
               go('screen-home');
             }, 800);
