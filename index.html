@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Easypaisa</title>
   
-  <!-- Fonts & Icons -->
+  <!-- Fonts & CDN Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     :root {
       --ep-green: #00A651;
       --ep-dark-green: #008a43;
-      --ep-theme-dark: #261f30;
+      --ep-splash-bg: #261f30;
     }
     * {
       box-sizing: border-box;
@@ -71,7 +71,7 @@
       display: none;
     }
 
-    /* Orbit Text Animation */
+    /* Outer Text Circular Rotation */
     @keyframes spinClockwise {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -89,18 +89,18 @@
       transform-origin: 250px 250px;
     }
 
-    /* Typewriter Cursor */
-    @keyframes blink {
+    /* Typewriter Blinking Cursor */
+    @keyframes cursorPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
     .cursor-caret {
       display: inline-block;
-      width: 3px;
-      height: 1.05em;
+      width: 3.5px;
+      height: 0.95em;
       background-color: #00A651;
       margin-left: 3px;
-      animation: blink 0.5s infinite;
+      animation: cursorPulse 0.5s infinite;
       vertical-align: middle;
     }
 
@@ -128,25 +128,11 @@
   <!-- Mobile Frame -->
   <div id="phone-frame">
 
-    <!-- Notification Toast -->
-    <div id="toast-banner" class="hidden absolute top-4 left-4 right-4 z-50 bg-slate-900/95 text-white p-3.5 rounded-2xl shadow-2xl border border-slate-700/80 transition-all duration-300 flex items-start gap-3">
-      <div id="toast-icon" class="w-8 h-8 rounded-full bg-[#00A651] flex items-center justify-center text-white shrink-0 mt-0.5">
-        <i class="fa-solid fa-bell text-sm"></i>
-      </div>
-      <div class="flex-1 text-xs">
-        <h4 id="toast-title" class="font-bold text-white tracking-wide">Notification</h4>
-        <p id="toast-msg" class="text-slate-300 mt-0.5 leading-snug">Notice details</p>
-      </div>
-      <button onclick="hideToast()" class="text-slate-400 hover:text-white p-1">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-
     <!-- 1. SPLASH SCREEN -->
     <div id="screen-splash" class="screen on !bg-[#261f30] items-center justify-center select-none overflow-hidden relative">
       
-      <!-- Top Status Bar -->
-      <div class="absolute top-3 inset-x-5 flex justify-between items-center text-[11px] text-white/50 font-semibold z-30">
+      <!-- Top Mobile Status Bar -->
+      <div class="absolute top-3 inset-x-5 flex justify-between items-center text-[11px] text-white/50 font-semibold z-30 pointer-events-none">
         <span>5:55</span>
         <div class="flex items-center gap-1.5 text-[10px]">
           <i class="fa-solid fa-signal"></i>
@@ -155,27 +141,25 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Exact Centered 1.png (Fixed 3 Seconds, No click-skip) -->
-      <div id="splash-stage-1" class="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-700">
-        <div class="w-40 h-40 flex items-center justify-center p-2">
-          <!-- 1.png Path: Includes automatic fallback so screen never stays blank -->
-          <img id="img-first" src="1.png" alt="Easypaisa First Logo" 
-               class="max-w-full max-h-full object-contain pointer-events-none drop-shadow-xl"
-               onerror="this.onerror=null; this.src='https://i.ibb.co/Lh0H11BY/138526.png';">
+      <!-- STAGE 1: Exact Centered Box containing 11.png (3 Seconds Strict Stay) -->
+      <div id="splash-stage-1" class="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-700 pointer-events-none">
+        <!-- White Square Box Container -->
+        <div class="w-36 h-36 bg-white rounded-3xl flex items-center justify-center shadow-2xl p-4 overflow-hidden border border-white/10">
+          <img id="img-11" src="11.png" alt="Easypaisa Logo 1" class="w-full h-full object-contain pointer-events-none block">
         </div>
       </div>
 
-      <!-- STAGE 2: 2.png on Left + Big Typewriter on Right + Outer Distant Rings -->
+      <!-- STAGE 2: Left-side Box (2.png) + Typewriter Text (digital bank) + Outer Rings -->
       <div id="splash-stage-2" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700 z-10">
         
-        <!-- Rotating Text Rings (Distant from Center) -->
+        <!-- Distant Rotating Concentric Text Rings -->
         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
             <path id="outerCirclePath" d="M 250, 250 m -225, 0 a 225,225 0 1,1 450,0 a 225,225 0 1,1 -450,0" fill="none" />
           </defs>
 
-          <!-- Inner Ring -->
+          <!-- Inner Orbit -->
           <g class="orbit-ring-inner">
             <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
               <textPath href="#innerCirclePath" startOffset="0%">
@@ -184,7 +168,7 @@
             </text>
           </g>
 
-          <!-- Outer Ring -->
+          <!-- Outer Orbit -->
           <g class="orbit-ring-outer">
             <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
@@ -194,17 +178,15 @@
           </g>
         </svg>
 
-        <!-- Center Unit: 2.png on Left + Digital Bank Typewriter on Right -->
+        <!-- Center Unit: Left Side Box for 2.png + Right Side Typewriter Text -->
         <div class="relative z-20 flex items-center justify-center px-4">
-          <!-- 2.png Path: Left-side positioned -->
-          <div class="w-16 h-16 shrink-0 flex items-center justify-center mr-3.5">
-            <img id="img-second" src="2.png" alt="Easypaisa Second Logo" 
-                 class="max-w-full max-h-full object-contain drop-shadow-md pointer-events-none"
-                 onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s';">
+          <!-- Left Side White Box for 2.png -->
+          <div class="w-16 h-16 shrink-0 bg-transparent rounded-2xl flex items-center justify-center mr-3.5 overflow-hidden">
+            <img id="img-2" src="2.png" alt="Easypaisa Logo 2" class="w-full h-full object-contain pointer-events-none block drop-shadow-md">
           </div>
 
-          <!-- Typewriter Output -->
-          <div class="flex flex-col justify-center leading-none text-left">
+          <!-- Typewriter Output (digital bank) -->
+          <div class="flex flex-col justify-center leading-none text-left min-w-[170px]">
             <span id="typed-line-1" class="text-white text-[32px] font-black tracking-tight brand-font block mb-1 min-h-[38px]"></span>
             <span id="typed-line-2" class="text-white text-[32px] font-black tracking-tight brand-font block min-h-[38px]"></span>
           </div>
@@ -267,152 +249,71 @@
             <span class="font-extrabold text-2xl tracking-tighter">easypaisa</span>
             <span class="bg-[#facc15] text-[#2d2a3e] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase">Bank</span>
           </div>
-          <div class="flex items-center gap-3 text-lg">
-            <button onclick="showToast('Customer Care', 'Helpline 3737 is 24/7 available.')" class="p-1 hover:text-emerald-100"><i class="fa-solid fa-headset"></i></button>
-            <button onclick="auth('screen-profile')" class="p-1 hover:text-emerald-100"><i class="fa-regular fa-circle-user"></i></button>
-          </div>
         </div>
 
         <div class="flex items-center justify-between mt-4">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-white">
-              <img id="avatar-img-home" src="https://placehold.co/120x120/00A651/ffffff?text=Ayesha" alt="Ayesha Avatar" class="w-full h-full object-cover">
+              <img src="https://placehold.co/120x120/00A651/ffffff?text=Ayesha" alt="Ayesha" class="w-full h-full object-cover">
             </div>
             <div>
               <h1 class="text-base font-bold leading-tight flex items-center gap-1.5">
                 Ayesha <i class="fa-solid fa-shield-halved text-xs text-yellow-300"></i>
               </h1>
-              <span class="inline-flex items-center gap-1 bg-white/20 text-[10px] font-semibold px-2 py-0.5 rounded-full text-white mt-1">
-                <i class="fa-solid fa-gift text-yellow-300"></i> Rewards
-              </span>
             </div>
           </div>
         </div>
 
         <!-- Balance Panel -->
         <div class="mt-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-emerald-100 font-medium">Easypaisa Available Balance</span>
-            <button onclick="toggleBalanceMask()" class="text-xs text-white/80 hover:text-white">
-              <i id="eye-icon" class="fa-regular fa-eye"></i>
-            </button>
-          </div>
+          <span class="text-xs text-emerald-100 font-medium">Easypaisa Available Balance</span>
           <div class="flex items-baseline gap-1 mt-1">
             <span class="text-sm font-semibold text-white/90">Rs.</span>
             <span id="display-balance" class="text-2xl font-black text-white tracking-tight">7,000.00</span>
           </div>
-          <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10 text-[11px] text-white/80">
-            <span>Account: 0312-9876543</span>
-            <span class="text-yellow-300 font-bold hover:underline cursor-pointer" onclick="go('screen-statement')">View Ledger &rarr;</span>
-          </div>
         </div>
       </div>
 
-      <!-- Services Grid -->
       <div class="p-5">
         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Main Services</h3>
-        <div class="grid grid-cols-3 gap-3">
-          <button onclick="auth('screen-transfer')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+        <div class="grid grid-cols-2 gap-3">
+          <button class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
             <div class="w-12 h-12 rounded-2xl bg-[#dcfce7] text-[#00A651] flex items-center justify-center text-xl mb-2">
               <i class="fa-solid fa-arrow-right-arrow-left"></i>
             </div>
-            <span class="text-xs font-bold text-slate-700 leading-tight">Money Transfer</span>
+            <span class="text-xs font-bold text-slate-700">Money Transfer</span>
           </button>
-
-          <button onclick="auth('screen-bills')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
+          <button class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
             <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-2">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </div>
-            <span class="text-xs font-bold text-slate-700 leading-tight">Bill Payment</span>
-          </button>
-
-          <button onclick="auth('screen-statement')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition">
-            <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-2">
-              <i class="fa-solid fa-receipt"></i>
-            </div>
-            <span class="text-xs font-bold text-slate-700 leading-tight">Statement</span>
+            <span class="text-xs font-bold text-slate-700">Bill Payment</span>
           </button>
         </div>
       </div>
     </div>
-
-    <!-- 4. MONEY TRANSFER SCREEN -->
-    <div id="screen-transfer" class="screen p-5 bg-white">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 class="font-bold text-slate-800 text-sm">Send Money</h3>
-        <div class="w-8"></div>
-      </div>
-
-      <div class="mt-5 space-y-4">
-        <div>
-          <label class="text-xs font-bold text-slate-600 block mb-1.5">Recipient Mobile / Account Number</label>
-          <input type="tel" id="transfer-number" placeholder="e.g. 03001234567" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#00A651]">
-        </div>
-
-        <div>
-          <label class="text-xs font-bold text-slate-600 block mb-1.5">Amount (PKR)</label>
-          <input type="number" id="transfer-amount" placeholder="Min. Rs 1 - Max. Rs 50,000" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-base font-bold text-slate-800 focus:outline-none focus:border-[#00A651]">
-        </div>
-      </div>
-
-      <div class="mt-auto pb-4">
-        <button onclick="executeQuickSend()" class="w-full bg-[#00A651] hover:bg-[#008a43] text-white py-3.5 rounded-2xl font-bold text-sm shadow-md transition">
-          Send Money
-        </button>
-      </div>
-    </div>
-
-    <!-- 5. STATEMENT SCREEN -->
-    <div id="screen-statement" class="screen p-5 bg-slate-50 pb-20">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
-        <button onclick="go('screen-home')" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 class="font-bold text-slate-800 text-sm">Account Statement</h3>
-        <div class="w-8"></div>
-      </div>
-      <div class="mt-4 bg-slate-900 rounded-2xl p-4 text-white">
-        <span class="text-xs text-slate-400">Current Balance</span>
-        <h3 class="text-xl font-bold mt-1">Rs. <span id="statement-balance">7,000.00</span></h3>
-      </div>
-    </div>
-
-    <!-- BOTTOM NAV -->
-    <nav id="bottom-nav" class="hidden absolute bottom-0 inset-x-0 h-16 bg-white border-t border-slate-100 flex items-center justify-around px-2 z-30 shadow-lg">
-      <button onclick="go('screen-home')" class="flex flex-col items-center justify-center text-[#00A651] w-12 py-1">
-        <i class="fa-solid fa-house text-base"></i>
-        <span class="text-[10px] font-semibold mt-1">Home</span>
-      </button>
-      <button onclick="auth('screen-statement')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
-        <i class="fa-solid fa-clock-rotate-left text-base"></i>
-        <span class="text-[10px] font-semibold mt-1">History</span>
-      </button>
-      <button onclick="auth('screen-transfer')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#00A651] w-12 py-1">
-        <i class="fa-solid fa-paper-plane text-base"></i>
-        <span class="text-[10px] font-semibold mt-1">Send</span>
-      </button>
-    </nav>
 
   </div>
 
   <script>
     let walletBalance = 7000.00;
-    let logged = false;
     let pinStr = '';
-    let balanceMasked = false;
 
-    /* Splash Sequence Handler */
+    /* STRICT SPLASH ANIMATION CONTROLLER */
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Stays exactly 3.0 Seconds (3000ms)
+      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Stays without Skipping
       setTimeout(() => {
         stage1.classList.add('opacity-0');
-        setTimeout(() => stage1.classList.add('hidden'), 600);
+        setTimeout(() => {
+          stage1.style.display = 'none';
+        }, 600);
 
-        // 2. Stage 2: Reveal 2.png + Circular Rings + Typewriter
+        // 2. Stage 2: Reveal Left Box (2.png) + Rings + Typewriter
         stage2.classList.remove('opacity-0', 'pointer-events-none');
         stage2.classList.add('opacity-100');
 
@@ -431,16 +332,16 @@
             j++;
           } else {
             clearInterval(typeInterval);
-            line2.innerHTML = word2; // Complete
+            line2.innerHTML = word2; // Typing Finished
 
-            // 3. Wait 3 seconds after text finishes, then navigate to LOGIN
+            // 3. Exactly 1.5 Seconds pause after typing, then go directly to LOGIN SCREEN
             setTimeout(() => {
               go('screen-login');
-            }, 3000);
+            }, 1500);
           }
         }, 130);
 
-      }, 3000);
+      }, 3000); // 3000ms strict stay for stage 1
     }
 
     function go(screenId) {
@@ -448,23 +349,6 @@
       const target = document.getElementById(screenId);
       if (target) {
         target.classList.add('on');
-      }
-
-      updateBalanceUI();
-
-      const bottomNav = document.getElementById('bottom-nav');
-      if (logged && screenId !== 'screen-splash' && screenId !== 'screen-login') {
-        bottomNav.classList.remove('hidden');
-      } else {
-        bottomNav.classList.add('hidden');
-      }
-    }
-
-    function auth(screenId) {
-      if (!logged) {
-        go('screen-login');
-      } else {
-        go(screenId);
       }
     }
 
@@ -510,9 +394,7 @@
       const feedback = document.getElementById('pin-feedback');
 
       if (pinStr === '32303') {
-        logged = true;
         pinClear();
-        showToast('Login Successful', 'Welcome back!');
         go('screen-home');
         return;
       }
@@ -523,65 +405,8 @@
       }, 700);
     }
 
-    function updateBalanceUI() {
-      const formatted = Number(walletBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      const displayElem = document.getElementById('display-balance');
-      const stmtElem = document.getElementById('statement-balance');
-
-      if (displayElem) {
-        displayElem.innerText = balanceMasked ? '••••••••' : formatted;
-      }
-      if (stmtElem) {
-        stmtElem.innerText = formatted;
-      }
-    }
-
-    function toggleBalanceMask() {
-      balanceMasked = !balanceMasked;
-      const eye = document.getElementById('eye-icon');
-      if (balanceMasked) {
-        eye.classList.remove('fa-eye');
-        eye.classList.add('fa-eye-slash');
-      } else {
-        eye.classList.remove('fa-eye-slash');
-        eye.classList.add('fa-eye');
-      }
-      updateBalanceUI();
-    }
-
-    function showToast(title, msg) {
-      const toast = document.getElementById('toast-banner');
-      document.getElementById('toast-title').innerText = title;
-      document.getElementById('toast-msg').innerText = msg;
-      toast.classList.remove('hidden');
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 3500);
-    }
-
-    function hideToast() {
-      document.getElementById('toast-banner').classList.add('hidden');
-    }
-
-    function executeQuickSend() {
-      const amt = parseFloat(document.getElementById('transfer-amount').value);
-      if (isNaN(amt) || amt <= 0) {
-        showToast('Error', 'Valid amount darj karein.');
-        return;
-      }
-      if (amt > walletBalance) {
-        showToast('Balance Kam Hai', 'Account mein raqam na-kaafi hai.');
-        return;
-      }
-      walletBalance -= amt;
-      updateBalanceUI();
-      showToast('Transferred', `Rs. ${amt} transfer ho gaye.`);
-      go('screen-home');
-    }
-
-    // App Init
+    // Initialize animation immediately
     window.addEventListener('DOMContentLoaded', () => {
-      updateBalanceUI();
       runSplashSequence();
     });
   </script>
