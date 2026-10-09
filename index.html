@@ -51,33 +51,8 @@
         height: 840px;
       }
     }
-    .screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: none;
-      flex-direction: column;
-      background-color: #f6f7f9;
-      overflow-y: auto;
-      z-index: 10;
-    }
-    .screen.on {
-      display: flex;
-    }
-    .screen::-webkit-scrollbar {
-      display: none;
-    }
 
-    /* SPLASH SCREEN STYLES */
-    #screen-splash {
-      background-color: #261f30;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
+    /* Top Status Bar */
     .status-bar {
       position: absolute;
       top: 14px;
@@ -89,11 +64,11 @@
       font-size: 11px;
       color: rgba(255, 255, 255, 0.6);
       font-weight: 600;
-      z-index: 50;
+      z-index: 60;
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg (Strict 3.0 Seconds Stay) */
+    /* STAGE 1: Centered 11.jpeg (Strictly 3s CSS Animation) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -103,16 +78,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 20;
-      transition: opacity 0.35s ease;
+      z-index: 30;
+      background-color: #261f30;
+      animation: stage1FadeOut 0.4s ease 3s forwards;
       pointer-events: none;
     }
+    @keyframes stage1FadeOut {
+      0% { opacity: 1; visibility: visible; }
+      99% { opacity: 0; visibility: visible; }
+      100% { opacity: 0; visibility: hidden; display: none; }
+    }
     .center-logo-box {
-      width: 180px;
-      height: 180px;
+      width: 175px;
+      height: 175px;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
     .center-logo-box img {
       width: 100%;
@@ -121,7 +104,7 @@
       display: block;
     }
 
-    /* STAGE 2: Slide Container */
+    /* STAGE 2: Splash Rings & Brand Typewriter */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -131,12 +114,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 20;
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-      z-index: 10;
+      animation: stage2FadeIn 0.4s ease 3s forwards;
+    }
+    @keyframes stage2FadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
+    /* Slide Group */
     .stage2-content {
       position: relative;
       z-index: 25;
@@ -144,22 +131,21 @@
       align-items: center;
       justify-content: center;
       transform: translateX(0px);
-      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+      animation: slideLeftAnim 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 3.3s forwards;
     }
-    .stage2-content.shifted {
-      transform: translateX(-38px);
+    @keyframes slideLeftAnim {
+      from { transform: translateX(0px); }
+      to { transform: translateX(-40px); }
     }
 
-    /* کرسٹل کلیئر ویکٹر لوگو */
     .pure-vector-logo {
-      width: 82px;
-      height: 82px;
+      width: 84px;
+      height: 84px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 12px;
       flex-shrink: 0;
-      background: transparent;
       filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
     }
     .pure-vector-logo svg {
@@ -168,16 +154,15 @@
       display: block;
     }
 
-    /* برانڈ ٹائپوگرافی */
     .brand-type-wrap {
       display: flex;
       flex-direction: column;
       justify-content: center;
       opacity: 0;
-      transition: opacity 0.2s ease;
+      animation: showTypeBox 0.2s ease 3.8s forwards;
     }
-    .brand-type-wrap.active {
-      opacity: 1;
+    @keyframes showTypeBox {
+      to { opacity: 1; }
     }
 
     .brand-text-row {
@@ -185,13 +170,12 @@
       align-items: baseline;
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       font-weight: 800;
-      font-size: 44px;
+      font-size: 42px;
       line-height: 0.94;
       color: #ffffff;
-      letter-spacing: -2.2px;
-      min-height: 44px;
+      letter-spacing: -2px;
+      min-height: 42px;
     }
-
     .char-code {
       display: inline-block;
       font-family: monospace;
@@ -205,7 +189,7 @@
       color: #ffffff;
     }
 
-    /* کشادہ اوربٹ سرکلز */
+    /* Orbit SVG Rings */
     .orbit-container {
       position: absolute;
       top: 50%;
@@ -239,6 +223,29 @@
     }
 
     /* HOME SCREEN */
+    #screen-home {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #f6f7f9;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      padding-bottom: 74px;
+    }
+    #screen-home.active-home {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 40;
+    }
+    #screen-home::-webkit-scrollbar { display: none; }
+
     .home-top-bar {
       padding: 16px 16px 10px 16px;
       display: flex;
@@ -398,77 +405,72 @@
 
   <div id="phone-frame">
 
-    <!-- 1. SPLASH SCREEN -->
-    <div id="screen-splash" class="screen on">
+    <div class="status-bar">
+      <span>5:55</span>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <i class="fa-solid fa-signal"></i>
+        <i class="fa-solid fa-wifi"></i>
+        <span>84%</span>
+      </div>
+    </div>
+
+    <!-- 1. STAGE 1: Centered 11.jpeg (Strictly 3s Auto-Fading) -->
+    <div id="splash-stage-1">
+      <div class="center-logo-box">
+        <img src="11.jpeg" alt="Logo 1">
+      </div>
+    </div>
+
+    <!-- 2. STAGE 2: Slide + Balanced Side Cutting Circles + Bold Typography -->
+    <div id="splash-stage-2">
       
-      <div class="status-bar">
-        <span>5:55</span>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <i class="fa-solid fa-signal"></i>
-          <i class="fa-solid fa-wifi"></i>
-          <span>84%</span>
-        </div>
+      <div class="orbit-container">
+        <svg class="orbit-svg" viewBox="0 0 600 600">
+          <defs>
+            <path id="innerCirclePath" d="M 300, 300 m -145, 0 a 145,145 0 1,1 290,0 a 145,145 0 1,1 -290,0" fill="none" />
+            <path id="outerCirclePath" d="M 300, 300 m -240, 0 a 240,240 0 1,1 480,0 a 240,240 0 1,1 -480,0" fill="none" />
+          </defs>
+
+          <!-- Inner Ring -->
+          <g class="orbit-ring-inner">
+            <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="16" font-weight="500" letter-spacing="3.2">
+              <textPath href="#innerCirclePath" startOffset="0%">
+                is now a digital bank · easypaisa · is now a digital bank ·
+              </textPath>
+            </text>
+          </g>
+
+          <!-- Outer Ring -->
+          <g class="orbit-ring-outer">
+            <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="17" font-weight="500" letter-spacing="4.8">
+              <textPath href="#outerCirclePath" startOffset="0%">
+                skip going to the bank - skip going to the bank -
+              </textPath>
+            </text>
+          </g>
+        </svg>
       </div>
 
-      <!-- STAGE 1: 11.jpeg (Strict 3.0 Seconds Stay) -->
-      <div id="splash-stage-1">
-        <div class="center-logo-box">
-          <img src="11.jpeg" alt="Logo 1">
-        </div>
-      </div>
-
-      <!-- STAGE 2: Slide + Balanced Side Cutting Circles + Bold Typography -->
-      <div id="splash-stage-2">
-        
-        <div class="orbit-container">
-          <svg class="orbit-svg" viewBox="0 0 600 600">
-            <defs>
-              <path id="innerCirclePath" d="M 300, 300 m -145, 0 a 145,145 0 1,1 290,0 a 145,145 0 1,1 -290,0" fill="none" />
-              <path id="outerCirclePath" d="M 300, 300 m -240, 0 a 240,240 0 1,1 480,0 a 240,240 0 1,1 -480,0" fill="none" />
-            </defs>
-
-            <!-- Inner Ring -->
-            <g class="orbit-ring-inner">
-              <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="16" font-weight="500" letter-spacing="3.2">
-                <textPath href="#innerCirclePath" startOffset="0%">
-                  is now a digital bank · easypaisa · is now a digital bank ·
-                </textPath>
-              </text>
-            </g>
-
-            <!-- Outer Ring -->
-            <g class="orbit-ring-outer">
-              <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="17" font-weight="500" letter-spacing="4.8">
-                <textPath href="#outerCirclePath" startOffset="0%">
-                  skip going to the bank - skip going to the bank -
-                </textPath>
-              </text>
-            </g>
+      <!-- مرکزی کمپوزیشن: 'e' لوگو + ڈیجیٹل بینک -->
+      <div class="stage2-content">
+        <div class="pure-vector-logo">
+          <svg viewBox="0 0 120 120">
+            <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
+            <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
+            <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
           </svg>
         </div>
 
-        <!-- سینٹرل کمپوزیشن -->
-        <div class="stage2-content">
-          <div class="pure-vector-logo">
-            <svg viewBox="0 0 120 120">
-              <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
-              <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
-              <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
-            </svg>
-          </div>
-
-          <div id="brand-type-wrap" class="brand-type-wrap">
-            <div id="row-digital" class="brand-text-row"></div>
-            <div id="row-bank" class="brand-text-row"></div>
-          </div>
+        <div id="brand-type-wrap" class="brand-type-wrap">
+          <div id="row-digital" class="brand-text-row"></div>
+          <div id="row-bank" class="brand-text-row"></div>
         </div>
-
       </div>
 
     </div>
 
-    <!-- 2. HOME SCREEN -->
-    <div id="screen-home" class="screen" style="padding-bottom: 74px;">
+    <!-- 3. HOME SCREEN -->
+    <div id="screen-home">
       
       <div class="home-top-bar">
         <div class="search-box-ello">
@@ -602,61 +604,23 @@
       }, 45);
     }
 
-    function runSplashSequence() {
-      const stage1 = document.getElementById('splash-stage-1');
-      const stage2 = document.getElementById('splash-stage-2');
-      const stage2Wrapper = document.querySelector('.stage2-content');
-      const brandTypeWrap = document.getElementById('brand-type-wrap');
+    // سی ایس ایس اینیمیشن کے ساتھ سنکرونائزڈ ٹائپنگ
+    setTimeout(() => {
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg بغیر کسی رکاوٹ کے رہے گی
-      setTimeout(() => {
-        stage1.style.opacity = '0';
+      animateToFinalWord(rowDigital, "digital", () => {
         setTimeout(() => {
-          stage1.style.display = 'none';
-        }, 350);
-
-        // 2. Stage 2: 'e' لوگو سینٹر میں نمودار ہوگا
-        stage2.style.opacity = '1';
-
-        // 3. بائیں طرف متوازن موومنٹ
-        setTimeout(() => {
-          stage2Wrapper.classList.add('shifted');
-
-          // 4. ڈیجیٹل بینک میٹرکس فلو
-          setTimeout(() => {
-            brandTypeWrap.classList.add('active');
-
-            animateToFinalWord(rowDigital, "digital", () => {
-              setTimeout(() => {
-                animateToFinalWord(rowBank, "bank", () => {
-                  // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج
-                  setTimeout(() => {
-                    go('screen-home');
-                  }, 650);
-                });
-              }, 40);
-            });
-
-          }, 280);
-
-        }, 200);
-
-      }, 3000);
-    }
-
-    function go(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
-      const target = document.getElementById(screenId);
-      if (target) {
-        target.classList.add('on');
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      runSplashSequence();
-    });
+          animateToFinalWord(rowBank, "bank", () => {
+            // ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج فعال
+            setTimeout(() => {
+              const home = document.getElementById('screen-home');
+              if (home) home.classList.add('active-home');
+            }, 600);
+          });
+        }, 40);
+      });
+    }, 3900);
   </script>
 </body>
 </html>
