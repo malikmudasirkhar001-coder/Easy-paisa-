@@ -16,6 +16,7 @@
       --ep-dark-green: #008a43;
       --ep-theme-dark: #261f30;
       --ep-bg-gray: #f7f9fa;
+      --ep-success-bg: #d1fae5;
     }
     * {
       box-sizing: border-box;
@@ -77,7 +78,7 @@
       color: #334155;
     }
 
-    /* STEP 1: Modal Screen (Image 139570) - Pure Full Fit Icons, No Text */
+    /* STEP 1: Modal Screen (Image 139570) */
     #step-1-modal {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -154,7 +155,6 @@
       font-size: 15px;
       font-weight: 700;
       color: #1e293b;
-      letter-spacing: 0.5px;
     }
     .search-submit-arrow-btn {
       width: 32px;
@@ -168,14 +168,11 @@
       color: #ffffff;
       font-size: 13px;
       cursor: not-allowed;
-      transition: background 0.2s ease, transform 0.15s ease;
+      transition: background 0.2s ease;
     }
     .search-submit-arrow-btn.active-btn {
       background: #00A651;
       cursor: pointer;
-    }
-    .search-submit-arrow-btn.active-btn:active {
-      transform: scale(0.92);
     }
     .contacts-list-scroll {
       flex: 1;
@@ -225,7 +222,7 @@
       font-weight: 900;
     }
 
-    /* STEP 3: Enter Amount Screen (Image 139572) */
+    /* STEP 3: Enter Amount (Image 139572) */
     #step-3-amount {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -260,19 +257,9 @@
       border-radius: 16px;
       transition: background 0.2s ease;
     }
-    .amount-large-input-wrap.active-focus-box {
-      background: #e2e8f0;
-    }
-    .amount-large-input-wrap span.currency {
-      font-size: 26px;
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .amount-large-input-wrap span.val {
-      font-size: 54px;
-      font-weight: 800;
-      color: #64748b;
-    }
+    .amount-large-input-wrap.active-focus-box { background: #e2e8f0; }
+    .amount-large-input-wrap span.currency { font-size: 26px; font-weight: 700; color: #1e293b; }
+    .amount-large-input-wrap span.val { font-size: 54px; font-weight: 800; color: #64748b; }
     .add-message-pill {
       background: #e6f4ea;
       border: none;
@@ -285,7 +272,7 @@
       cursor: pointer;
     }
 
-    /* Numbers Only Keypad (Hidden until amount is clicked) */
+    /* Mathematical Keypad (Numbers Only) */
     #inapp-keypad-panel {
       background: #ffffff;
       border-top: 1px solid #e2e8f0;
@@ -342,7 +329,7 @@
       font-size: 13px;
     }
 
-    /* STEP 5: 2 Seconds Animation (Image 139574) */
+    /* STEP 5: Sending Screen & Spinning Video/GIF Animation (Image 139574) */
     #step-5-sending {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -353,7 +340,22 @@
       justify-content: center;
       z-index: 60;
     }
-    .gold-coin-pulsar {
+    .gold-coin-pulsar-wrapper {
+      width: 140px;
+      height: 140px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .video-coin-loop {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    .css-coin-graphic {
       width: 110px;
       height: 110px;
       border-radius: 50%;
@@ -362,32 +364,45 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 10px 25px rgba(202, 138, 4, 0.35);
-      margin-bottom: 24px;
       animation: coinPulse 1s ease-in-out infinite alternate;
     }
     @keyframes coinPulse {
       from { transform: scale(0.96); }
       to { transform: scale(1.06); }
     }
-    .gold-coin-pulsar span {
+    .css-coin-graphic span {
       font-size: 42px;
       font-weight: 900;
       color: #00A651;
     }
 
-    /* STEP 6: Success Receipt (Image 139575) */
+    /* STEP 6: Success Screen with 12.png Chroma-Keyed (Image 139575) */
     #step-6-success {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #d1fae5;
+      background: var(--ep-success-bg);
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       z-index: 70;
-      padding: 40px 24px 30px 24px;
+      padding: 36px 24px 30px 24px;
     }
-    .success-sun-badge {
+    .chroma-sun-wrapper {
+      width: 170px;
+      height: 170px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #canvas-12-clean {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    .fallback-sun-badge {
       width: 100px;
       height: 100px;
       border-radius: 50%;
@@ -397,10 +412,8 @@
       justify-content: center;
       box-shadow: 0 10px 25px rgba(234, 179, 8, 0.4);
     }
-    .success-sun-badge i {
-      font-size: 48px;
-      color: #00A651;
-    }
+    .fallback-sun-badge i { font-size: 48px; color: #00A651; }
+
     .success-action-row {
       display: flex;
       align-items: center;
@@ -432,7 +445,53 @@
       cursor: pointer;
     }
 
-    /* Strict Beneficiary Verification Error Modal */
+    /* STEP 7: DETAILED TRANSACTION RECEIPT MODAL (Exact match with Image 139674) */
+    #step-7-receipt-full {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 35%);
+      display: none;
+      flex-direction: column;
+      z-index: 80;
+      overflow-y: auto;
+      padding: 30px 20px 24px 20px;
+    }
+    .receipt-top-badge-gold {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fde047, #ca8a04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px auto;
+      box-shadow: 0 6px 18px rgba(202, 138, 4, 0.3);
+    }
+    .receipt-top-badge-gold i {
+      font-size: 38px;
+      color: #00A651;
+    }
+    .receipt-info-block {
+      margin-top: 24px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+    }
+    .receipt-sec-heading {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    .receipt-row-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 4px 0;
+    }
+    .receipt-row-meta span.lbl { color: #64748b; font-weight: 500; }
+    .receipt-row-meta span.vl { color: #1e293b; font-weight: 700; text-align: right; }
+
+    /* Verification Error Modal */
     #verification-error-modal {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -453,30 +512,6 @@
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
-    .error-icon-circle {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: #fee2e2;
-      color: #ef4444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin: 0 auto 14px auto;
-    }
-    .error-title-text {
-      font-size: 16px;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 8px;
-    }
-    .error-desc-text {
-      font-size: 13px;
-      color: #64748b;
-      line-height: 1.4;
-      margin-bottom: 18px;
-    }
     .error-dismiss-btn {
       width: 100%;
       height: 44px;
@@ -487,6 +522,7 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
+      margin-top: 14px;
     }
   </style>
 </head>
@@ -494,34 +530,26 @@
 
   <div id="phone-frame">
 
-    <!-- 1. POPUP MODAL (139570) - Pure Full Fit Icons, No Text -->
+    <!-- 1. POPUP MODAL (139570) -->
     <div id="step-1-modal">
       <div class="options-card-panel">
         <h3 style="text-align: center; font-size: 18px; font-weight: 800; color: #1e293b;">Send Money</h3>
         
         <div class="options-grid-2x2">
-          <!-- easypaisa (100% Full Fit Tile) -->
           <div class="option-item-box" onclick="goToStep2('easypaisa')">
             <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" alt="easypaisa">
           </div>
-
-          <!-- Bank (100% Full Fit Tile) -->
           <div class="option-item-box" onclick="goToStep2('Bank')">
             <img src="https://i.ibb.co/5xtFkKQS/139662.jpg" alt="Bank">
           </div>
-
-          <!-- Wallet (100% Full Fit Tile) -->
           <div class="option-item-box" onclick="goToStep2('Wallet')">
             <img src="https://i.ibb.co/1tKxKKYZ/139663.jpg" alt="Wallet">
           </div>
-
-          <!-- Raast (100% Full Fit Tile) -->
           <div class="option-item-box" onclick="goToStep2('Raast')">
             <img src="https://i.ibb.co/ks4DzgZG/139664.jpg" alt="Raast">
           </div>
         </div>
 
-        <!-- CNIC (Centered below) -->
         <div style="display:flex; justify-content:center; margin-top: 14px;">
           <div class="option-item-box" style="width: 140px;" onclick="goToStep2('CNIC')">
             <img src="https://i.ibb.co/jPHFjwJ3/139665.jpg" alt="CNIC">
@@ -567,7 +595,7 @@
         <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width: 38px; height: 38px; object-fit: contain;" alt="">
       </div>
 
-      <!-- Clicking here loads the mathematical keypad -->
+      <!-- Clicking amount area loads keypad -->
       <div class="amount-center-content" onclick="loadMathematicalKeypad()">
         <div class="amount-large-input-wrap" id="amount-focus-wrapper">
           <span class="currency">Rs.</span>
@@ -579,7 +607,7 @@
         <button class="add-message-pill" onclick="event.stopPropagation()">+ Add a Message</button>
       </div>
 
-      <!-- Mathematical Dialpad (Numbers Only) -->
+      <!-- Dialpad (Numbers Only) -->
       <div class="inapp-keypad-panel" id="inapp-keypad-panel">
         <button class="key-unit-btn" onclick="onNumKey('1')">1</button>
         <button class="key-unit-btn" onclick="onNumKey('2')">2</button>
@@ -655,27 +683,35 @@
       <button style="width:100%; height:50px; background:#00A651; color:#fff; border:none; border-radius:999px; font-size:16px; font-weight:800; cursor:pointer;" onclick="executeStep5Sending()">Send Now</button>
     </div>
 
-    <!-- 5. 2 SECONDS SENDING ANIMATION (139574) -->
+    <!-- 5. 2 SECONDS SENDING ANIMATION / VIDEO LOOP (Image 139574) -->
     <div id="step-5-sending">
-      <div class="gold-coin-pulsar">
-        <span>e</span>
+      <div class="gold-coin-pulsar-wrapper">
+        <video id="coin-spinning-video" class="video-coin-loop" autoplay loop muted playsinline></video>
+        <div id="css-coin-fallback" class="css-coin-graphic">
+          <span>e</span>
+        </div>
       </div>
       <h2 style="font-size: 22px; font-weight: 800; color: #1e293b; margin-bottom: 6px;">Sending Money</h2>
       <p style="font-size: 14px; color: #64748b;">Please wait</p>
     </div>
 
-    <!-- 6. SUCCESS RECEIPT SCREEN (139575) -->
+    <!-- 6. SUCCESS SCREEN (Image 139575) - Auto-Cleans 12.png Chroma -->
     <div id="step-6-success">
       <div style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:20px;">
-        <div class="success-sun-badge">
-          <i class="fa-solid fa-check"></i>
+        
+        <div class="chroma-sun-wrapper">
+          <canvas id="canvas-12-clean"></canvas>
+          <div id="sun-badge-fallback" class="fallback-sun-badge">
+            <i class="fa-solid fa-check"></i>
+          </div>
         </div>
+
         <h1 style="font-size: 34px; font-weight: 800; color: #1e293b; margin-top: 24px;" id="success-final-amt">Rs. 10.00</h1>
         <p style="font-size: 13px; color: #047857; font-weight: 600; margin-top: 4px;">Successfully Sent to</p>
 
         <div style="display:flex; flex-direction:column; align-items:center; margin-top: 26px;">
-          <div style="width:52px; height:52px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-bottom:10px;">
-            <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:36px; height:36px; object-fit:contain;" alt="">
+          <div style="width:58px; height:58px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-bottom:10px;">
+            <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:42px; height:42px; object-fit:contain;" alt="">
           </div>
           <h3 style="font-size: 18px; font-weight: 800; color: #1e293b;" id="success-receiver-name">Mudaser</h3>
           <p style="font-size: 13px; color: #475569; font-weight: 600; margin-top: 2px;" id="success-receiver-num">03084191378</p>
@@ -685,18 +721,99 @@
       <div class="success-action-row">
         <button class="home-green-pill-btn" onclick="finishAndGoHome()">Back to home</button>
         <button class="icon-circle-btn"><i class="fa-solid fa-share-nodes"></i></button>
-        <button class="icon-circle-btn"><i class="fa-regular fa-file-lines"></i></button>
+        <!-- Opens Image 139674 Detailed Receipt -->
+        <button class="icon-circle-btn" onclick="openStep7FullReceipt()"><i class="fa-regular fa-file-lines"></i></button>
       </div>
     </div>
 
-    <!-- STRICT VERIFICATION ERROR MODAL -->
+    <!-- 7. DETAILED TRANSACTION RECEIPT MODAL (Image 139674) -->
+    <div id="step-7-receipt-full">
+      <div class="receipt-top-badge-gold">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h2 style="text-align:center; font-size: 20px; font-weight: 800; color: #1e293b;">Transaction Successful</h2>
+      <p style="text-align:center; font-size: 13px; color: #64748b; margin-top: 4px;">Money has been sent</p>
+
+      <!-- Transaction Meta -->
+      <div class="receipt-info-block" style="border-top:none;">
+        <div class="receipt-row-meta">
+          <span class="lbl">Transaction ID</span>
+          <span class="vl" id="rcpt-full-txid">#57093641736</span>
+        </div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Date & Time</span>
+          <span class="vl" id="rcpt-full-datetime">09 October 2026, 2:42 PM</span>
+        </div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Funding Source</span>
+          <span class="vl">easypaisa Account</span>
+        </div>
+      </div>
+
+      <!-- Sent To -->
+      <div class="receipt-info-block">
+        <div class="receipt-sec-heading">Sent to</div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Name</span>
+          <span class="vl" id="rcpt-full-recv-name">Mudaser</span>
+        </div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Account Number</span>
+          <span class="vl" id="rcpt-full-recv-num">03084191378</span>
+        </div>
+      </div>
+
+      <!-- Sent By -->
+      <div class="receipt-info-block">
+        <div class="receipt-sec-heading">Sent by</div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Name</span>
+          <span class="vl" id="rcpt-full-sender-name">Muddasir Abbas</span>
+        </div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Account Number</span>
+          <span class="vl">03291667662</span>
+        </div>
+      </div>
+
+      <!-- Charges -->
+      <div class="receipt-info-block">
+        <div class="receipt-sec-heading">Charges</div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Amount</span>
+          <span class="vl" id="rcpt-full-subtotal">Rs. 10.00</span>
+        </div>
+        <div class="receipt-row-meta">
+          <span class="lbl">Fee</span>
+          <span class="vl">Rs. 0.00</span>
+        </div>
+        <hr style="border:0; border-top:1px solid #f1f5f9; margin:10px 0;">
+        <div class="receipt-row-meta" style="font-size:15px;">
+          <strong style="color:#1e293b;">Total Amount</strong>
+          <strong style="color:#1e293b; font-size:17px;" id="rcpt-full-total">Rs. 10.00</strong>
+        </div>
+      </div>
+
+      <!-- Paid Via Branding -->
+      <div style="text-align:center; margin: 24px 0 16px 0; font-size:12px; color:#64748b;">
+        Paid via <strong style="color:#00A651;">easypaisa</strong> <span style="font-size:10px; color:#1e293b;">digital bank</span>
+      </div>
+
+      <div class="success-action-row" style="margin-top:auto;">
+        <button class="home-green-pill-btn" onclick="finishAndGoHome()">Back to Home</button>
+        <button class="icon-circle-btn"><i class="fa-solid fa-share-nodes"></i></button>
+        <button class="icon-circle-btn"><i class="fa-solid fa-arrow-down-to-line"></i></button>
+      </div>
+    </div>
+
+    <!-- Verification Error Modal -->
     <div id="verification-error-modal">
       <div class="error-dialog-box">
-        <div class="error-icon-circle">
+        <div style="width:52px; height:52px; border-radius:50%; background:#fee2e2; color:#ef4444; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px auto;">
           <i class="fa-solid fa-triangle-exclamation"></i>
         </div>
-        <h4 class="error-title-text">Beneficiary Verification Failed</h4>
-        <p class="error-desc-text" id="verification-error-msg">
+        <h4 style="font-size:16px; font-weight:800; color:#1e293b; margin-bottom:8px;">Beneficiary Verification Failed</h4>
+        <p style="font-size:13px; color:#64748b; line-height:1.4;" id="verification-error-msg">
           Unable to fetch account title from directory. This recipient account is not registered in verified database.
         </p>
         <button class="error-dismiss-btn" onclick="dismissVerificationError()">OK, Try Again</button>
@@ -708,8 +825,9 @@
   <script>
     let userBalanceStr = localStorage.getItem("ep_balance") || "20,090.00";
     let userBalance = parseFloat(userBalanceStr.replace(/,/g, '')) || 20090;
+    let senderName = localStorage.getItem("ep_name") || "Muddasir Abbas";
 
-    // Database synced with Admin Panel
+    // Beneficiaries Database synced with Admin Panel
     let bankDirectory = JSON.parse(localStorage.getItem("ep_bank_directory")) || [
       { bank: "easypaisa", number: "03084191378", owner: "Mudaser" },
       { bank: "easypaisa", number: "03280591997", owner: "Farhad Ali" },
@@ -724,6 +842,48 @@
     let currentMethod = "easypaisa";
     let selectedContact = null;
     let enteredAmount = "0";
+
+    // 12.png Chroma-Key Auto-Background Remover for Success Screen (139678)
+    function initChromaSuccessLogo(imgSrc) {
+      const img = new Image();
+      img.src = imgSrc;
+      img.onload = function() {
+        try {
+          const canvas = document.getElementById('canvas-12-clean');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+
+          // Remove light green or white backgrounds accurately
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i+1], b = d[i+2];
+            // If background is pale green/light teal
+            if (g > 180 && r > 160 && b > 180) {
+              d[i+3] = 0;
+            } else if (r > 235 && g > 235 && b > 235) {
+              d[i+3] = 0;
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+          document.getElementById('sun-badge-fallback').style.display = 'none';
+          canvas.style.display = 'block';
+        } catch(e) {}
+      };
+    }
+
+    // Set Video loop if user provides video link
+    function setCoinAnimationVideo(videoUrl) {
+      if (!videoUrl) return;
+      const vid = document.getElementById('coin-spinning-video');
+      const fallback = document.getElementById('css-coin-fallback');
+      vid.src = videoUrl;
+      vid.style.display = 'block';
+      fallback.style.display = 'none';
+    }
 
     // Step 1 -> Step 2
     function goToStep2(method) {
@@ -763,7 +923,6 @@
       });
     }
 
-    // Input monitoring: Only enable arrow when >= 11 digits
     function onNumberTyped() {
       const val = document.getElementById('phone-search-input').value.trim();
       const submitBtn = document.getElementById('search-submit-btn');
@@ -776,19 +935,14 @@
       }
     }
 
-    // Submit number manually on click
     function submitNumberForVerification() {
       const val = document.getElementById('phone-search-input').value.trim();
-      if (val.length < 11) {
-        return; // Click won't work if under 11 digits
-      }
+      if (val.length < 11) return;
 
-      // Check if number exists in Admin Panel directory
       const matched = bankDirectory.find(b => b.number === val);
       if (matched) {
         selectContactAndProceed(matched.owner, matched.number);
       } else {
-        // Strict English Bank Error if not in Admin Panel
         showVerificationError(`Beneficiary verification failed for (${val}). Record not registered in verified directory database.`);
       }
     }
@@ -800,7 +954,6 @@
       enteredAmount = "0";
       updateAmountDisplay();
 
-      // Keypad initially hidden until user clicks on amount area
       document.getElementById('inapp-keypad-panel').style.display = 'none';
       document.getElementById('amount-focus-wrapper').classList.remove('active-focus-box');
 
@@ -813,7 +966,6 @@
       document.getElementById('step-2-contacts').style.display = 'flex';
     }
 
-    // Load Mathematical Keypad when user clicks on Amount area
     function loadMathematicalKeypad() {
       document.getElementById('inapp-keypad-panel').style.display = 'grid';
       document.getElementById('amount-focus-wrapper').classList.add('active-focus-box');
@@ -841,7 +993,6 @@
       document.getElementById('typed-amount-display').innerText = enteredAmount;
     }
 
-    // Proceed from Amount to Confirmation
     function goToStep4() {
       const amt = parseFloat(enteredAmount);
       if (!amt || amt < 1) {
@@ -853,7 +1004,6 @@
         return;
       }
 
-      // Final strict check against Admin Directory before confirmation
       const isVerified = bankDirectory.some(b => b.number === selectedContact.number);
       if (!isVerified) {
         showVerificationError(`Security Check Failed: Beneficiary ${selectedContact.number} could not be validated against Admin Directory.`);
@@ -875,12 +1025,14 @@
       document.getElementById('step-3-amount').style.display = 'flex';
     }
 
-    // Step 4 -> Step 5 -> Step 6 (2 Seconds Sending Animation)
+    // Step 4 -> Step 5 -> Step 6
     function executeStep5Sending() {
       document.getElementById('step-4-confirm').style.display = 'none';
       document.getElementById('step-5-sending').style.display = 'flex';
 
       const amt = parseFloat(enteredAmount);
+      const generatedTxId = "#" + Math.floor(10000000000 + Math.random() * 90000000000);
+      const nowStr = "09 October 2026, 2:42 PM";
 
       setTimeout(() => {
         // Balance Deduct
@@ -898,20 +1050,35 @@
         });
         localStorage.setItem("ep_statements", JSON.stringify(statements));
 
-        // Push Notification for Main App
+        // Push Notification
         localStorage.setItem("ep_pending_notif", JSON.stringify({
           title: "Transfer Successful!",
           message: `Rs. ${amt.toLocaleString()} successfully sent to ${selectedContact.name}.`
         }));
 
-        // Render Success (139575)
+        // Render Success (Image 139575)
         document.getElementById('success-final-amt').innerText = "Rs. " + amt.toFixed(2);
         document.getElementById('success-receiver-name').innerText = selectedContact.name;
         document.getElementById('success-receiver-num').innerText = selectedContact.number;
 
+        // Populate Detailed Receipt (Image 139674)
+        document.getElementById('rcpt-full-txid').innerText = generatedTxId;
+        document.getElementById('rcpt-full-datetime').innerText = nowStr;
+        document.getElementById('rcpt-full-recv-name').innerText = selectedContact.name;
+        document.getElementById('rcpt-full-recv-num').innerText = selectedContact.number;
+        document.getElementById('rcpt-full-sender-name').innerText = senderName;
+        document.getElementById('rcpt-full-subtotal').innerText = "Rs. " + amt.toFixed(2);
+        document.getElementById('rcpt-full-total').innerText = "Rs. " + amt.toFixed(2);
+
         document.getElementById('step-5-sending').style.display = 'none';
         document.getElementById('step-6-success').style.display = 'flex';
       }, 2000);
+    }
+
+    // Step 6 -> Step 7 Detailed Receipt (Image 139674)
+    function openStep7FullReceipt() {
+      document.getElementById('step-6-success').style.display = 'none';
+      document.getElementById('step-7-receipt-full').style.display = 'flex';
     }
 
     function showVerificationError(msg) {
@@ -926,6 +1093,11 @@
     function finishAndGoHome() {
       window.location.href = 'index.html';
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 12.png clean chroma initialization
+      initChromaSuccessLogo('12.png');
+    });
   </script>
 </body>
 </html>
