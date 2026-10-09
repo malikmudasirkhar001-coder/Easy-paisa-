@@ -1,53 +1,54 @@
 {
-  "user": {
-    "initials": "MA",
-    "greeting": "Hey There 👋"
-  },
   "services": [
     {
       "id": "send_money",
-      "title": "Send Money",
-      "icon": "https://img.icons8.com/color/96/paper-plane.png"
+      "name": "Send money",
+      "image": "https://i.ibb.co/HfTnHM4y/139517.jpg"
     },
     {
       "id": "bill_payment",
-      "title": "Bill Payment",
-      "icon": "https://img.icons8.com/color/96/bill.png"
+      "name": "Bill payment",
+      "image": "https://i.ibb.co/xqWkXLqB/139518.jpg"
     },
     {
-      "id": "loads_packages",
-      "title": "Loads & Packages",
-      "icon": "https://img.icons8.com/color/96/smartphone-tablet.png"
+      "id": "load_packages",
+      "name": "Load packages",
+      "image": "https://i.ibb.co/Zp3VvGHH/139519.jpg"
     },
     {
-      "id": "enter_win",
-      "title": "Enter and Win",
-      "icon": "https://img.icons8.com/color/96/ice-cream-cone.png"
+      "id": "enter_in_win",
+      "name": "Enter in win",
+      "image": "https://i.ibb.co/R4d4xcsW/139520.jpg"
     },
     {
-      "id": "easycash",
-      "title": "Easycash",
-      "icon": "https://img.icons8.com/color/96/hand-holding-dollar.png"
+      "id": "easy_cash",
+      "name": "Easy cahs",
+      "image": "https://i.ibb.co/Qjpqzd6F/139521.jpg"
     },
     {
       "id": "term_deposit",
-      "title": "Term Deposit",
-      "icon": "https://img.icons8.com/color/96/money-bag.png"
+      "name": "Term deposit",
+      "image": "https://i.ibb.co/B2Hqtjp6/139522.jpg"
     },
     {
       "id": "insurance",
-      "title": "Insurance",
-      "icon": "https://img.icons8.com/color/96/umbrella.png"
+      "name": "Insurance",
+      "image": "https://i.ibb.co/ZpYTBzkn/139523.jpg"
     },
     {
       "id": "rs1_game",
-      "title": "Rs. 1 Game",
-      "icon": "https://img.icons8.com/color/96/controller.png"
+      "name": "Rd.1 game",
+      "image": "https://i.ibb.co/ccszj3QF/139524.jpg"
     },
     {
       "id": "see_all",
-      "title": "See All",
-      "icon": "https://img.icons8.com/color/96/menu--v1.png"
+      "name": "See all",
+      "image": "https://i.ibb.co/XrSfSYff/139525.jpg"
     }
-  ]
+  ],
+  "bottom_nav": {
+    "home": "https://i.ibb.co/PGD4tQK5/139526.jpg",
+    "cards": "https://i.ibb.co/Tx5fqRJR/139527.jpg",
+    "pay": "https://i.ibb.co/rRDf8PBz/139528.jpg"
+  }
 }
