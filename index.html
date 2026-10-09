@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -104,7 +104,7 @@
       align-items: center;
       justify-content: center;
       z-index: 20;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
       pointer-events: none;
     }
     .center-logo-box {
@@ -144,20 +144,19 @@
       align-items: center;
       justify-content: center;
       transform: translateX(0px);
-      transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
     }
     .stage2-content.shifted {
-      transform: translateX(-42px);
+      transform: translateX(-44px);
     }
 
-    /* کنٹینر جہاں ریڈ بیک گراؤنڈ ریمو ہو کر نظر آئے گا */
     .red-removed-logo-box {
-      width: 68px;
-      height: 68px;
+      width: 70px;
+      height: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 14px;
+      margin-right: 12px;
       flex-shrink: 0;
       background: transparent;
     }
@@ -168,35 +167,45 @@
       object-fit: contain;
     }
 
+    /* Typewriter Box with Exact Font & Hierarchy */
     .typewriter-box {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-width: 170px;
+      min-width: 160px;
       opacity: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.15s ease;
     }
     .typewriter-box.active {
       opacity: 1;
     }
     .typewriter-line {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
       font-size: 34px;
       font-weight: 800;
-      line-height: 1.1;
-      min-height: 38px;
-      letter-spacing: -0.8px;
+      color: #ffffff;
+      line-height: 1.05;
+      min-height: 36px;
+      letter-spacing: -1px;
     }
 
     .char-white { color: #ffffff; }
     .char-green { color: #00A651; }
     .char-gray  { color: #94a3b8; }
 
-    /* Orbit Rings */
-    .orbit-svg {
+    /* Orbit Rings with Edge Masking (Side Cutting Effect) */
+    .orbit-container {
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      /* سائیڈوں سے کٹنگ کا ماسک */
+      -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 50%, black 65%, transparent 100%);
+      mask-image: radial-gradient(ellipse 95% 85% at 50% 50%, black 65%, transparent 100%);
+    }
+    .orbit-svg {
       width: 100%;
       height: 100%;
     }
@@ -209,15 +218,15 @@
       to { transform: rotate(0deg); }
     }
     .orbit-ring-inner {
-      animation: spinClockwise 36s linear infinite;
+      animation: spinClockwise 34s linear infinite;
       transform-origin: 250px 250px;
     }
     .orbit-ring-outer {
-      animation: spinCounter 48s linear infinite;
+      animation: spinCounter 46s linear infinite;
       transform-origin: 250px 250px;
     }
 
-    /* HOME SCREEN STYLES (MATCHING VIDEO EXACTLY) */
+    /* HOME SCREEN STYLES (MATCHING VIDEO) */
     .home-top-bar {
       padding: 16px 16px 10px 16px;
       display: flex;
@@ -392,34 +401,35 @@
         </div>
       </div>
 
-      <!-- STAGE 2: Red Chroma Key Removed Logo + Rings + Typewriter -->
+      <!-- STAGE 2: Slide + Cut Circles + Flowing Typewriter -->
       <div id="splash-stage-2">
         
-        <svg class="orbit-svg" viewBox="0 0 500 500">
-          <defs>
-            <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
-            <path id="outerCirclePath" d="M 250, 250 m -225, 0 a 225,225 0 1,1 450,0 a 225,225 0 1,1 -450,0" fill="none" />
-          </defs>
+        <div class="orbit-container">
+          <svg class="orbit-svg" viewBox="0 0 500 500">
+            <defs>
+              <path id="innerCirclePath" d="M 250, 250 m -160, 0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0" fill="none" />
+              <path id="outerCirclePath" d="M 250, 250 m -222, 0 a 222,222 0 1,1 444,0 a 222,222 0 1,1 -444,0" fill="none" />
+            </defs>
 
-          <g class="orbit-ring-inner">
-            <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
-              <textPath href="#innerCirclePath" startOffset="0%">
-                is now a digital bank · easypaisa · is now a digital bank ·
-              </textPath>
-            </text>
-          </g>
+            <g class="orbit-ring-inner">
+              <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="600" letter-spacing="3.5">
+                <textPath href="#innerCirclePath" startOffset="0%">
+                  is now a digital bank · easypaisa · is now a digital bank ·
+                </textPath>
+              </text>
+            </g>
 
-          <g class="orbit-ring-outer">
-            <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
-              <textPath href="#outerCirclePath" startOffset="0%">
-                skip going to the bank - skip going to the bank -
-              </textPath>
-            </text>
-          </g>
-        </svg>
+            <g class="orbit-ring-outer">
+              <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="600" letter-spacing="4.8">
+                <textPath href="#outerCirclePath" startOffset="0%">
+                  skip going to the bank - skip going to the bank -
+                </textPath>
+              </text>
+            </g>
+          </svg>
+        </div>
 
         <div id="stage2-wrapper" class="stage2-content">
-          <!-- یہاں پر سرخ بیک گراؤنڈ خودکار طور پر صاف ہو کر ظاہر ہوگا -->
           <div class="red-removed-logo-box">
             <canvas id="red-clean-canvas"></canvas>
           </div>
@@ -545,7 +555,7 @@
   </div>
 
   <script>
-    /* ریڈ بیک گراؤنڈ کروما ریموور (Red Chroma Key Filter) */
+    /* ریڈ بیک گراؤنڈ ریموور */
     function removeRedBackgroundFromImage(src) {
       const img = new Image();
       img.src = src;
@@ -565,10 +575,9 @@
             const g = d[i+1];
             const b = d[i+2];
 
-            // اگر پکسل کا رنگ سرخ ہو (Red Chroma Key Detection)
-            // یہ شرط صرف لال رنگ کو ختم کرے گی، سفید اور سبز بالکل محفوظ رہیں گے
-            if (r > 120 && (r - g) > 40 && (r - b) > 40) {
-              d[i+3] = 0; // سرخ رنگ مکمل ٹرانسپیرنٹ
+            // صرف لال بیک گراؤنڈ شفاف ہوگا
+            if (r > 115 && (r - g) > 35 && (r - b) > 35) {
+              d[i+3] = 0;
             }
           }
           ctx.putImageData(imgData, 0, 0);
@@ -578,29 +587,30 @@
       };
     }
 
-    // میٹرکس ڈیجیٹل اسکریبلنگ
+    // ترتیب وار اور تیز رفتار کوڈ ٹائپنگ
     const scrambleChars = "0101Qabdeklnrtx";
-    function runFastScrambleType(targetElem, finalWord, onDone) {
-      let currentLen = 0;
-      const speedInterval = setInterval(() => {
-        if (currentLen <= finalWord.length) {
+
+    function typeCascadingWord(targetElem, finalWord, onDone) {
+      let idx = 0;
+      const interval = setInterval(() => {
+        if (idx <= finalWord.length) {
           let output = '';
-          for (let i = 0; i < currentLen; i++) {
+          for (let i = 0; i < idx; i++) {
             output += `<span class="char-white">${finalWord[i]}</span>`;
           }
-          if (currentLen < finalWord.length) {
+          if (idx < finalWord.length) {
             const rnd1 = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
             const rnd2 = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
             output += `<span class="char-green">${rnd1}</span><span class="char-gray">${rnd2}</span>`;
           }
           targetElem.innerHTML = output;
-          currentLen++;
+          idx++;
         } else {
-          clearInterval(speedInterval);
+          clearInterval(interval);
           targetElem.innerHTML = `<span class="char-white">${finalWord}</span>`;
           if (onDone) onDone();
         }
-      }, 55);
+      }, 50); // تیز اور فلوئنگ اسپیڈ
     }
 
     function runSplashSequence() {
@@ -611,36 +621,40 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رہے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
-        }, 400);
+        }, 350);
 
-        // 2. Stage 2: سرخ بیک گراؤنڈ سے صاف شدہ لوگو ظاہر ہوگا
+        // 2. Stage 2: 'e' لوگو سینٹر میں ظاہر ہوگا
         stage2.style.opacity = '1';
 
-        // 3. بائیں طرف ہموار سلائیڈ
+        // 3. ہمواری سے ہلکا سا بائیں شفٹ
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
-          // 4. فوری تیز رفتار ٹائپنگ شروع
+          // 4. فلوئنگ ترتیب: پہلے digital مکمل ہوگا، پھر اس کے نیچے bank فلو کرے گا
           setTimeout(() => {
             typewriterBox.classList.add('active');
 
-            runFastScrambleType(line1, "digital", () => {
-              runFastScrambleType(line2, "bank", () => {
-                // 5. ہوم اسکرین پر روانگی
-                setTimeout(() => {
-                  go('screen-home');
-                }, 500);
-              });
+            // پہلے 'digital' ٹائپ ہوگا
+            typeCascadingWord(line1, "digital", () => {
+              // 'digital' کے فورا بعد نیچے 'bank' فلو کرے گا
+              setTimeout(() => {
+                typeCascadingWord(line2, "bank", () => {
+                  // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج
+                  setTimeout(() => {
+                    go('screen-home');
+                  }, 550);
+                });
+              }, 40);
             });
 
-          }, 350);
+          }, 300);
 
-        }, 250);
+        }, 220);
 
       }, 3000);
     }
@@ -654,7 +668,6 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // آپ کی سرخ بیک گراؤنڈ والی تصویر کا نام (2.png)
       removeRedBackgroundFromImage('2.png');
       runSplashSequence();
     });
