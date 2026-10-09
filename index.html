@@ -106,7 +106,7 @@
       display: block;
     }
 
-    /* STAGE 2: Splash Rings & Motion Sequence */
+    /* STAGE 2: Splash Rings & Typography */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -230,10 +230,11 @@
       z-index: 40;
     }
 
+    /* باٹم بار کے اوپر اٹھنے کی وجہ سے نیچے پیڈنگ 125px کر دی گئی ہے تاکہ مواد نہ دبے */
     .home-scrollable-body {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 105px;
+      padding-bottom: 125px;
     }
     .home-scrollable-body::-webkit-scrollbar { display: none; }
 
@@ -475,22 +476,22 @@
       display: block;
     }
 
-    /* NORMAL UNIFORM BOTTOM NAVIGATION BAR */
+    /* BOTTOM NAVIGATION BAR: 3 سَتر اوپر اٹھایا ہوا اور 3 سے 4 سَتر بڑے آئیکونز */
     .bottom-navbar-fixed {
       position: absolute;
-      bottom: 12px;
+      bottom: 36px; /* 3 سَتر (24px) مزید اوپر لفٹ کیا گیا */
       left: 12px;
       right: 12px;
-      height: 68px;
+      height: 74px; /* تھوڑا کشادہ */
       background: #ffffff;
-      border-radius: 26px;
+      border-radius: 28px;
       border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: space-around;
       padding: 0 8px;
       z-index: 60;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
     }
     .nav-item-unit {
       display: flex;
@@ -498,19 +499,24 @@
       align-items: center;
       justify-content: center;
       color: #64748b;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       gap: 3px;
       background: none;
       border: none;
       cursor: pointer;
-      width: 58px;
+      width: 60px;
       height: 100%;
     }
+    /* آئیکونز کا سائز 3 سے 4 سَتر بڑا (34px) */
     .nav-item-unit img {
-      width: 25px;
-      height: 25px;
+      width: 34px;
+      height: 34px;
       object-fit: contain;
+      transition: transform 0.15s ease;
+    }
+    .nav-item-unit:active img {
+      transform: scale(0.92);
     }
 
     /* 6 SECONDS EXACT EASYPAISA LOADING STRIP */
@@ -570,7 +576,7 @@
       color: #94a3b8;
     }
 
-    /* PIN SCREEN MODAL (139561 & 139562) */
+    /* PIN SCREEN MODAL */
     #pin-screen-modal {
       position: absolute;
       top: 0;
@@ -696,7 +702,7 @@
       cursor: pointer;
     }
 
-    /* Keypad Grid (139561) */
+    /* Keypad Grid */
     .pin-keypad-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -948,7 +954,7 @@
 
       </div>
 
-      <!-- NORMAL UNIFORM BOTTOM NAVIGATION BAR (Pay Button is Normal & Uniform) -->
+      <!-- NORMAL UNIFORM BOTTOM NAVIGATION BAR (Raised by 3 lines and icons enlarged) -->
       <nav class="bottom-navbar-fixed">
         <button class="nav-item-unit" onclick="triggerActionWithLoading('Home')">
           <img id="nav-img-home" src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
@@ -1199,7 +1205,7 @@
       }, 6000);
     }
 
-    // PIN Screen Functions (139561 & 139562)
+    // PIN Screen Functions
     function openPinModal() {
       if (isLoggedIn) {
         triggerActionWithLoading("Account Details");
