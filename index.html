@@ -150,8 +150,8 @@
       transform: translateX(-42px);
     }
 
-    /* کرسٹل کلیئر 'e' لوگو کنٹینر */
-    .pure-vector-e {
+    /* کنٹینر جہاں ریڈ بیک گراؤنڈ ریمو ہو کر نظر آئے گا */
+    .red-removed-logo-box {
       width: 68px;
       height: 68px;
       display: flex;
@@ -160,12 +160,12 @@
       margin-right: 14px;
       flex-shrink: 0;
       background: transparent;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
     }
-    .pure-vector-e svg {
+    .red-removed-logo-box canvas {
       width: 100%;
       height: 100%;
       display: block;
+      object-fit: contain;
     }
 
     .typewriter-box {
@@ -217,7 +217,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* HOME SCREEN STYLES */
+    /* HOME SCREEN STYLES (MATCHING VIDEO EXACTLY) */
     .home-top-bar {
       padding: 16px 16px 10px 16px;
       display: flex;
@@ -392,7 +392,7 @@
         </div>
       </div>
 
-      <!-- STAGE 2: Perfect Oval 'e' With 100% Solid White Head + Slide + Typewriter -->
+      <!-- STAGE 2: Red Chroma Key Removed Logo + Rings + Typewriter -->
       <div id="splash-stage-2">
         
         <svg class="orbit-svg" viewBox="0 0 500 500">
@@ -419,14 +419,9 @@
         </svg>
 
         <div id="stage2-wrapper" class="stage2-content">
-          <!-- اصلی خالص 'e' لوگو (اوپر 100٪ سفید، نیچے اصل سبز، بغیر کسی کٹنگ کے) -->
-          <div class="pure-vector-e">
-            <svg viewBox="0 0 100 100">
-              <!-- اوپر والا مکمل دودھیا سفید بیضوی لوپ -->
-              <path d="M 50 12 C 28 12 12 28 12 47 C 12 62 26 73 48 73 C 69 73 84 62 84 46 C 84 29 69 12 50 12 Z M 50 28 C 61 28 68 36 68 45 C 68 53 59 59 49 59 C 37 59 29 52 29 44 C 29 35 38 28 50 28 Z" fill="#ffffff" />
-              <!-- نیچے والا اصل ایزی پیسہ سبز ونگ -->
-              <path d="M 12 49 C 13 67 31 84 53 84 C 72 84 84 72 84 72 C 84 72 70 78 52 78 C 32 78 17 63 12 49 Z" fill="#00A651" />
-            </svg>
+          <!-- یہاں پر سرخ بیک گراؤنڈ خودکار طور پر صاف ہو کر ظاہر ہوگا -->
+          <div class="red-removed-logo-box">
+            <canvas id="red-clean-canvas"></canvas>
           </div>
 
           <div id="typewriter-box" class="typewriter-box">
@@ -550,7 +545,40 @@
   </div>
 
   <script>
-    // تیز رفتار ڈیجیٹل اسکریبل ایفیکٹ
+    /* ریڈ بیک گراؤنڈ کروما ریموور (Red Chroma Key Filter) */
+    function removeRedBackgroundFromImage(src) {
+      const img = new Image();
+      img.src = src;
+      img.onload = function() {
+        const canvas = document.getElementById('red-clean-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        try {
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i];
+            const g = d[i+1];
+            const b = d[i+2];
+
+            // اگر پکسل کا رنگ سرخ ہو (Red Chroma Key Detection)
+            // یہ شرط صرف لال رنگ کو ختم کرے گی، سفید اور سبز بالکل محفوظ رہیں گے
+            if (r > 120 && (r - g) > 40 && (r - b) > 40) {
+              d[i+3] = 0; // سرخ رنگ مکمل ٹرانسپیرنٹ
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+        } catch(e) {
+          console.warn("Chroma filter error:", e);
+        }
+      };
+    }
+
+    // میٹرکس ڈیجیٹل اسکریبلنگ
     const scrambleChars = "0101Qabdeklnrtx";
     function runFastScrambleType(targetElem, finalWord, onDone) {
       let currentLen = 0;
@@ -583,27 +611,27 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg رہے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 400);
 
-        // 2. Stage 2: مکمل دودھیا سفید اور سبز 'e' لوگو سینٹر میں ظاہر ہوگا
+        // 2. Stage 2: سرخ بیک گراؤنڈ سے صاف شدہ لوگو ظاہر ہوگا
         stage2.style.opacity = '1';
 
         // 3. بائیں طرف ہموار سلائیڈ
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
-          // 4. فوری ڈیجیٹل ٹائپنگ
+          // 4. فوری تیز رفتار ٹائپنگ شروع
           setTimeout(() => {
             typewriterBox.classList.add('active');
 
             runFastScrambleType(line1, "digital", () => {
               runFastScrambleType(line2, "bank", () => {
-                // 5. ٹائپنگ مکمل ہوتے ہی ہوم اسکرین
+                // 5. ہوم اسکرین پر روانگی
                 setTimeout(() => {
                   go('screen-home');
                 }, 500);
@@ -626,6 +654,8 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      // آپ کی سرخ بیک گراؤنڈ والی تصویر کا نام (2.png)
+      removeRedBackgroundFromImage('2.png');
       runSplashSequence();
     });
   </script>
