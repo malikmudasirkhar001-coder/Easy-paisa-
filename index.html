@@ -93,7 +93,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg */
+    /* STAGE 1: Centered 11.jpeg (Strict 3.0 Seconds Stay) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -121,7 +121,7 @@
       display: block;
     }
 
-    /* STAGE 2: Perfect Slide Container */
+    /* STAGE 2: Slide Container */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -150,7 +150,7 @@
       transform: translateX(-38px);
     }
 
-    /* کرسٹل کلیئر پرفیکٹ ویکٹر 'e' لوگو (کوئی گلچ نہیں) */
+    /* کرسٹل کلیئر ویکٹر لوگو */
     .pure-vector-logo {
       width: 82px;
       height: 82px;
@@ -168,7 +168,7 @@
       display: block;
     }
 
-    /* برانڈ ٹائپوگرافی بالکل ویڈیو 139447 کے مطابق */
+    /* برانڈ ٹائپوگرافی */
     .brand-type-wrap {
       display: flex;
       flex-direction: column;
@@ -205,7 +205,7 @@
       color: #ffffff;
     }
 
-    /* فل اسکرین اوربٹ سرکلز جو دونوں طرف بالکل برابر کٹتے ہیں */
+    /* کشادہ اوربٹ سرکلز */
     .orbit-container {
       position: absolute;
       top: 50%;
@@ -420,7 +420,6 @@
       <!-- STAGE 2: Slide + Balanced Side Cutting Circles + Bold Typography -->
       <div id="splash-stage-2">
         
-        <!-- دونوں کناروں سے متوازن اور برابر کٹتے ہوئے وسیع دائرے (Radius 145 / Radius 240) -->
         <div class="orbit-container">
           <svg class="orbit-svg" viewBox="0 0 600 600">
             <defs>
@@ -428,7 +427,7 @@
               <path id="outerCirclePath" d="M 300, 300 m -240, 0 a 240,240 0 1,1 480,0 a 240,240 0 1,1 -480,0" fill="none" />
             </defs>
 
-            <!-- Inner Ring: 'is now a digital bank · easypaisa ·' -->
+            <!-- Inner Ring -->
             <g class="orbit-ring-inner">
               <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="16" font-weight="500" letter-spacing="3.2">
                 <textPath href="#innerCirclePath" startOffset="0%">
@@ -437,7 +436,7 @@
               </text>
             </g>
 
-            <!-- Outer Ring (دونوں کناروں سے برابر کٹ کر باہر جائے گا) -->
+            <!-- Outer Ring -->
             <g class="orbit-ring-outer">
               <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="17" font-weight="500" letter-spacing="4.8">
                 <textPath href="#outerCirclePath" startOffset="0%">
@@ -448,14 +447,12 @@
           </svg>
         </div>
 
-        <!-- سینٹرل کمپوزیشن (خالص ویکٹر شیپ جس میں سفید اور سبز رنگ 100٪ کرسٹل کلیئر رہے گا) -->
+        <!-- سینٹرل کمپوزیشن -->
         <div class="stage2-content">
           <div class="pure-vector-logo">
             <svg viewBox="0 0 120 120">
-              <!-- اوپر والی مکمل بیضوی انڈا نما سفید لوپ -->
               <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
               <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
-              <!-- نیچے والا اصلی کٹ سبز ونگ -->
               <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
             </svg>
           </div>
@@ -581,7 +578,6 @@
   </div>
 
   <script>
-    /* ویڈیو کے عین مطابق گرین/گرے ڈیجیٹل کوڈز سے اصل الفاظ بننے کا اینیمیشن */
     const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
 
     function animateToFinalWord(container, word, onComplete) {
@@ -609,32 +605,33 @@
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
-      const stage2Wrapper = document.getElementById('stage2-wrapper');
+      const stage2Wrapper = document.querySelector('.stage2-content');
       const brandTypeWrap = document.getElementById('brand-type-wrap');
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رہے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg بغیر کسی رکاوٹ کے رہے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 350);
 
-        // 2. Stage 2: 'e' لوگو بالکل درست متوازن پوزیشن پر ظاہر ہوگا
+        // 2. Stage 2: 'e' لوگو سینٹر میں نمودار ہوگا
         stage2.style.opacity = '1';
 
-        // 3. ڈیجیٹل بینک کی فلوئنگ ٹائپنگ
+        // 3. بائیں طرف متوازن موومنٹ
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
+          // 4. ڈیجیٹل بینک میٹرکس فلو
           setTimeout(() => {
             brandTypeWrap.classList.add('active');
 
             animateToFinalWord(rowDigital, "digital", () => {
               setTimeout(() => {
                 animateToFinalWord(rowBank, "bank", () => {
-                  // 4. اینیمیشن مکمل ہوتے ہی سیدھا ہوم پیج
+                  // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج
                   setTimeout(() => {
                     go('screen-home');
                   }, 650);
