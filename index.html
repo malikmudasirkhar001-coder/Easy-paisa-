@@ -93,7 +93,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg (Strict 3.0 Seconds Stay) */
+    /* STAGE 1: Centered 11.jpeg */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -150,8 +150,8 @@
       transform: translateX(-42px);
     }
 
-    /* صرف شفاف 'e' لوگو کے لیے کنٹینر */
-    .clean-e-container {
+    /* کرسٹل کلیئر 'e' لوگو کنٹینر */
+    .pure-vector-e {
       width: 68px;
       height: 68px;
       display: flex;
@@ -160,9 +160,9 @@
       margin-right: 14px;
       flex-shrink: 0;
       background: transparent;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
     }
-    .clean-e-container canvas, 
-    .clean-e-container svg {
+    .pure-vector-e svg {
       width: 100%;
       height: 100%;
       display: block;
@@ -217,7 +217,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* HOME SCREEN STYLES (MATCHING VIDEO EXACTLY) */
+    /* HOME SCREEN STYLES */
     .home-top-bar {
       padding: 16px 16px 10px 16px;
       display: flex;
@@ -385,14 +385,14 @@
         </div>
       </div>
 
-      <!-- STAGE 1: 11.jpeg اصل وائٹ بیک گراؤنڈ کے ساتھ (پورا 3 سیکنڈ) -->
+      <!-- STAGE 1: 11.jpeg (Strict 3.0 Seconds Stay) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
           <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: وائٹ بیک گراؤنڈ خود بخود صاف ہو کر صرف 'e' لوگو سلائیڈ کرے گا -->
+      <!-- STAGE 2: Perfect Oval 'e' With 100% Solid White Head + Slide + Typewriter -->
       <div id="splash-stage-2">
         
         <svg class="orbit-svg" viewBox="0 0 500 500">
@@ -419,14 +419,13 @@
         </svg>
 
         <div id="stage2-wrapper" class="stage2-content">
-          <!-- خالص ٹرانسپیرنٹ 'e' لوگو (Canvas Background Remover) -->
-          <div class="clean-e-container">
-            <canvas id="cleaned-e-canvas"></canvas>
-            <!-- بیک اپ ویکٹر اگر کینوس کے لوڈ ہونے میں ملی سیکنڈ کی بھی دیر ہو -->
-            <svg viewBox="0 0 120 120" id="fallback-egg-svg" style="display:none;">
-              <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
-              <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
-              <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
+          <!-- اصلی خالص 'e' لوگو (اوپر 100٪ سفید، نیچے اصل سبز، بغیر کسی کٹنگ کے) -->
+          <div class="pure-vector-e">
+            <svg viewBox="0 0 100 100">
+              <!-- اوپر والا مکمل دودھیا سفید بیضوی لوپ -->
+              <path d="M 50 12 C 28 12 12 28 12 47 C 12 62 26 73 48 73 C 69 73 84 62 84 46 C 84 29 69 12 50 12 Z M 50 28 C 61 28 68 36 68 45 C 68 53 59 59 49 59 C 37 59 29 52 29 44 C 29 35 38 28 50 28 Z" fill="#ffffff" />
+              <!-- نیچے والا اصل ایزی پیسہ سبز ونگ -->
+              <path d="M 12 49 C 13 67 31 84 53 84 C 72 84 84 72 84 72 C 84 72 70 78 52 78 C 32 78 17 63 12 49 Z" fill="#00A651" />
             </svg>
           </div>
 
@@ -551,45 +550,7 @@
   </div>
 
   <script>
-    /* 11.jpeg سے سفید بیک گراؤنڈ خودکار ریمو کرنے کا فنکشن */
-    function removeWhiteBackgroundFromImage(src) {
-      const img = new Image();
-      img.src = src;
-      img.onload = function() {
-        const canvas = document.getElementById('cleaned-e-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        try {
-          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const d = imgData.data;
-
-          // تمام سفید / ہلکے آف وائٹ پکسلز کو مکمل شفاف (Transparent) بنانا
-          for (let i = 0; i < d.length; i += 4) {
-            const r = d[i];
-            const g = d[i+1];
-            const b = d[i+2];
-            // اگر رنگ سفید کے قریب ہو (RGB > 230)
-            if (r > 230 && g > 230 && b > 230) {
-              d[i+3] = 0; // Transparent
-            }
-          }
-          ctx.putImageData(imgData, 0, 0);
-        } catch(e) {
-          // فال بیک ویکٹر شو ہوگا اگر براؤزر سیکیورٹی ایرر آئے
-          document.getElementById('cleaned-e-canvas').style.display = 'none';
-          document.getElementById('fallback-egg-svg').style.display = 'block';
-        }
-      };
-      img.onerror = function() {
-        document.getElementById('cleaned-e-canvas').style.display = 'none';
-        document.getElementById('fallback-egg-svg').style.display = 'block';
-      };
-    }
-
-    // ہائی اسپیڈ میٹرکس ٹائپنگ ایفیکٹ
+    // تیز رفتار ڈیجیٹل اسکریبل ایفیکٹ
     const scrambleChars = "0101Qabdeklnrtx";
     function runFastScrambleType(targetElem, finalWord, onDone) {
       let currentLen = 0;
@@ -622,27 +583,27 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg رہے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 400);
 
-        // 2. Stage 2: صرف شفاف 'e' لوگو سینٹر میں نمودار ہوگا
+        // 2. Stage 2: مکمل دودھیا سفید اور سبز 'e' لوگو سینٹر میں ظاہر ہوگا
         stage2.style.opacity = '1';
 
-        // 3. ہمواری سے ہلکا سا بائیں طرف سلائیڈ کرے گا
+        // 3. بائیں طرف ہموار سلائیڈ
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
-          // 4. فوری تیز رفتار ٹائپنگ شروع
+          // 4. فوری ڈیجیٹل ٹائپنگ
           setTimeout(() => {
             typewriterBox.classList.add('active');
 
             runFastScrambleType(line1, "digital", () => {
               runFastScrambleType(line2, "bank", () => {
-                // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج
+                // 5. ٹائپنگ مکمل ہوتے ہی ہوم اسکرین
                 setTimeout(() => {
                   go('screen-home');
                 }, 500);
@@ -665,8 +626,6 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // 11.jpeg کے سفید بیک گراؤنڈ کو فوراً شفاف بنانا
-      removeWhiteBackgroundFromImage('11.jpeg');
       runSplashSequence();
     });
   </script>
