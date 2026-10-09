@@ -93,7 +93,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg */
+    /* STAGE 1: Centered 11.jpeg (Strict 3.0 Seconds Stay) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -144,14 +144,14 @@
       align-items: center;
       justify-content: center;
       transform: translateX(0px);
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .stage2-content.shifted {
-      transform: translateX(-40px);
+      transform: translateX(-42px);
     }
 
-    /* Exact 'e' Vector Logo */
-    .pure-e-logo {
+    /* صرف شفاف 'e' لوگو کے لیے کنٹینر */
+    .clean-e-container {
       width: 68px;
       height: 68px;
       display: flex;
@@ -159,8 +159,10 @@
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
+      background: transparent;
     }
-    .pure-e-logo svg {
+    .clean-e-container canvas, 
+    .clean-e-container svg {
       width: 100%;
       height: 100%;
       display: block;
@@ -190,7 +192,7 @@
     .char-green { color: #00A651; }
     .char-gray  { color: #94a3b8; }
 
-    /* Orbit SVG Rings */
+    /* Orbit Rings */
     .orbit-svg {
       position: absolute;
       top: 0;
@@ -247,7 +249,6 @@
       font-size: 14px;
     }
 
-    /* Cards Horizontal Container */
     .home-cards-scroll {
       display: flex;
       gap: 12px;
@@ -280,7 +281,6 @@
       justify-content: space-between;
     }
 
-    /* 8 Grid Icons */
     .services-section {
       background: #ffffff;
       margin: 8px 16px 20px 16px;
@@ -326,7 +326,6 @@
       line-height: 1.2;
     }
 
-    /* Bottom Navigation Bar */
     .bottom-bar {
       position: absolute;
       bottom: 0;
@@ -386,14 +385,14 @@
         </div>
       </div>
 
-      <!-- STAGE 1: 11.jpeg (Strict 3.0 Seconds Stay) -->
+      <!-- STAGE 1: 11.jpeg اصل وائٹ بیک گراؤنڈ کے ساتھ (پورا 3 سیکنڈ) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
           <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: 'e' Logo + High-Speed Digital Matrix Typewriter + Rings -->
+      <!-- STAGE 2: وائٹ بیک گراؤنڈ خود بخود صاف ہو کر صرف 'e' لوگو سلائیڈ کرے گا -->
       <div id="splash-stage-2">
         
         <svg class="orbit-svg" viewBox="0 0 500 500">
@@ -420,11 +419,14 @@
         </svg>
 
         <div id="stage2-wrapper" class="stage2-content">
-          <!-- Exact 'e' Logo from Screenshot -->
-          <div class="pure-e-logo">
-            <svg viewBox="0 0 120 120">
-              <path d="M 60 14 C 36 14 20 28 20 48 C 20 67 36 78 62 78 C 88 78 102 67 102 48 C 102 28 86 14 60 14 Z M 60 30 C 74 30 83 38 83 48 C 83 58 72 64 60 64 C 44 64 36 57 36 47 C 36 37 47 30 60 30 Z" fill="#ffffff" />
-              <path d="M 18 51 C 20 74 42 96 68 96 C 88 96 104 84 104 84 L 98 73 C 98 73 84 82 66 82 C 45 82 32 68 28 51 Z" fill="#00A651" />
+          <!-- خالص ٹرانسپیرنٹ 'e' لوگو (Canvas Background Remover) -->
+          <div class="clean-e-container">
+            <canvas id="cleaned-e-canvas"></canvas>
+            <!-- بیک اپ ویکٹر اگر کینوس کے لوڈ ہونے میں ملی سیکنڈ کی بھی دیر ہو -->
+            <svg viewBox="0 0 120 120" id="fallback-egg-svg" style="display:none;">
+              <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
+              <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
+              <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
             </svg>
           </div>
 
@@ -438,10 +440,9 @@
 
     </div>
 
-    <!-- 2. EXACT HOME SCREEN (MATCHING VIDEO SCREENSHOT 100%) -->
+    <!-- 2. HOME SCREEN -->
     <div id="screen-home" class="screen" style="padding-bottom: 74px;">
       
-      <!-- Top Search / Ask Ello Bar -->
       <div class="home-top-bar">
         <div class="search-box-ello">
           <div class="ello-badge">🦁</div>
@@ -449,9 +450,7 @@
         </div>
       </div>
 
-      <!-- Horizontal Cards (easypaisa Account + Borrow Money) -->
       <div class="home-cards-scroll">
-        <!-- Green easypaisa Account Card -->
         <div class="card-easypaisa">
           <div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -462,7 +461,6 @@
           <span style="font-size:11px; opacity:0.85; font-weight:600;">*******7662</span>
         </div>
 
-        <!-- Yellow Borrow Loan Card -->
         <div class="card-loan">
           <div>
             <span style="font-size:11px; font-weight:800; text-transform:uppercase;">Borrow Money</span>
@@ -472,54 +470,45 @@
         </div>
       </div>
 
-      <!-- Services Grid (More with easypaisa) -->
       <div class="services-section">
         <h4 class="services-title">More with easypaisa</h4>
         
         <div class="services-grid">
-          <!-- 1. Send Money -->
           <div class="service-item">
             <div class="service-icon-box"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
             <span class="service-label">Send Money</span>
           </div>
 
-          <!-- 2. Bill Payment -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#d97706;"><i class="fa-solid fa-receipt"></i></div>
             <span class="service-label">Bill Payment</span>
           </div>
 
-          <!-- 3. Loads & Packages -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#2563eb;"><i class="fa-solid fa-mobile-screen"></i></div>
             <span class="service-label">Loads & Packages</span>
           </div>
 
-          <!-- 4. Enter and Win -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#e11d48;"><i class="fa-solid fa-gift"></i></div>
             <span class="service-label">Enter and Win</span>
           </div>
 
-          <!-- 5. Easycash -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#16a34a;"><i class="fa-solid fa-hand-holding-dollar"></i></div>
             <span class="service-label">Easycash</span>
           </div>
 
-          <!-- 6. Term Deposit -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#9333ea;"><i class="fa-solid fa-piggy-bank"></i></div>
             <span class="service-label">Term Deposit</span>
           </div>
 
-          <!-- 7. Insurance -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#0284c7;"><i class="fa-solid fa-shield-heart"></i></div>
             <span class="service-label">Insurance</span>
           </div>
 
-          <!-- 8. Rs. 1 Game -->
           <div class="service-item">
             <div class="service-icon-box" style="color:#ea580c;"><i class="fa-solid fa-trophy"></i></div>
             <span class="service-label">Rs. 1 Game</span>
@@ -532,7 +521,6 @@
         </div>
       </div>
 
-      <!-- Bottom Navigation Bar -->
       <nav class="bottom-bar">
         <button class="nav-btn active">
           <i class="fa-solid fa-house"></i>
@@ -563,9 +551,46 @@
   </div>
 
   <script>
-    // فاسٹ رینڈم میٹرکس کریکٹرز جو ویڈیو میں نظر آتے ہیں
-    const scrambleChars = "0101Qabdeklnrtx";
+    /* 11.jpeg سے سفید بیک گراؤنڈ خودکار ریمو کرنے کا فنکشن */
+    function removeWhiteBackgroundFromImage(src) {
+      const img = new Image();
+      img.src = src;
+      img.onload = function() {
+        const canvas = document.getElementById('cleaned-e-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
 
+        try {
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+
+          // تمام سفید / ہلکے آف وائٹ پکسلز کو مکمل شفاف (Transparent) بنانا
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i];
+            const g = d[i+1];
+            const b = d[i+2];
+            // اگر رنگ سفید کے قریب ہو (RGB > 230)
+            if (r > 230 && g > 230 && b > 230) {
+              d[i+3] = 0; // Transparent
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+        } catch(e) {
+          // فال بیک ویکٹر شو ہوگا اگر براؤزر سیکیورٹی ایرر آئے
+          document.getElementById('cleaned-e-canvas').style.display = 'none';
+          document.getElementById('fallback-egg-svg').style.display = 'block';
+        }
+      };
+      img.onerror = function() {
+        document.getElementById('cleaned-e-canvas').style.display = 'none';
+        document.getElementById('fallback-egg-svg').style.display = 'block';
+      };
+    }
+
+    // ہائی اسپیڈ میٹرکس ٹائپنگ ایفیکٹ
+    const scrambleChars = "0101Qabdeklnrtx";
     function runFastScrambleType(targetElem, finalWord, onDone) {
       let currentLen = 0;
       const speedInterval = setInterval(() => {
@@ -575,7 +600,6 @@
             output += `<span class="char-white">${finalWord[i]}</span>`;
           }
           if (currentLen < finalWord.length) {
-            // ویڈیو کے مطابق تیز ترین گرین اور گرے ڈیجیٹل کوڈز
             const rnd1 = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
             const rnd2 = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
             output += `<span class="char-green">${rnd1}</span><span class="char-gray">${rnd2}</span>`;
@@ -587,7 +611,7 @@
           targetElem.innerHTML = `<span class="char-white">${finalWord}</span>`;
           if (onDone) onDone();
         }
-      }, 55); // انتہائی تیز اور متحرک اسپیڈ (55ms)
+      }, 55);
     }
 
     function runSplashSequence() {
@@ -598,17 +622,17 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: 11.jpeg سینٹر میں پورے 3 سیکنڈ رہے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 400);
 
-        // 2. Stage 2: 'e' لوگو سینٹر میں ظاہر ہوگا
+        // 2. Stage 2: صرف شفاف 'e' لوگو سینٹر میں نمودار ہوگا
         stage2.style.opacity = '1';
 
-        // 3. ویڈیو کے مطابق ہمواری سے ہلکا سا بائیں سلائیڈ ہوگا
+        // 3. ہمواری سے ہلکا سا بائیں طرف سلائیڈ کرے گا
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
@@ -616,20 +640,18 @@
           setTimeout(() => {
             typewriterBox.classList.add('active');
 
-            // Line 1: "digital"
             runFastScrambleType(line1, "digital", () => {
-              // Line 2: "bank"
               runFastScrambleType(line2, "bank", () => {
-                // 5. ٹائپنگ ختم ہوتے ہی ویڈیو کے عین مطابق ہوم اسکرین لوڈ ہو جائے گی
+                // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج
                 setTimeout(() => {
                   go('screen-home');
                 }, 500);
               });
             });
 
-          }, 400);
+          }, 350);
 
-        }, 300);
+        }, 250);
 
       }, 3000);
     }
@@ -643,6 +665,8 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      // 11.jpeg کے سفید بیک گراؤنڈ کو فوراً شفاف بنانا
+      removeWhiteBackgroundFromImage('11.jpeg');
       runSplashSequence();
     });
   </script>
