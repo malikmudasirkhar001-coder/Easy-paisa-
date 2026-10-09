@@ -27,32 +27,167 @@
     }
   ],
   "services": [
-    { "id": "send_money", "name": "Send money", "image": "https://i.ibb.co/HfTnHM4y/139517.jpg", "zoomOut": false },
-    { "id": "bill_payment", "name": "Bill payment", "image": "https://i.ibb.co/xqWkXLqB/139518.jpg", "zoomOut": false },
-    { "id": "load_packages", "name": "Loads & Packages", "image": "https://i.ibb.co/Zp3VvGHH/139519.jpg", "zoomOut": true },
-    { "id": "enter_in_win", "name": "Enter in win", "image": "https://i.ibb.co/R4d4xcsW/139520.jpg", "zoomOut": false },
-    { "id": "easy_cash", "name": "Easycash", "image": "https://i.ibb.co/Qjpqzd6F/139521.jpg", "zoomOut": false },
-    { "id": "term_deposit", "name": "Term deposit", "image": "https://i.ibb.co/B2Hqtjp6/139522.jpg", "zoomOut": false },
-    { "id": "insurance", "name": "Insurance", "image": "https://i.ibb.co/ZpYTBzkn/139523.jpg", "zoomOut": false },
-    { "id": "rs1_game", "name": "Rd.1 game", "image": "https://i.ibb.co/ccszj3QF/139524.jpg", "zoomOut": false },
-    { "id": "see_all", "name": "See all", "image": "https://i.ibb.co/XrSfSYff/139525.jpg", "zoomOut": false }
+    {
+      "id": "send_money",
+      "name": "Send money",
+      "image": "https://i.ibb.co/HfTnHM4y/139517.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "bill_payment",
+      "name": "Bill payment",
+      "image": "https://i.ibb.co/xqWkXLqB/139518.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "load_packages",
+      "name": "Loads & Packages",
+      "image": "https://i.ibb.co/Zp3VvGHH/139519.jpg",
+      "zoomOut": true
+    },
+    {
+      "id": "enter_in_win",
+      "name": "Enter in win",
+      "image": "https://i.ibb.co/R4d4xcsW/139520.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "easy_cash",
+      "name": "Easycash",
+      "image": "https://i.ibb.co/Qjpqzd6F/139521.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "term_deposit",
+      "name": "Term deposit",
+      "image": "https://i.ibb.co/B2Hqtjp6/139522.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "insurance",
+      "name": "Insurance",
+      "image": "https://i.ibb.co/ZpYTBzkn/139523.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "rs1_game",
+      "name": "Rd.1 game",
+      "image": "https://i.ibb.co/ccszj3QF/139524.jpg",
+      "zoomOut": false
+    },
+    {
+      "id": "see_all",
+      "name": "See all",
+      "image": "https://i.ibb.co/XrSfSYff/139525.jpg",
+      "zoomOut": false
+    }
   ],
   "stories": [
-    { "id": "s1", "title": "Rs. 70 Cashback", "sub": "on Cornetto!", "bg": "#022c22", "highlight": true },
-    { "id": "s2", "title": "Xtra savings,", "sub": "all week long!", "bg": "#064e3b", "highlight": true },
-    { "id": "s3", "title": "go max,", "sub": "spend less", "bg": "#047857", "highlight": false },
-    { "id": "s4", "title": "Flat 20% Off", "sub": "Daraz Shopping", "bg": "#0f766e", "highlight": true },
-    { "id": "s5", "title": "Send Rs. 500+", "sub": "Win Rs. 50,000", "bg": "#115e59", "highlight": false },
-    { "id": "s6", "title": "Free Minutes", "sub": "Weekly Bundle", "bg": "#046c4e", "highlight": true },
-    { "id": "s7", "title": "Pay Bill", "sub": "Get Rs. 100", "bg": "#065f46", "highlight": false },
-    { "id": "s8", "title": "Earn Profit", "sub": "Daily Interest", "bg": "#022c22", "highlight": true },
-    { "id": "s9", "title": "Scan & Pay", "sub": "30% Cashback", "bg": "#064e3b", "highlight": true },
-    { "id": "s10", "title": "Buy Voucher", "sub": "Netflix & PUBG", "bg": "#047857", "highlight": false },
-    { "id": "s11", "title": "Instant Loan", "sub": "No Paperwork", "bg": "#0f766e", "highlight": true },
-    { "id": "s12", "title": "Rs. 1 Game", "sub": "Win iPhone 15", "bg": "#115e59", "highlight": true },
-    { "id": "s13", "title": "Safe Travel", "sub": "Bus Booking", "bg": "#046c4e", "highlight": false },
-    { "id": "s14", "title": "Gold Vault", "sub": "Invest in Gold", "bg": "#065f46", "highlight": true },
-    { "id": "s15", "title": "Invite Friends", "sub": "Earn Rs. 200", "bg": "#022c22", "highlight": true }
+    {
+      "id": "s1",
+      "title": "Rs. 70 Cashback",
+      "sub": "on Cornetto!",
+      "bg": "#022c22",
+      "highlight": true
+    },
+    {
+      "id": "s2",
+      "title": "Xtra savings,",
+      "sub": "all week long!",
+      "bg": "#064e3b",
+      "highlight": true
+    },
+    {
+      "id": "s3",
+      "title": "go max,",
+      "sub": "spend less",
+      "bg": "#047857",
+      "highlight": false
+    },
+    {
+      "id": "s4",
+      "title": "Flat 20% Off",
+      "sub": "Daraz Shopping",
+      "bg": "#0f766e",
+      "highlight": true
+    },
+    {
+      "id": "s5",
+      "title": "Send Rs. 500+",
+      "sub": "Win Rs. 50,000",
+      "bg": "#115e59",
+      "highlight": false
+    },
+    {
+      "id": "s6",
+      "title": "Free Minutes",
+      "sub": "Weekly Bundle",
+      "bg": "#046c4e",
+      "highlight": true
+    },
+    {
+      "id": "s7",
+      "title": "Pay Bill",
+      "sub": "Get Rs. 100",
+      "bg": "#065f46",
+      "highlight": false
+    },
+    {
+      "id": "s8",
+      "title": "Earn Profit",
+      "sub": "Daily Interest",
+      "bg": "#022c22",
+      "highlight": true
+    },
+    {
+      "id": "s9",
+      "title": "Scan & Pay",
+      "sub": "30% Cashback",
+      "bg": "#064e3b",
+      "highlight": true
+    },
+    {
+      "id": "s10",
+      "title": "Buy Voucher",
+      "sub": "Netflix & PUBG",
+      "bg": "#047857",
+      "highlight": false
+    },
+    {
+      "id": "s11",
+      "title": "Instant Loan",
+      "sub": "No Paperwork",
+      "bg": "#0f766e",
+      "highlight": true
+    },
+    {
+      "id": "s12",
+      "title": "Rs. 1 Game",
+      "sub": "Win iPhone 15",
+      "bg": "#115e59",
+      "highlight": true
+    },
+    {
+      "id": "s13",
+      "title": "Safe Travel",
+      "sub": "Bus Booking",
+      "bg": "#046c4e",
+      "highlight": false
+    },
+    {
+      "id": "s14",
+      "title": "Gold Vault",
+      "sub": "Invest in Gold",
+      "bg": "#065f46",
+      "highlight": true
+    },
+    {
+      "id": "s15",
+      "title": "Invite Friends",
+      "sub": "Earn Rs. 200",
+      "bg": "#022c22",
+      "highlight": true
+    }
   ],
   "hubs": [
     {
