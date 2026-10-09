@@ -7,13 +7,12 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Comfortaa:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Comfortaa:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
       --ep-green: #00A651;
-      --ep-light-green: #05b45a;
       --ep-theme-dark: #261f30;
       --ep-bg-gray: #f7f9fa;
     }
@@ -107,7 +106,7 @@
       display: block;
     }
 
-    /* STAGE 2: Splash Rings & Cascading Motion */
+    /* STAGE 2: Splash Rings & Motion Sequence */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -234,7 +233,7 @@
       transform-origin: 300px 300px;
     }
 
-    /* EXACT HOME SCREEN (MATCHING 139498 100%) */
+    /* HOME SCREEN */
     #screen-home {
       position: absolute;
       top: 0;
@@ -258,7 +257,7 @@
     }
     #screen-home::-webkit-scrollbar { display: none; }
 
-    /* Top User Bar */
+    /* User Greeting Bar */
     .user-header-bar {
       padding: 16px 20px 10px 20px;
       display: flex;
@@ -295,7 +294,7 @@
       color: #334155;
     }
 
-    /* Rounded Ello Search Bar */
+    /* Ello Search Bar */
     .search-wrap-ello {
       padding: 6px 18px 12px 18px;
     }
@@ -327,7 +326,7 @@
       font-weight: 500;
     }
 
-    /* Cards Horizontal Container (Cards Slider) */
+    /* Cards Horizontal Container */
     .cards-slider-container {
       display: flex;
       gap: 12px;
@@ -336,7 +335,6 @@
     }
     .cards-slider-container::-webkit-scrollbar { display: none; }
 
-    /* Exact Light Green Card */
     .card-ep-account {
       flex: 0 0 240px;
       height: 185px;
@@ -377,7 +375,6 @@
       font-weight: 900;
       color: #854d0e;
     }
-
     .account-title-tag {
       font-size: 15px;
       font-weight: 700;
@@ -400,7 +397,6 @@
       font-weight: 600;
     }
 
-    /* Yellow Loan Card */
     .card-borrow-loan {
       flex: 0 0 170px;
       height: 185px;
@@ -414,7 +410,7 @@
       box-shadow: 0 8px 18px rgba(253, 224, 71, 0.25);
     }
 
-    /* Dynamic Services Grid (9 Box Layout) */
+    /* 9-BOX SERVICES GRID (PURE IMAGE BUTTONS - NO TEXT LABELS) */
     .services-main-wrapper {
       padding: 0 18px 24px 18px;
     }
@@ -429,30 +425,32 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
-    .service-card-tile {
+
+    /* کلک ایبل سروس بٹن جس پر تصویر پرفیکٹ فٹ ہوگی اور ٹیکسٹ شو نہیں ہوگا */
+    .service-btn-tile {
       background: #ffffff;
-      border-radius: 18px;
-      padding: 16px 8px;
+      border-radius: 20px;
+      padding: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      aspect-ratio: 1 / 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
       border: 1px solid #f1f5f9;
-      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      outline: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .service-tile-img {
-      width: 44px;
-      height: 44px;
-      object-fit: contain;
-      margin-bottom: 8px;
+    .service-btn-tile:active {
+      transform: scale(0.96);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
-    .service-tile-label {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #334155;
-      line-height: 1.2;
+    .service-btn-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* Indicator Dots */
@@ -492,6 +490,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       color: #64748b;
       font-size: 10px;
       font-weight: 600;
@@ -499,25 +498,34 @@
       background: none;
       border: none;
       cursor: pointer;
+      width: 52px;
+      height: 100%;
     }
-    .nav-item-unit.active-nav {
-      color: var(--ep-green);
+    .nav-item-unit img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
     }
-    .nav-item-unit i {
-      font-size: 19px;
-    }
-    .nav-pay-scanner-bubble {
+    .nav-pay-btn-custom {
       width: 48px;
       height: 48px;
       border-radius: 50%;
       background: var(--ep-green);
-      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 21px;
       margin-top: -16px;
       box-shadow: 0 4px 12px rgba(0, 166, 81, 0.4);
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 8px;
+    }
+    .nav-pay-btn-custom img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
     }
   </style>
 </head>
@@ -551,7 +559,6 @@
             <path id="outerCirclePath" d="M 300, 300 m -240, 0 a 240,240 0 1,1 480,0 a 240,240 0 1,1 -480,0" fill="none" />
           </defs>
 
-          <!-- Inner Ring -->
           <g class="orbit-ring-inner">
             <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="16" font-weight="500" letter-spacing="3.2">
               <textPath href="#innerCirclePath" startOffset="0%">
@@ -560,7 +567,6 @@
             </text>
           </g>
 
-          <!-- Outer Ring -->
           <g class="orbit-ring-outer">
             <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="17" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
@@ -588,14 +594,14 @@
 
     </div>
 
-    <!-- 3. EXACT HOME SCREEN (MATCHING 139498) -->
+    <!-- 3. EXACT HOME SCREEN -->
     <div id="screen-home">
       
       <!-- User Greeting Bar -->
       <div class="user-header-bar">
         <div class="user-meta-left">
-          <div class="user-avatar-circle" id="user-avatar-text">MA</div>
-          <span class="user-greet-text" id="user-greeting-text">Hey There 👋</span>
+          <div class="user-avatar-circle">MA</div>
+          <span class="user-greet-text">Hey There 👋</span>
         </div>
         <i class="fa-regular fa-bell notif-bell-icon"></i>
       </div>
@@ -642,11 +648,11 @@
         </div>
       </div>
 
-      <!-- Services Grid (Loaded from icons.json) -->
+      <!-- Services Grid (Loaded from icons.json - Images Only, No Text Labels) -->
       <div class="services-main-wrapper">
         <h3 class="section-title-label">More with easypaisa</h3>
         <div class="services-cards-grid" id="services-grid-container">
-          <!-- icons.json سے ڈیٹا یہاں فیچ ہوگا -->
+          <!-- Dynamic pure image buttons render here -->
         </div>
 
         <div class="slider-dots-center">
@@ -655,28 +661,25 @@
         </div>
       </div>
 
-      <!-- Bottom Navigation Bar -->
+      <!-- Bottom Navigation Bar (Home, Cards, Pay Set to Your Images) -->
       <nav class="bottom-navbar-fixed">
-        <button class="nav-item-unit active-nav">
-          <i class="fa-solid fa-house"></i>
+        <button class="nav-item-unit" id="nav-btn-home" aria-label="Home" onclick="onNavClick('home')">
+          <img id="nav-img-home" src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
           <span>Home</span>
         </button>
-        <button class="nav-item-unit">
-          <i class="fa-solid fa-credit-card"></i>
+        <button class="nav-item-unit" id="nav-btn-cards" aria-label="Cards" onclick="onNavClick('cards')">
+          <img id="nav-img-cards" src="https://i.ibb.co/Tx5fqRJR/139527.jpg" alt="">
           <span>Cards</span>
         </button>
-        <button class="nav-item-unit">
-          <div class="nav-pay-scanner-bubble">
-            <i class="fa-solid fa-qrcode"></i>
-          </div>
-          <span>Pay</span>
+        <button class="nav-pay-btn-custom" id="nav-btn-pay" aria-label="Pay" onclick="onNavClick('pay')">
+          <img id="nav-img-pay" src="https://i.ibb.co/rRDf8PBz/139528.jpg" alt="">
         </button>
-        <button class="nav-item-unit">
-          <i class="fa-solid fa-tags"></i>
+        <button class="nav-item-unit" aria-label="Promotions" onclick="onNavClick('promotions')">
+          <i class="fa-solid fa-tags" style="font-size: 20px;"></i>
           <span>Promotions</span>
         </button>
-        <button class="nav-item-unit">
-          <i class="fa-solid fa-circle-nodes"></i>
+        <button class="nav-item-unit" aria-label="Zen" onclick="onNavClick('zen')">
+          <i class="fa-solid fa-circle-nodes" style="font-size: 20px;"></i>
           <span>Zen</span>
         </button>
       </nav>
@@ -686,52 +689,65 @@
   </div>
 
   <script>
-    // دوسری فائل (icons.json) سے آئیکونز اور ڈیٹا فیچ کرنے کا فنکشن
-    async function loadServicesFromJSON() {
+    // سروس بٹن پر کلک کا فنکشن
+    function onServiceClick(serviceId, serviceName) {
+      console.log("Clicked Service:", serviceId, serviceName);
+    }
+
+    // نیویگیشن بٹن کلک ہینڈلر
+    function onNavClick(navId) {
+      console.log("Nav clicked:", navId);
+    }
+
+    // icons.json سے تصاویر فیچ کر کے بغیر کسی ٹیکسٹ کے فٹ کرنے کا فنکشن
+    async function loadIconsFromJSON() {
       const container = document.getElementById('services-grid-container');
+      
+      // آپ کے مہیا کردہ 9 سروس امیج لنکس کا ڈیفالٹ ڈیٹا (اگر لوکل فائل لوڈنگ بلاک ہو تو یہ فوراً رینڈر کرے گا)
+      const defaultData = [
+        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg" },
+        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg" },
+        { id: "load_packages", name: "Load packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg" },
+        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg" },
+        { id: "easy_cash", name: "Easy cahs", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg" },
+        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg" },
+        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg" },
+        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg" },
+        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg" }
+      ];
+
+      function renderGrid(servicesList) {
+        container.innerHTML = '';
+        servicesList.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'service-btn-tile';
+          btn.setAttribute('data-id', item.id);
+          btn.setAttribute('data-name', item.name); // نام صرف اندرونی ویلیو کے لیے
+          btn.setAttribute('aria-label', item.name);
+          btn.onclick = () => onServiceClick(item.id, item.name);
+
+          btn.innerHTML = `<img src="${item.image}" alt="">`;
+          container.appendChild(btn);
+        });
+      }
+
       try {
         const response = await fetch('icons.json');
         const data = await response.json();
-
-        if (data.user) {
-          if (data.user.initials) document.getElementById('user-avatar-text').innerText = data.user.initials;
-          if (data.user.greeting) document.getElementById('user-greeting-text').innerText = data.user.greeting;
+        if (data.services && data.services.length > 0) {
+          renderGrid(data.services);
+        } else {
+          renderGrid(defaultData);
         }
 
-        container.innerHTML = '';
-        data.services.forEach(item => {
-          const tile = document.createElement('div');
-          tile.className = 'service-card-tile';
-          tile.innerHTML = `
-            <img src="${item.icon}" alt="${item.title}" class="service-tile-img" onerror="this.src='https://img.icons8.com/color/96/generic-sorting.png'">
-            <span class="service-tile-label">${item.title}</span>
-          `;
-          container.appendChild(tile);
-        });
-      } catch (err) {
-        // فال بیک اگر لوکل فائل ٹیسٹنگ میں فیچ بلاک ہو
-        console.warn("Using fallback icons:", err);
-        const fallback = [
-          { title: "Send Money", icon: "fa-paper-plane" },
-          { title: "Bill Payment", icon: "fa-file-invoice-dollar" },
-          { title: "Loads & Packages", icon: "fa-mobile-screen" },
-          { title: "Enter and Win", icon: "fa-gift" },
-          { title: "Easycash", icon: "fa-hand-holding-dollar" },
-          { title: "Term Deposit", icon: "fa-piggy-bank" },
-          { title: "Insurance", icon: "fa-shield-heart" },
-          { title: "Rs. 1 Game", icon: "fa-gamepad" },
-          { title: "See All", icon: "fa-table-cells" }
-        ];
-        container.innerHTML = '';
-        fallback.forEach(item => {
-          const tile = document.createElement('div');
-          tile.className = 'service-card-tile';
-          tile.innerHTML = `
-            <div style="font-size:24px; color:#00A651; margin-bottom:8px;"><i class="fa-solid ${item.icon}"></i></div>
-            <span class="service-tile-label">${item.title}</span>
-          `;
-          container.appendChild(tile);
-        });
+        // باٹم بار کے لنکس
+        if (data.bottom_nav) {
+          if (data.bottom_nav.home) document.getElementById('nav-img-home').src = data.bottom_nav.home;
+          if (data.bottom_nav.cards) document.getElementById('nav-img-cards').src = data.bottom_nav.cards;
+          if (data.bottom_nav.pay) document.getElementById('nav-img-pay').src = data.bottom_nav.pay;
+        }
+      } catch (e) {
+        renderGrid(defaultData);
       }
     }
 
@@ -759,7 +775,7 @@
       }, 45);
     }
 
-    // ترتیب وار اینیمیشن: پہلے 'digital' پھر 'bank' پھر ہوم پیج فعال
+    // اینیمیشن تسلسل: digital -> bank -> Show Home Screen
     setTimeout(() => {
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
@@ -778,7 +794,7 @@
     }, 3900);
 
     window.addEventListener('DOMContentLoaded', () => {
-      loadServicesFromJSON();
+      loadIconsFromJSON();
     });
   </script>
 </body>
