@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Comfortaa:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Comfortaa:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -57,7 +57,7 @@
     /* Top Status Bar */
     .status-bar {
       position: absolute;
-      top: 10px;
+      top: 8px;
       left: 18px;
       right: 18px;
       display: flex;
@@ -66,7 +66,7 @@
       font-size: 11px;
       color: rgba(255, 255, 255, 0.7);
       font-weight: 600;
-      z-index: 60;
+      z-index: 70;
       pointer-events: none;
     }
 
@@ -120,9 +120,7 @@
       opacity: 0;
       animation: showStage2 0.4s ease 3s forwards;
     }
-    @keyframes showStage2 {
-      to { opacity: 1; }
-    }
+    @keyframes showStage2 { to { opacity: 1; } }
 
     .stage2-content {
       position: relative;
@@ -148,11 +146,7 @@
       flex-shrink: 0;
       filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
     }
-    .red-filter-logo svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+    .red-filter-logo svg { width: 100%; height: 100%; display: block; }
 
     .brand-type-wrap {
       display: flex;
@@ -161,9 +155,7 @@
       opacity: 0;
       animation: revealTypeContainer 0.2s ease 3.8s forwards;
     }
-    @keyframes revealTypeContainer {
-      to { opacity: 1; }
-    }
+    @keyframes revealTypeContainer { to { opacity: 1; } }
 
     .brand-text-row {
       display: flex;
@@ -182,10 +174,7 @@
       opacity: 0;
       transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.3s ease;
     }
-    #row-bank.bank-flow-down {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    #row-bank.bank-flow-down { transform: translateY(0); opacity: 1; }
 
     .char-code {
       display: inline-block;
@@ -195,10 +184,7 @@
       color: #00A651;
       text-shadow: 0 0 10px rgba(0, 166, 81, 0.7);
     }
-    .char-solid {
-      display: inline-block;
-      color: #ffffff;
-    }
+    .char-solid { display: inline-block; color: #ffffff; }
 
     /* Orbit Rings */
     .orbit-container {
@@ -211,11 +197,7 @@
       pointer-events: none;
       overflow: visible;
     }
-    .orbit-svg {
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
+    .orbit-svg { width: 100%; height: 100%; overflow: visible; }
     @keyframes spinClockwise {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -233,7 +215,7 @@
       transform-origin: 300px 300px;
     }
 
-    /* HOME SCREEN */
+    /* HOME SCREEN & SCROLLABLE CONTENT */
     #screen-home {
       position: absolute;
       top: 0;
@@ -243,19 +225,24 @@
       background-color: var(--ep-bg-gray);
       display: flex;
       flex-direction: column;
-      overflow-y: auto;
       z-index: 10;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.5s ease;
-      padding-bottom: 74px;
     }
     #screen-home.active-home {
       opacity: 1;
       pointer-events: auto;
       z-index: 40;
     }
-    #screen-home::-webkit-scrollbar { display: none; }
+
+    /* اسکرول ہونے والا باڈی ایریا (نیچے باٹم بار کے اوپر رکے گا) */
+    .home-scrollable-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 90px;
+    }
+    .home-scrollable-body::-webkit-scrollbar { display: none; }
 
     /* User Greeting Bar */
     .user-header-bar {
@@ -263,14 +250,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--ep-bg-gray);
       margin-top: 24px;
     }
-    .user-meta-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .user-meta-left { display: flex; align-items: center; gap: 12px; }
     .user-avatar-circle {
       width: 44px;
       height: 44px;
@@ -282,22 +264,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .user-greet-text {
-      font-size: 17px;
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .notif-bell-icon {
-      font-size: 22px;
-      color: #334155;
-    }
+    .user-greet-text { font-size: 17px; font-weight: 700; color: #1e293b; }
+    .notif-bell-icon { font-size: 22px; color: #334155; }
 
     /* Ello Search Bar */
-    .search-wrap-ello {
-      padding: 6px 18px 12px 18px;
-    }
+    .search-wrap-ello { padding: 6px 18px 12px 18px; }
     .search-input-box {
       width: 100%;
       height: 46px;
@@ -308,7 +280,6 @@
       align-items: center;
       padding: 0 12px;
       gap: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
     .ello-badge-avatar {
       width: 30px;
@@ -320,113 +291,40 @@
       justify-content: center;
       font-size: 16px;
     }
-    .search-placeholder-text {
-      font-size: 14px;
-      color: #475569;
-      font-weight: 500;
-    }
+    .search-placeholder-text { font-size: 14px; color: #475569; font-weight: 500; }
 
-    /* Cards Horizontal Container */
+    /* خودکار اسکرول ہونے والا کارڈز کنٹینر (Cards Auto Slider) */
     .cards-slider-container {
       display: flex;
       gap: 12px;
       padding: 6px 18px 16px 18px;
       overflow-x: auto;
+      scroll-behavior: smooth;
     }
     .cards-slider-container::-webkit-scrollbar { display: none; }
 
-    .card-ep-account {
+    .promo-card-item {
       flex: 0 0 240px;
       height: 185px;
-      background: linear-gradient(145deg, #a7f3d0 0%, #6ee7b7 45%, #34d399 100%);
       border-radius: 26px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      box-shadow: 0 8px 20px rgba(52, 211, 153, 0.25);
-    }
-    .card-top-icon-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .box-3d-graphic {
-      width: 60px;
-      height: 45px;
-      background: #059669;
-      border-radius: 12px;
-      position: relative;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-      border: 2px solid #34d399;
-    }
-    .coin-3d-gold {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      background: #fde047;
-      border-radius: 50%;
-      border: 2px solid #ca8a04;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 900;
-      color: #854d0e;
-    }
-    .account-title-tag {
-      font-size: 15px;
-      font-weight: 700;
-      color: #064e3b;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-    }
-    .signin-main-bold {
-      font-size: 26px;
-      font-weight: 800;
-      color: #064e3b;
-      letter-spacing: -0.5px;
-      line-height: 1.1;
-    }
-    .account-mask-number {
-      font-size: 12px;
-      color: #047857;
-      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
     }
 
-    .card-borrow-loan {
-      flex: 0 0 170px;
-      height: 185px;
-      background: linear-gradient(145deg, #fef08a, #fde047);
-      border-radius: 26px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      color: #713f12;
-      box-shadow: 0 8px 18px rgba(253, 224, 71, 0.25);
-    }
-
-    /* 9-BOX SERVICES GRID (PURE IMAGE BUTTONS - NO TEXT LABELS) */
-    .services-main-wrapper {
-      padding: 0 18px 24px 18px;
-    }
-    .section-title-label {
-      font-size: 15px;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 14px;
-    }
+    /* سروسز گرڈ (Auto-rotating items) */
+    .services-main-wrapper { padding: 0 18px 20px 18px; }
+    .section-title-label { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 14px; }
+    
     .services-cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
+      transition: opacity 0.3s ease;
     }
-
-    /* کلک ایبل سروس بٹن جس پر تصویر پرفیکٹ فٹ ہوگی اور ٹیکسٹ شو نہیں ہوگا */
     .service-btn-tile {
       background: #ffffff;
       border-radius: 20px;
@@ -439,21 +337,9 @@
       border: 1px solid #f1f5f9;
       cursor: pointer;
       overflow: hidden;
-      outline: none;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .service-btn-tile:active {
-      transform: scale(0.96);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
-    .service-btn-tile img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .service-btn-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* Indicator Dots */
     .slider-dots-center {
       display: flex;
       justify-content: center;
@@ -461,30 +347,104 @@
       gap: 5px;
       margin-top: 14px;
     }
-    .dot-bullet {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #cbd5e1;
+    .dot-bullet { width: 6px; height: 6px; border-radius: 50%; background: #cbd5e1; }
+    .dot-bullet.active-dot { background: var(--ep-green); }
+
+    /* STORIES SECTION (139498) */
+    .stories-container-wrap {
+      padding: 0 18px 24px 18px;
     }
-    .dot-bullet.active-dot {
-      background: var(--ep-green);
+    .stories-scroll-row {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-top: 6px;
+    }
+    .stories-scroll-row::-webkit-scrollbar { display: none; }
+
+    .story-bubble-ring {
+      width: 106px;
+      height: 106px;
+      border-radius: 50%;
+      border: 3.5px solid #00A651;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #ffffff;
+    }
+    .story-bubble-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #064e3b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-align: center;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .story-bubble-inner span.green-txt { color: #a7f3d0; }
+
+    /* HUBS SECTION (139498) */
+    .hubs-container-wrap {
+      padding: 0 18px 24px 18px;
+    }
+    .hubs-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .hub-card-item {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 16px 14px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 140px;
+      cursor: pointer;
+    }
+    .hub-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .hub-graphic-container {
+      width: 100%;
+      height: 60px;
+      background: #ecfdf5;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #00A651;
     }
 
-    /* Bottom Navigation Bar */
+    /* باٹم نیویگیشن بار مستقل لاک (100% FIXED AT BOTTOM) */
     .bottom-navbar-fixed {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 64px;
+      height: 66px;
       background: #ffffff;
       border-top: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: space-around;
       padding: 0 8px;
-      z-index: 50;
+      z-index: 60; /* مستقل لاک رہے گا */
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
     }
     .nav-item-unit {
       display: flex;
@@ -501,11 +461,7 @@
       width: 52px;
       height: 100%;
     }
-    .nav-item-unit img {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-    }
+    .nav-item-unit img { width: 24px; height: 24px; object-fit: contain; }
     .nav-pay-btn-custom {
       width: 48px;
       height: 48px;
@@ -518,7 +474,6 @@
       box-shadow: 0 4px 12px rgba(0, 166, 81, 0.4);
       border: none;
       cursor: pointer;
-      overflow: hidden;
       padding: 8px;
     }
     .nav-pay-btn-custom img {
@@ -534,11 +489,11 @@
   <div id="phone-frame">
 
     <div class="status-bar">
-      <span>1:05</span>
+      <span>1:25</span>
       <div style="display:flex; gap:6px; align-items:center;">
         <i class="fa-solid fa-signal"></i>
         <i class="fa-solid fa-wifi"></i>
-        <span>37%</span>
+        <span>29%</span>
       </div>
     </div>
 
@@ -549,7 +504,7 @@
       </div>
     </div>
 
-    <!-- 2. STAGE 2: Slide + Balanced Circles + Matrix Typography -->
+    <!-- 2. STAGE 2: Slide + Balanced Circles + Typography -->
     <div id="splash-stage-2">
       
       <div class="orbit-container">
@@ -594,91 +549,173 @@
 
     </div>
 
-    <!-- 3. EXACT HOME SCREEN -->
+    <!-- 3. EXACT HOME SCREEN WITH LOCKED BOTTOM BAR -->
     <div id="screen-home">
       
-      <!-- User Greeting Bar -->
-      <div class="user-header-bar">
-        <div class="user-meta-left">
-          <div class="user-avatar-circle">MA</div>
-          <span class="user-greet-text">Hey There 👋</span>
+      <!-- اسکرول ہونے والا باڈی مواد -->
+      <div class="home-scrollable-body">
+        
+        <!-- User Greeting -->
+        <div class="user-header-bar">
+          <div class="user-meta-left">
+            <div class="user-avatar-circle">MA</div>
+            <span class="user-greet-text">Hey There 👋</span>
+          </div>
+          <i class="fa-regular fa-bell notif-bell-icon"></i>
         </div>
-        <i class="fa-regular fa-bell notif-bell-icon"></i>
-      </div>
 
-      <!-- Ello Search Bar -->
-      <div class="search-wrap-ello">
-        <div class="search-input-box">
-          <div class="ello-badge-avatar">🦁</div>
-          <span class="search-placeholder-text">Search or Ask Ello</span>
+        <!-- Ello Search Bar -->
+        <div class="search-wrap-ello">
+          <div class="search-input-box">
+            <div class="ello-badge-avatar">🦁</div>
+            <span class="search-placeholder-text">Search or Ask Ello</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Account & Loan Cards Slider -->
-      <div class="cards-slider-container">
-        <!-- 1. Green easypaisa Account Card -->
-        <div class="card-ep-account">
-          <div>
-            <div class="card-top-icon-wrap">
-              <div class="box-3d-graphic">
-                <div class="coin-3d-gold" style="top: -6px; left: 10px;">e</div>
-                <div class="coin-3d-gold" style="top: 8px; left: 24px;">e</div>
+        <!-- 4 خودکار روٹیٹ ہونے والے ایڈز کارڈز -->
+        <div class="cards-slider-container" id="cards-slider">
+          <!-- Card 1: Account -->
+          <div class="promo-card-item" style="background: linear-gradient(145deg, #a7f3d0 0%, #6ee7b7 45%, #34d399 100%);">
+            <div>
+              <div style="font-size: 14px; font-weight: 700; color: #064e3b; display: flex; align-items: center; gap: 6px;">
+                <span>easypaisa Account</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 11px;"></i>
               </div>
             </div>
-            <div class="account-title-tag">
-              <span>easypaisa Account</span>
-              <i class="fa-solid fa-chevron-down" style="font-size: 11px;"></i>
+            <div>
+              <div style="font-size: 26px; font-weight: 800; color: #064e3b; letter-spacing: -0.5px;">Sign in</div>
+              <div style="font-size: 12px; color: #047857; font-weight: 600;">*******7662</div>
             </div>
           </div>
-          <div>
-            <div class="signin-main-bold">Sign in</div>
-            <div class="account-mask-number">*******7662</div>
+
+          <!-- Card 2: Loan -->
+          <div class="promo-card-item" style="background: linear-gradient(145deg, #fef08a, #fde047); color: #713f12;">
+            <div>
+              <div style="font-size: 12px; font-weight: 800; text-transform: uppercase;">BORROW MONEY</div>
+              <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
+                Get up to<br><span style="font-size: 21px;">50,000</span>
+              </div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700;">Instant Loan →</div>
+          </div>
+
+          <!-- Card 3: Savings -->
+          <div class="promo-card-item" style="background: linear-gradient(145deg, #bae6fd, #7dd3fc); color: #0369a1;">
+            <div>
+              <div style="font-size: 12px; font-weight: 800; text-transform: uppercase;">SAVINGS POCKET</div>
+              <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
+                Earn up to<br><span style="font-size: 21px;">18% Daily</span>
+              </div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700;">Subscribe Now →</div>
+          </div>
+
+          <!-- Card 4: Cashback -->
+          <div class="promo-card-item" style="background: linear-gradient(145deg, #fed7aa, #fdba74); color: #9a3412;">
+            <div>
+              <div style="font-size: 12px; font-weight: 800; text-transform: uppercase;">MEGA CASHBACK</div>
+              <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
+                Flat Rs. 100<br><span style="font-size: 21px;">Bill Bonus</span>
+              </div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700;">Claim Now →</div>
           </div>
         </div>
 
-        <!-- 2. Yellow Borrow Money Card -->
-        <div class="card-borrow-loan">
-          <div>
-            <div style="font-size: 13px; font-weight: 800; text-transform: uppercase;">Borrow Money</div>
-            <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
-              Get up to<br><span style="font-size: 21px;">50,000</span>
+        <!-- More with easypaisa (خودکار روٹیٹ ہونے والے 9 بٹن) -->
+        <div class="services-main-wrapper">
+          <h3 class="section-title-label">More with easypaisa</h3>
+          <div class="services-cards-grid" id="services-grid-container">
+            <!-- Dynamic Buttons from JSON -->
+          </div>
+
+          <div class="slider-dots-center">
+            <span class="dot-bullet active-dot" id="dot-1"></span>
+            <span class="dot-bullet" id="dot-2"></span>
+          </div>
+        </div>
+
+        <!-- Stories Section (139498) -->
+        <div class="stories-container-wrap">
+          <h3 class="section-title-label">Stories</h3>
+          <div class="stories-scroll-row">
+            <div class="story-bubble-ring">
+              <div class="story-bubble-inner" style="background: #022c22;">
+                <span class="green-txt">Rs. 70 cashback</span>
+                <span>on Cornetto!</span>
+              </div>
+            </div>
+            <div class="story-bubble-ring">
+              <div class="story-bubble-inner" style="background: #064e3b;">
+                <span class="green-txt">Xtra savings,</span>
+                <span>all week long!</span>
+              </div>
+            </div>
+            <div class="story-bubble-ring">
+              <div class="story-bubble-inner" style="background: #047857;">
+                <span>go max,</span>
+                <span class="green-txt">spend less</span>
+              </div>
             </div>
           </div>
-          <div style="font-size: 11px; font-weight: 700; color: #854d0e;">Instant Loan &rarr;</div>
         </div>
+
+        <!-- Hubs Section (139498) -->
+        <div class="hubs-container-wrap">
+          <h3 class="section-title-label">Hubs</h3>
+          <div class="hubs-cards-grid">
+            
+            <div class="hub-card-item">
+              <span class="hub-card-title">Load & Packages</span>
+              <div class="hub-graphic-container">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </div>
+            </div>
+
+            <div class="hub-card-item">
+              <span class="hub-card-title">Insurance</span>
+              <div class="hub-graphic-container">
+                <i class="fa-solid fa-umbrella"></i>
+              </div>
+            </div>
+
+            <div class="hub-card-item">
+              <span class="hub-card-title">Mini Apps</span>
+              <div class="hub-graphic-container">
+                <i class="fa-solid fa-store"></i>
+              </div>
+            </div>
+
+            <div class="hub-card-item">
+              <span class="hub-card-title">Help Center</span>
+              <div class="hub-graphic-container">
+                <i class="fa-solid fa-headset"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
-      <!-- Services Grid (Loaded from icons.json - Images Only, No Text Labels) -->
-      <div class="services-main-wrapper">
-        <h3 class="section-title-label">More with easypaisa</h3>
-        <div class="services-cards-grid" id="services-grid-container">
-          <!-- Dynamic pure image buttons render here -->
-        </div>
-
-        <div class="slider-dots-center">
-          <span class="dot-bullet active-dot"></span>
-          <span class="dot-bullet"></span>
-        </div>
-      </div>
-
-      <!-- Bottom Navigation Bar (Home, Cards, Pay Set to Your Images) -->
+      <!-- باٹم نیویگیشن بار مستقل لاک (100% FIXED) -->
       <nav class="bottom-navbar-fixed">
-        <button class="nav-item-unit" id="nav-btn-home" aria-label="Home" onclick="onNavClick('home')">
-          <img id="nav-img-home" src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
-          <span>Home</span>
+        <button class="nav-item-unit" onclick="onNavClick('home')">
+          <img src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
+          <span style="color: #00A651;">Home</span>
         </button>
-        <button class="nav-item-unit" id="nav-btn-cards" aria-label="Cards" onclick="onNavClick('cards')">
-          <img id="nav-img-cards" src="https://i.ibb.co/Tx5fqRJR/139527.jpg" alt="">
+        <button class="nav-item-unit" onclick="onNavClick('cards')">
+          <img src="https://i.ibb.co/Tx5fqRJR/139527.jpg" alt="">
           <span>Cards</span>
         </button>
-        <button class="nav-pay-btn-custom" id="nav-btn-pay" aria-label="Pay" onclick="onNavClick('pay')">
-          <img id="nav-img-pay" src="https://i.ibb.co/rRDf8PBz/139528.jpg" alt="">
+        <button class="nav-pay-btn-custom" onclick="onNavClick('pay')">
+          <img src="https://i.ibb.co/rRDf8PBz/139528.jpg" alt="">
         </button>
-        <button class="nav-item-unit" aria-label="Promotions" onclick="onNavClick('promotions')">
+        <button class="nav-item-unit" onclick="onNavClick('promotions')">
           <i class="fa-solid fa-tags" style="font-size: 20px;"></i>
           <span>Promotions</span>
         </button>
-        <button class="nav-item-unit" aria-label="Zen" onclick="onNavClick('zen')">
+        <button class="nav-item-unit" onclick="onNavClick('zen')">
           <i class="fa-solid fa-circle-nodes" style="font-size: 20px;"></i>
           <span>Zen</span>
         </button>
@@ -689,26 +726,18 @@
   </div>
 
   <script>
-    // سروس بٹن پر کلک کا فنکشن
-    function onServiceClick(serviceId, serviceName) {
-      console.log("Clicked Service:", serviceId, serviceName);
+    function onNavClick(tab) {
+      console.log("Nav clicked:", tab);
     }
 
-    // نیویگیشن بٹن کلک ہینڈلر
-    function onNavClick(navId) {
-      console.log("Nav clicked:", navId);
-    }
-
-    // icons.json سے تصاویر فیچ کر کے بغیر کسی ٹیکسٹ کے فٹ کرنے کا فنکشن
-    async function loadIconsFromJSON() {
+    // JSON سے سروسز لوڈ کرنا اور روٹیشن کنٹرول
+    async function initHomeServices() {
       const container = document.getElementById('services-grid-container');
-      
-      // آپ کے مہیا کردہ 9 سروس امیج لنکس کا ڈیفالٹ ڈیٹا (اگر لوکل فائل لوڈنگ بلاک ہو تو یہ فوراً رینڈر کرے گا)
       const defaultData = [
         { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg" },
         { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg" },
         { id: "load_packages", name: "Load packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg" },
-        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg" },
+        { id: "enter_in_win", "name": "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg" },
         { id: "easy_cash", name: "Easy cahs", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg" },
         { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg" },
         { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg" },
@@ -716,43 +745,75 @@
         { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg" }
       ];
 
-      function renderGrid(servicesList) {
+      function render(items) {
         container.innerHTML = '';
-        servicesList.forEach(item => {
+        items.forEach(item => {
           const btn = document.createElement('button');
           btn.className = 'service-btn-tile';
           btn.setAttribute('data-id', item.id);
-          btn.setAttribute('data-name', item.name); // نام صرف اندرونی ویلیو کے لیے
           btn.setAttribute('aria-label', item.name);
-          btn.onclick = () => onServiceClick(item.id, item.name);
-
           btn.innerHTML = `<img src="${item.image}" alt="">`;
           container.appendChild(btn);
         });
       }
 
       try {
-        const response = await fetch('icons.json');
-        const data = await response.json();
-        if (data.services && data.services.length > 0) {
-          renderGrid(data.services);
-        } else {
-          renderGrid(defaultData);
-        }
-
-        // باٹم بار کے لنکس
-        if (data.bottom_nav) {
-          if (data.bottom_nav.home) document.getElementById('nav-img-home').src = data.bottom_nav.home;
-          if (data.bottom_nav.cards) document.getElementById('nav-img-cards').src = data.bottom_nav.cards;
-          if (data.bottom_nav.pay) document.getElementById('nav-img-pay').src = data.bottom_nav.pay;
-        }
-      } catch (e) {
-        renderGrid(defaultData);
+        const res = await fetch('icons.json');
+        const d = await res.json();
+        render(d.services || defaultData);
+      } catch(e) {
+        render(defaultData);
       }
     }
 
-    const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
+    // 1. اوپر والے کارڈز کا خودکار اسکرول (Auto Scroll Promo Cards)
+    function startCardSliderAutoScroll() {
+      const slider = document.getElementById('cards-slider');
+      let direction = 1;
+      setInterval(() => {
+        if (!slider) return;
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        if (slider.scrollLeft >= maxScroll - 10) {
+          direction = -1;
+        } else if (slider.scrollLeft <= 10) {
+          direction = 1;
+        }
+        slider.scrollBy({ left: direction * 250, behavior: 'smooth' });
+      }, 3500);
+    }
 
+    // 2. سروسز بٹنز کی روٹیشن (Services Rotate)
+    function startServiceAutoRotation() {
+      const container = document.getElementById('services-grid-container');
+      const dot1 = document.getElementById('dot-1');
+      const dot2 = document.getElementById('dot-2');
+      let page = 1;
+
+      setInterval(() => {
+        if (!container) return;
+        container.style.opacity = '0';
+        setTimeout(() => {
+          if (page === 1) {
+            // دوسری ترتیب میں روٹیٹ
+            const firstThree = Array.from(container.children).slice(0, 3);
+            firstThree.forEach(el => container.appendChild(el));
+            page = 2;
+            dot1.classList.remove('active-dot');
+            dot2.classList.add('active-dot');
+          } else {
+            const lastThree = Array.from(container.children).slice(-3);
+            lastThree.reverse().forEach(el => container.insertBefore(el, container.firstChild));
+            page = 1;
+            dot2.classList.remove('active-dot');
+            dot1.classList.add('active-dot');
+          }
+          container.style.opacity = '1';
+        }, 250);
+      }, 5000);
+    }
+
+    // اسپلش اسکرین ٹائپنگ اینیمیشن
+    const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
     function animateToFinalWord(container, word, onComplete) {
       let step = 0;
       const interval = setInterval(() => {
@@ -775,7 +836,6 @@
       }, 45);
     }
 
-    // اینیمیشن تسلسل: digital -> bank -> Show Home Screen
     setTimeout(() => {
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
@@ -787,6 +847,8 @@
             setTimeout(() => {
               const home = document.getElementById('screen-home');
               if (home) home.classList.add('active-home');
+              startCardSliderAutoScroll();
+              startServiceAutoRotation();
             }, 600);
           });
         }, 50);
@@ -794,7 +856,7 @@
     }, 3900);
 
     window.addEventListener('DOMContentLoaded', () => {
-      loadIconsFromJSON();
+      initHomeServices();
     });
   </script>
 </body>
