@@ -90,7 +90,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Exact Centered Box (3 Seconds Strict Stay) */
+    /* STAGE 1: Exact Centered Box */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -107,13 +107,9 @@
     .center-logo-box {
       width: 175px;
       height: 175px;
-      background-color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      position: relative;
-      overflow: hidden;
     }
     .center-logo-box img {
       width: 100%;
@@ -153,7 +149,6 @@
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
-      position: relative;
     }
     .left-logo-wrap img {
       width: 100%;
@@ -234,14 +229,14 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Exact Centered Box (3 Seconds Stay) -->
+      <!-- STAGE 1: صرف آپ کا لوکل پاتھ 11.png (3 Seconds Stay) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
-          <img id="img-11" src="11.png" alt="" onerror="tryNextPath(this, ['/11.png', './11.png', '11.PNG', 'https://i.ibb.co/Lh0H11BY/138526.png']);">
+          <img src="11.png" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: Left Side Logo + Typewriter Digital Bank + Distant Rings -->
+      <!-- STAGE 2: صرف آپ کا لوکل پاتھ 2.png + Typewriter Digital Bank + Distant Rings -->
       <div id="splash-stage-2">
         
         <!-- Distant Concentric Rings -->
@@ -273,7 +268,7 @@
         <!-- Center Unit: Left Logo + Typewriter -->
         <div class="stage2-content">
           <div class="left-logo-wrap">
-            <img id="img-2" src="2.png" alt="" onerror="tryNextPath(this, ['/2.png', './2.png', '2.PNG', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s']);">
+            <img src="2.png" alt="Logo 2">
           </div>
 
           <div class="typewriter-box">
@@ -325,16 +320,6 @@
   </div>
 
   <script>
-    /* Robust Path Resolver: اگر ورسل پر فائل پاتھ 404 ہو تو خود بخود درست سورس لے آئے */
-    function tryNextPath(imgElement, paths) {
-      if (!paths || paths.length === 0) return;
-      const next = paths.shift();
-      imgElement.onerror = function() {
-        tryNextPath(imgElement, paths);
-      };
-      imgElement.src = next;
-    }
-
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
@@ -368,7 +353,7 @@
             clearInterval(typeInterval);
             line2.innerHTML = word2;
 
-            // 3. ٹائپنگ ختم ہونے کے بعد سیدھا ہوم پیج پر جائیں
+            // 3. اینیمیشن ختم ہوتے ہی سیدھا ہوم پیج پر جائیں
             setTimeout(() => {
               go('screen-home');
             }, 800);
