@@ -90,7 +90,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Exact Size White Square Box (Matching Image) */
+    /* STAGE 1: Pure Image Centered (No White Border, No Box) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -103,22 +103,24 @@
       z-index: 20;
       transition: opacity 0.5s ease;
       pointer-events: none;
+      background: transparent;
     }
-    .exact-photo-box {
+    .pure-image-container {
       width: 175px;
       height: 175px;
-      background-color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      background: transparent;
     }
-    .exact-photo-box img {
+    .pure-image-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
+      border: none;
+      outline: none;
+      background: transparent;
     }
 
     /* STAGE 2: Slide to Left + Rings + Typewriter */
@@ -152,12 +154,15 @@
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
+      background: transparent;
     }
     .left-logo-wrap img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
+      border: none;
+      background: transparent;
     }
     .typewriter-box {
       display: flex;
@@ -248,9 +253,9 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Exact Size White Square Box (Matching Screenshot, 3 Seconds Fix) -->
+      <!-- STAGE 1: Pure Image Without Any Border or Box (3 Seconds Strict Stay) -->
       <div id="splash-stage-1">
-        <div class="exact-photo-box">
+        <div class="pure-image-container">
           <img id="img-11" src="11.png" alt="Easypaisa Logo 1" 
                onerror="this.onerror=null; this.src='https://i.ibb.co/Lh0H11BY/138526.png';">
         </div>
@@ -375,7 +380,7 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds (3000ms)
+      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Pure Image Stays
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
