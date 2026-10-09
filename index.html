@@ -5,29 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Easypaisa</title>
   
-  <!-- Fonts & CDN Icons -->
+  <!-- Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     :root {
       --ep-green: #00A651;
       --ep-dark-green: #008a43;
-      --ep-splash-bg: #261f30;
+      --ep-theme-dark: #261f30;
     }
     * {
       box-sizing: border-box;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
     }
     html, body {
       background-color: #261f30;
-      margin: 0;
-      padding: 0;
       height: 100%;
       width: 100%;
       display: flex;
@@ -57,7 +56,10 @@
     }
     .screen {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       display: none;
       flex-direction: column;
       background-color: #f8fafc;
@@ -67,11 +69,123 @@
     .screen.on {
       display: flex;
     }
-    .screen::-webkit-scrollbar {
-      display: none;
+
+    /* SPLASH STYLES (PURE CSS - NO TAILWIND DEPENDENCY) */
+    #screen-splash {
+      background-color: #261f30;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-bar {
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+      z-index: 50;
+      pointer-events: none;
     }
 
-    /* Outer Text Circular Rotation */
+    /* STAGE 1: White Centered Square Box */
+    #splash-stage-1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+    }
+    .center-white-box {
+      width: 140px;
+      height: 140px;
+      background-color: #ffffff;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+    .center-white-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* STAGE 2: Left-side Box + Typewriter */
+    #splash-stage-2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      z-index: 10;
+    }
+    .stage2-content {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+    }
+    .left-logo-box {
+      width: 64px;
+      height: 64px;
+      background: transparent;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 14px;
+      flex-shrink: 0;
+    }
+    .left-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .typewriter-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 170px;
+    }
+    .typewriter-line {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+      min-height: 36px;
+    }
+
+    /* Concentric SVG Text Rings */
+    .orbit-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
     @keyframes spinClockwise {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -89,7 +203,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* Typewriter Blinking Cursor */
+    /* Typewriter Cursor */
     @keyframes cursorPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
@@ -97,23 +211,26 @@
     .cursor-caret {
       display: inline-block;
       width: 3.5px;
-      height: 0.95em;
+      height: 0.9em;
       background-color: #00A651;
       margin-left: 3px;
       animation: cursorPulse 0.5s infinite;
       vertical-align: middle;
     }
 
-    .brand-font {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
+    /* Keypad & Login Screen Styles */
     .key-btn {
-      touch-action: manipulation;
-      transition: all 0.1s ease-in-out;
+      height: 56px;
+      border-radius: 16px;
+      background-color: #f8fafc;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
     }
     .key-btn:active {
-      transform: scale(0.92);
+      transform: scale(0.94);
       background-color: #e2e8f0;
     }
   </style>
@@ -125,41 +242,41 @@
     <source src="./1.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Mobile Frame -->
+  <!-- Mobile Shell Frame -->
   <div id="phone-frame">
 
     <!-- 1. SPLASH SCREEN -->
-    <div id="screen-splash" class="screen on !bg-[#261f30] items-center justify-center select-none overflow-hidden relative">
+    <div id="screen-splash" class="screen on">
       
       <!-- Top Mobile Status Bar -->
-      <div class="absolute top-3 inset-x-5 flex justify-between items-center text-[11px] text-white/50 font-semibold z-30 pointer-events-none">
+      <div class="status-bar">
         <span>5:55</span>
-        <div class="flex items-center gap-1.5 text-[10px]">
+        <div style="display:flex; gap:6px; align-items:center;">
           <i class="fa-solid fa-signal"></i>
           <i class="fa-solid fa-wifi"></i>
           <span>84%</span>
         </div>
       </div>
 
-      <!-- STAGE 1: Exact Centered Box containing 11.png (3 Seconds Strict Stay) -->
-      <div id="splash-stage-1" class="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-700 pointer-events-none">
-        <!-- White Square Box Container -->
-        <div class="w-36 h-36 bg-white rounded-3xl flex items-center justify-center shadow-2xl p-4 overflow-hidden border border-white/10">
-          <img id="img-11" src="11.png" alt="Easypaisa Logo 1" class="w-full h-full object-contain pointer-events-none block">
+      <!-- STAGE 1: White Square Centered Box (Strict 3.0 Seconds Stay) -->
+      <div id="splash-stage-1">
+        <div class="center-white-box">
+          <img id="img-11" src="11.png" alt="Easypaisa Logo 1" 
+               onerror="this.onerror=null; this.src='https://i.ibb.co/Lh0H11BY/138526.png';">
         </div>
       </div>
 
-      <!-- STAGE 2: Left-side Box (2.png) + Typewriter Text (digital bank) + Outer Rings -->
-      <div id="splash-stage-2" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-700 z-10">
+      <!-- STAGE 2: Left-side Logo Box + Typewriter Digital Bank + Background Rings -->
+      <div id="splash-stage-2">
         
-        <!-- Distant Rotating Concentric Text Rings -->
-        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 500 500">
+        <!-- Rotating Text Orbit Rings -->
+        <svg class="orbit-svg" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
             <path id="outerCirclePath" d="M 250, 250 m -225, 0 a 225,225 0 1,1 450,0 a 225,225 0 1,1 -450,0" fill="none" />
           </defs>
 
-          <!-- Inner Orbit -->
+          <!-- Inner Ring -->
           <g class="orbit-ring-inner">
             <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
               <textPath href="#innerCirclePath" startOffset="0%">
@@ -168,7 +285,7 @@
             </text>
           </g>
 
-          <!-- Outer Orbit -->
+          <!-- Outer Ring -->
           <g class="orbit-ring-outer">
             <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
@@ -178,17 +295,18 @@
           </g>
         </svg>
 
-        <!-- Center Unit: Left Side Box for 2.png + Right Side Typewriter Text -->
-        <div class="relative z-20 flex items-center justify-center px-4">
-          <!-- Left Side White Box for 2.png -->
-          <div class="w-16 h-16 shrink-0 bg-transparent rounded-2xl flex items-center justify-center mr-3.5 overflow-hidden">
-            <img id="img-2" src="2.png" alt="Easypaisa Logo 2" class="w-full h-full object-contain pointer-events-none block drop-shadow-md">
+        <!-- Center Unit: Left Logo + Typewriter Output -->
+        <div class="stage2-content">
+          <!-- Left Logo Container -->
+          <div class="left-logo-box">
+            <img id="img-2" src="2.png" alt="Easypaisa Logo 2" 
+                 onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s';">
           </div>
 
-          <!-- Typewriter Output (digital bank) -->
-          <div class="flex flex-col justify-center leading-none text-left min-w-[170px]">
-            <span id="typed-line-1" class="text-white text-[32px] font-black tracking-tight brand-font block mb-1 min-h-[38px]"></span>
-            <span id="typed-line-2" class="text-white text-[32px] font-black tracking-tight brand-font block min-h-[38px]"></span>
+          <!-- Typewriter Words -->
+          <div class="typewriter-box">
+            <span id="typed-line-1" class="typewriter-line"></span>
+            <span id="typed-line-2" class="typewriter-line"></span>
           </div>
         </div>
 
@@ -196,99 +314,82 @@
 
     </div>
 
-    <!-- 2. LOGIN SCREEN (Opens directly after splash sequence finishes) -->
-    <div id="screen-login" class="screen justify-between p-6 bg-white">
-      <div class="flex items-center justify-between pt-4">
-        <div class="w-8"></div>
-        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Secure Sign In</span>
-        <div class="w-8"></div>
+    <!-- 2. LOGIN SCREEN (Strict Direct Transition After Splash) -->
+    <div id="screen-login" class="screen" style="justify-content:space-between; padding:24px; background:#ffffff;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding-top:16px;">
+        <div style="width:32px;"></div>
+        <span style="font-size:12px; font-weight:700; color:#94a3b8; letter-spacing:0.1em; text-transform:uppercase;">Secure Sign In</span>
+        <div style="width:32px;"></div>
       </div>
 
-      <div class="flex flex-col items-center justify-center py-4">
-        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#008a43] to-[#00A651] flex items-center justify-center text-white shadow-lg mb-3">
-          <i class="fa-solid fa-lock text-2xl"></i>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px 0;">
+        <div style="width:64px; height:64px; border-radius:20px; background:linear-gradient(135deg, #008a43, #00A651); display:flex; align-items:center; justify-content:center; color:#ffffff; box-shadow:0 10px 20px rgba(0,166,81,0.25); margin-bottom:16px;">
+          <i class="fa-solid fa-lock" style="font-size:24px;"></i>
         </div>
-        <h2 class="text-xl font-bold text-slate-800">Enter Your 5-Digit PIN</h2>
-        <p class="text-xs text-slate-500 mt-1">Easypaisa Account: 0312-9876543</p>
+        <h2 style="font-size:20px; font-weight:800; color:#1e293b;">Enter Your 5-Digit PIN</h2>
+        <p style="font-size:12px; color:#64748b; margin-top:4px;">Easypaisa Account: 0312-9876543</p>
 
         <!-- PIN Dots indicator -->
-        <div class="flex items-center gap-3.5 mt-6 mb-2">
-          <div id="dot-0" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
-          <div id="dot-1" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
-          <div id="dot-2" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
-          <div id="dot-3" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
-          <div id="dot-4" class="w-4 h-4 rounded-full border-2 border-slate-300 bg-transparent transition-all"></div>
+        <div style="display:flex; gap:14px; margin-top:24px; margin-bottom:8px;">
+          <div id="dot-0" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
+          <div id="dot-1" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
+          <div id="dot-2" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
+          <div id="dot-3" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
+          <div id="dot-4" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
         </div>
-        <span id="pin-feedback" class="text-xs font-semibold text-rose-500 h-4 text-center"></span>
+        <span id="pin-feedback" style="font-size:12px; font-weight:600; color:#f43f5e; height:18px;"></span>
       </div>
 
       <!-- Keypad -->
-      <div class="grid grid-cols-3 gap-3 pb-4 max-w-xs mx-auto w-full">
-        <button onclick="pin('1')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">1</button>
-        <button onclick="pin('2')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">2</button>
-        <button onclick="pin('3')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">3</button>
-        <button onclick="pin('4')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">4</button>
-        <button onclick="pin('5')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">5</button>
-        <button onclick="pin('6')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">6</button>
-        <button onclick="pin('7')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">7</button>
-        <button onclick="pin('8')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">8</button>
-        <button onclick="pin('9')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">9</button>
-        <button onclick="pinClear()" class="key-btn h-14 rounded-2xl bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200/60">CLR</button>
-        <button onclick="pin('0')" class="key-btn h-14 rounded-2xl bg-slate-50 text-xl font-bold text-slate-800 shadow-xs border border-slate-200/60">0</button>
-        <button onclick="pinDel()" class="key-btn h-14 rounded-2xl bg-slate-100 text-lg font-bold text-slate-600 border border-slate-200/60">
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; width:100%; max-width:280px; margin:0 auto; padding-bottom:16px;">
+        <button onclick="pin('1')" class="key-btn">1</button>
+        <button onclick="pin('2')" class="key-btn">2</button>
+        <button onclick="pin('3')" class="key-btn">3</button>
+        <button onclick="pin('4')" class="key-btn">4</button>
+        <button onclick="pin('5')" class="key-btn">5</button>
+        <button onclick="pin('6')" class="key-btn">6</button>
+        <button onclick="pin('7')" class="key-btn">7</button>
+        <button onclick="pin('8')" class="key-btn">8</button>
+        <button onclick="pin('9')" class="key-btn">9</button>
+        <button onclick="pinClear()" class="key-btn" style="background:#f1f5f9; font-size:12px; color:#475569;">CLR</button>
+        <button onclick="pin('0')" class="key-btn">0</button>
+        <button onclick="pinDel()" class="key-btn" style="background:#f1f5f9; color:#475569;">
           <i class="fa-solid fa-delete-left"></i>
         </button>
       </div>
     </div>
 
     <!-- 3. HOME SCREEN -->
-    <div id="screen-home" class="screen pb-20">
-      <div class="bg-gradient-to-r from-[#008a43] to-[#00A651] text-white p-5 rounded-b-3xl shadow-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold text-2xl tracking-tighter">easypaisa</span>
-            <span class="bg-[#facc15] text-[#2d2a3e] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase">Bank</span>
+    <div id="screen-home" class="screen" style="padding-bottom:80px;">
+      <div style="background:linear-gradient(135deg, #008a43, #00A651); color:#ffffff; padding:20px; border-bottom-left-radius:28px; border-bottom-right-radius:28px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:24px; font-weight:900; letter-spacing:-0.05em;">easypaisa</span>
+            <span style="background:#facc15; color:#1e293b; font-size:9px; font-weight:800; padding:2px 6px; border-radius:999px; text-transform:uppercase;">Bank</span>
           </div>
         </div>
 
-        <div class="flex items-center justify-between mt-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-white">
-              <img src="https://placehold.co/120x120/00A651/ffffff?text=Ayesha" alt="Ayesha" class="w-full h-full object-cover">
-            </div>
-            <div>
-              <h1 class="text-base font-bold leading-tight flex items-center gap-1.5">
-                Ayesha <i class="fa-solid fa-shield-halved text-xs text-yellow-300"></i>
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        <!-- Balance Panel -->
-        <div class="mt-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-          <span class="text-xs text-emerald-100 font-medium">Easypaisa Available Balance</span>
-          <div class="flex items-baseline gap-1 mt-1">
-            <span class="text-sm font-semibold text-white/90">Rs.</span>
-            <span id="display-balance" class="text-2xl font-black text-white tracking-tight">7,000.00</span>
-          </div>
+        <div style="margin-top:20px; background:rgba(255,255,255,0.15); border-radius:20px; padding:16px; border:1px solid rgba(255,255,255,0.2);">
+          <span style="font-size:12px; color:#ecfdf5;">Easypaisa Available Balance</span>
+          <div style="font-size:26px; font-weight:900; margin-top:4px;">Rs. 7,000.00</div>
         </div>
       </div>
 
-      <div class="p-5">
-        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Main Services</h3>
-        <div class="grid grid-cols-2 gap-3">
-          <button class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
-            <div class="w-12 h-12 rounded-2xl bg-[#dcfce7] text-[#00A651] flex items-center justify-center text-xl mb-2">
+      <div style="padding:20px;">
+        <h3 style="font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:12px;">Main Services</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="background:#ffffff; padding:16px; border-radius:18px; border:1px solid #e2e8f0; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:14px; background:#dcfce7; color:#00A651; display:flex; align-items:center; justify-content:center; margin:0 auto 8px auto; font-size:18px;">
               <i class="fa-solid fa-arrow-right-arrow-left"></i>
             </div>
-            <span class="text-xs font-bold text-slate-700">Money Transfer</span>
-          </button>
-          <button class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-2">
+            <span style="font-size:12px; font-weight:700; color:#334155;">Money Transfer</span>
+          </div>
+          <div style="background:#ffffff; padding:16px; border-radius:18px; border:1px solid #e2e8f0; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:14px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; margin:0 auto 8px auto; font-size:18px;">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </div>
-            <span class="text-xs font-bold text-slate-700">Bill Payment</span>
-          </button>
+            <span style="font-size:12px; font-weight:700; color:#334155;">Bill Payment</span>
+          </div>
         </div>
       </div>
     </div>
@@ -296,7 +397,6 @@
   </div>
 
   <script>
-    let walletBalance = 7000.00;
     let pinStr = '';
 
     /* STRICT SPLASH ANIMATION CONTROLLER */
@@ -306,16 +406,15 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Stays without Skipping
+      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) White Centered Box Stays
       setTimeout(() => {
-        stage1.classList.add('opacity-0');
+        stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 600);
 
-        // 2. Stage 2: Reveal Left Box (2.png) + Rings + Typewriter
-        stage2.classList.remove('opacity-0', 'pointer-events-none');
-        stage2.classList.add('opacity-100');
+        // 2. Stage 2: Reveal Left Logo Box + Rings + Typewriter starts
+        stage2.style.opacity = '1';
 
         const word1 = "digital";
         const word2 = "bank";
@@ -332,16 +431,16 @@
             j++;
           } else {
             clearInterval(typeInterval);
-            line2.innerHTML = word2; // Typing Finished
+            line2.innerHTML = word2; // Complete text
 
-            // 3. Exactly 1.5 Seconds pause after typing, then go directly to LOGIN SCREEN
+            // 3. Exactly 1.5 seconds after typing, go straight to LOGIN SCREEN
             setTimeout(() => {
               go('screen-login');
             }, 1500);
           }
         }, 130);
 
-      }, 3000); // 3000ms strict stay for stage 1
+      }, 3000); // 3 seconds stay
     }
 
     function go(screenId) {
@@ -381,11 +480,11 @@
       for (let i = 0; i < 5; i++) {
         const dot = document.getElementById(`dot-${i}`);
         if (i < pinStr.length) {
-          dot.classList.add('bg-[#00A651]', 'border-[#00A651]');
-          dot.classList.remove('bg-transparent', 'border-slate-300');
+          dot.style.background = '#00A651';
+          dot.style.borderColor = '#00A651';
         } else {
-          dot.classList.remove('bg-[#00A651]', 'border-[#00A651]');
-          dot.classList.add('bg-transparent', 'border-slate-300');
+          dot.style.background = 'transparent';
+          dot.style.borderColor = '#cbd5e1';
         }
       }
     }
