@@ -1,1 +1,539 @@
-ss
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Send Money - Easypaisa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --ep-green: #00A651;
+      --ep-dark-green: #008a43;
+      --ep-theme-dark: #261f30;
+      --ep-bg-gray: #f7f9fa;
+    }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      background-color: #261f30;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #1e293b;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+    #phone-frame {
+      width: 100vw;
+      height: 100vh;
+      max-width: 412px;
+      max-height: 860px;
+      background: var(--ep-bg-gray);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7);
+    }
+    @media (min-width: 640px) {
+      #phone-frame {
+        border-radius: 42px;
+        border: 8px solid #1a1522;
+        height: 840px;
+      }
+    }
+
+    /* Top App Bar */
+    .top-header-bar {
+      background: #ffffff;
+      padding: 24px 18px 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      z-index: 20;
+    }
+    .back-btn-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #334155;
+      cursor: pointer;
+    }
+    .header-title-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    /* Scrollable Form Body */
+    .send-scrollable-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px 30px 18px;
+    }
+    .send-scrollable-body::-webkit-scrollbar { display: none; }
+
+    /* Available Balance Ribbon */
+    .balance-info-ribbon {
+      background: linear-gradient(135deg, #059669, #00A651);
+      border-radius: 16px;
+      padding: 12px 16px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(0, 166, 81, 0.2);
+    }
+
+    /* Input Field Container */
+    .field-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .form-group-wrap {
+      margin-bottom: 18px;
+    }
+    .select-dropdown-styled, 
+    .input-box-styled {
+      width: 100%;
+      height: 48px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 0 14px;
+      font-size: 15px;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .select-dropdown-styled:focus, 
+    .input-box-styled:focus {
+      border-color: #00A651;
+    }
+
+    /* Auto-Fetched Account Title Box */
+    .account-title-preview-box {
+      background: #ecfdf5;
+      border: 1.5px dashed #10b981;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      animation: fadeInTitle 0.3s ease;
+    }
+    @keyframes fadeInTitle {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .account-title-preview-box.show-box {
+      display: flex;
+    }
+
+    /* Quick Chips for Amount */
+    .amount-chips-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      overflow-x: auto;
+    }
+    .amount-chips-row::-webkit-scrollbar { display: none; }
+    .amount-chip-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .amount-chip-btn:active {
+      background: #00A651;
+      color: #ffffff;
+      border-color: #00A651;
+    }
+
+    /* Send Button */
+    .send-action-btn {
+      width: 100%;
+      height: 50px;
+      background: var(--ep-green);
+      color: #ffffff;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 166, 81, 0.35);
+      margin-top: 14px;
+    }
+
+    /* 6 SECONDS EXACT EASYPAISA LOADING STRIP */
+    #ep-loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+    }
+    .ep-loading-box {
+      width: 100%;
+      max-width: 320px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .ep-spinner-ring {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 3.5px solid #e2e8f0;
+      border-top-color: #00A651;
+      border-right-color: #00A651;
+      animation: spinLoader 0.8s linear infinite;
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @keyframes spinLoader { to { transform: rotate(360deg); } }
+    .ep-spinner-inner-e {
+      font-weight: 900;
+      font-size: 13px;
+      color: #00A651;
+      animation: counterSpin 0.8s linear infinite;
+    }
+    @keyframes counterSpin { to { transform: rotate(-360deg); } }
+    .ep-loading-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #94a3b8;
+    }
+
+    /* TRANSACTION RECEIPT MODAL (Success Screen) */
+    #receipt-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ffffff;
+      z-index: 90;
+      display: none;
+      flex-direction: column;
+      padding: 30px 20px 20px 20px;
+      overflow-y: auto;
+    }
+    .receipt-success-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #00A651;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 10px auto 16px auto;
+    }
+    .receipt-amount-display {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+    .receipt-info-card {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 20px 0;
+      border: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .receipt-data-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+    .receipt-data-row span.label { color: #64748b; font-weight: 500; }
+    .receipt-data-row span.val { color: #1e293b; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div id="phone-frame">
+
+    <!-- Top Navigation Header -->
+    <header class="top-header-bar">
+      <div class="back-btn-circle" onclick="window.location.href='index.html'">
+        <i class="fa-solid fa-arrow-left"></i>
+      </div>
+      <h2 class="header-title-text">Send Money</h2>
+      <div style="width: 36px;"></div>
+    </header>
+
+    <!-- Main Transfer Form -->
+    <div class="send-scrollable-body">
+      
+      <!-- Current Balance Ribbon -->
+      <div class="balance-info-ribbon">
+        <span style="font-size: 12px; font-weight: 600;">Available Balance:</span>
+        <span style="font-size: 17px; font-weight: 800;" id="live-balance-txt">Rs. 48,250.00</span>
+      </div>
+
+      <!-- 1. Select Bank / Wallet -->
+      <div class="form-group-wrap">
+        <label class="field-label">Select Destination Bank / Wallet</label>
+        <select id="send-bank-select" class="select-dropdown-styled" onchange="onBankOrNumberChanged()">
+          <option value="Easypaisa">Easypaisa Mobile Account</option>
+          <option value="JazzCash">JazzCash Account</option>
+          <option value="SadaPay">SadaPay</option>
+          <option value="NayaPay">NayaPay</option>
+          <option value="Raast ID">Raast (Instant Transfer)</option>
+          <option value="UBL">United Bank Limited (UBL)</option>
+          <option value="HBL">Habib Bank Limited (HBL)</option>
+          <option value="Allied Bank">Allied Bank Limited (ABL)</option>
+          <option value="Meezan Bank">Meezan Bank</option>
+          <option value="Bank Alfalah">Bank Alfalah</option>
+          <option value="MCB Bank">MCB Bank Limited</option>
+        </select>
+      </div>
+
+      <!-- 2. Account / Mobile Number -->
+      <div class="form-group-wrap">
+        <label class="field-label">Receiver Account / Mobile Number</label>
+        <input type="text" id="send-acc-number" class="input-box-styled" placeholder="e.g. 03001234567 or IBAN" oninput="onBankOrNumberChanged()">
+        
+        <!-- Live Auto-Fetched Title Display -->
+        <div class="account-title-preview-box" id="title-preview-box">
+          <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 18px;"></i>
+          <div>
+            <div style="font-size: 11px; color: #047857; font-weight: 600;">Title Fetched from Directory:</div>
+            <div style="font-size: 14px; font-weight: 800; color: #064e3b;" id="fetched-owner-name">Ali Raza</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Transfer Amount -->
+      <div class="form-group-wrap">
+        <label class="field-label">Amount (Rs.)</label>
+        <input type="number" id="send-amount-input" class="input-box-styled" placeholder="Enter amount (min Rs. 10)">
+        
+        <!-- Quick Select Chips -->
+        <div class="amount-chips-row">
+          <button class="amount-chip-btn" onclick="setQuickAmount(500)">Rs. 500</button>
+          <button class="amount-chip-btn" onclick="setQuickAmount(1000)">Rs. 1,000</button>
+          <button class="amount-chip-btn" onclick="setQuickAmount(2000)">Rs. 2,000</button>
+          <button class="amount-chip-btn" onclick="setQuickAmount(5000)">Rs. 5,000</button>
+        </div>
+      </div>
+
+      <!-- 4. Purpose of Payment -->
+      <div class="form-group-wrap">
+        <label class="field-label">Purpose of Payment</label>
+        <select id="send-purpose" class="select-dropdown-styled">
+          <option value="Family Support">Family Support</option>
+          <option value="Miscellaneous">Miscellaneous Payments</option>
+          <option value="Business Payment">Business Payment</option>
+          <option value="Donation">Donation</option>
+        </select>
+      </div>
+
+      <!-- Proceed Button -->
+      <button class="send-action-btn" onclick="executeSendMoneyFlow()">Send Now</button>
+
+    </div>
+
+    <!-- 6 SECONDS EXACT EASYPAISA LOADING STRIP -->
+    <div id="ep-loading-overlay">
+      <div class="ep-loading-box">
+        <div class="ep-spinner-ring">
+          <span class="ep-spinner-inner-e">e</span>
+        </div>
+        <span class="ep-loading-text">Sending money, please wait.</span>
+      </div>
+    </div>
+
+    <!-- SUCCESS RECEIPT MODAL -->
+    <div id="receipt-modal">
+      <div class="receipt-success-badge">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 style="text-align: center; font-size: 18px; font-weight: 800; color: #00A651;">Transaction Successful!</h3>
+      <div class="receipt-amount-display" id="receipt-amt">Rs. 0.00</div>
+
+      <div class="receipt-info-card">
+        <div class="receipt-data-row">
+          <span class="label">Sent To:</span>
+          <span class="val" id="receipt-receiver-title">Ali Raza</span>
+        </div>
+        <div class="receipt-data-row">
+          <span class="label">Account Number:</span>
+          <span class="val" id="receipt-receiver-num">03001234567</span>
+        </div>
+        <div class="receipt-data-row">
+          <span class="label">Bank / Wallet:</span>
+          <span class="val" id="receipt-bank-name">JazzCash</span>
+        </div>
+        <div class="receipt-data-row">
+          <span class="label">Transaction ID:</span>
+          <span class="val" id="receipt-tx-id">TXN98471203</span>
+        </div>
+        <div class="receipt-data-row">
+          <span class="label">Date & Time:</span>
+          <span class="val" id="receipt-time">Just Now</span>
+        </div>
+      </div>
+
+      <button class="send-action-btn" onclick="finishAndGoHome()">Done & Go Home</button>
+    </div>
+
+  </div>
+
+  <script>
+    // Live Balance from LocalStorage
+    let userBalanceStr = localStorage.getItem("ep_balance") || "48,250.00";
+    let userBalance = parseFloat(userBalanceStr.replace(/,/g, '')) || 48250;
+
+    // Beneficiaries Database synced with Admin Panel
+    let bankDirectory = JSON.parse(localStorage.getItem("ep_bank_directory")) || [
+      { bank: "JazzCash", number: "03001234567", owner: "Ali Raza" },
+      { bank: "Easypaisa", number: "03451122334", owner: "Usman Ghani" },
+      { bank: "SadaPay", number: "03049988776", owner: "Hamza Tariq" },
+      { bank: "UBL", number: "12345678901234", owner: "Bilal Ahmad" }
+    ];
+
+    document.getElementById('live-balance-txt').innerText = "Rs. " + userBalance.toLocaleString() + ".00";
+
+    // Auto Fetch Title from Directory as user types
+    function onBankOrNumberChanged() {
+      const selectedBank = document.getElementById('send-bank-select').value;
+      const enteredNum = document.getElementById('send-acc-number').value.trim();
+      const previewBox = document.getElementById('title-preview-box');
+      const ownerLabel = document.getElementById('fetched-owner-name');
+
+      // Search match in Directory
+      const matched = bankDirectory.find(b => b.number === enteredNum);
+
+      if (matched) {
+        ownerLabel.innerText = matched.owner + " (" + matched.bank + ")";
+        previewBox.classList.add('show-box');
+      } else if (enteredNum.length >= 7) {
+        ownerLabel.innerText = "Verified Account Holder";
+        previewBox.classList.add('show-box');
+      } else {
+        previewBox.classList.remove('show-box');
+      }
+    }
+
+    function setQuickAmount(amt) {
+      document.getElementById('send-amount-input').value = amt;
+    }
+
+    // Execute Transfer Flow
+    function executeSendMoneyFlow() {
+      const bank = document.getElementById('send-bank-select').value;
+      const num = document.getElementById('send-acc-number').value.trim();
+      const amtVal = parseFloat(document.getElementById('send-amount-input').value);
+      const ownerTitle = document.getElementById('fetched-owner-name').innerText;
+
+      if (!num || num.length < 5) {
+        alert("براہ کرم درست اکاؤنٹ یا موبائل نمبر درج کریں!");
+        return;
+      }
+      if (!amtVal || amtVal < 10) {
+        alert("براہ کرم کم از کم 10 روپے کی رقم درج کریں!");
+        return;
+      }
+      if (amtVal > userBalance) {
+        alert("آپ کے پاس ناکافی بیلنس ہے!");
+        return;
+      }
+
+      // 6 Seconds Easypaisa Loading Strip
+      const loader = document.getElementById('ep-loading-overlay');
+      loader.style.display = 'flex';
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+
+        // 1. Balance Deduct
+        userBalance -= amtVal;
+        localStorage.setItem("ep_balance", userBalance.toLocaleString() + ".00");
+
+        // 2. Add New Statement Record
+        let statements = JSON.parse(localStorage.getItem("ep_statements")) || [];
+        statements.unshift({
+          type: "Money Transfer (" + bank + ")",
+          target: ownerTitle + " (" + num + ")",
+          amount: "-" + amtVal.toLocaleString() + ".00",
+          date: "Just Now",
+          isDebit: true
+        });
+        localStorage.setItem("ep_statements", JSON.stringify(statements));
+
+        // 3. Queue Live Push Notification for Main App
+        localStorage.setItem("ep_pending_notif", JSON.stringify({
+          title: "Transfer Successful!",
+          message: `Rs. ${amtVal.toLocaleString()} successfully sent to ${ownerTitle} (${bank}).`
+        }));
+
+        // 4. Show Digital Receipt
+        document.getElementById('receipt-amt').innerText = "Rs. " + amtVal.toLocaleString() + ".00";
+        document.getElementById('receipt-receiver-title').innerText = ownerTitle;
+        document.getElementById('receipt-receiver-num').innerText = num;
+        document.getElementById('receipt-bank-name').innerText = bank;
+        document.getElementById('receipt-tx-id').innerText = "TXN" + Math.floor(10000000 + Math.random() * 90000000);
+        document.getElementById('receipt-time').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        document.getElementById('receipt-modal').style.display = 'flex';
+
+      }, 6000);
+    }
+
+    function finishAndGoHome() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
