@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -17,7 +17,6 @@
     }
     * {
       box-sizing: border-box;
-      font-family: 'Comfortaa', -apple-system, sans-serif;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       margin: 0;
@@ -136,30 +135,26 @@
       z-index: 10;
     }
 
+    /* مجموعی مرکز میں کمپوزیشن (اسکرین کے دائیں بائیں برابر توازن) */
     .stage2-content {
       position: relative;
       z-index: 20;
       display: flex;
       align-items: center;
       justify-content: center;
-      transform: translateX(0px);
-      transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.3, 1);
-    }
-    .stage2-content.shifted {
-      transform: translateX(-56px); /* متوازن اور بڑا پھیلاؤ */
+      width: 100%;
+      padding: 0 20px;
     }
 
-    /* بڑا اور واضح 'e' لوگو سائز (92px) */
     .red-removed-logo-box {
-      width: 92px;
-      height: 92px;
+      width: 86px;
+      height: 86px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
       background: transparent;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
     }
     .red-removed-logo-box canvas {
       width: 100%;
@@ -168,12 +163,11 @@
       object-fit: contain;
     }
 
-    /* Brand Typography Container matching 139456_2.jpg */
+    /* برانڈ ٹائپوگرافی بالکل 139456 کے مطابق */
     .brand-type-wrap {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-width: 195px;
       opacity: 0;
       transition: opacity 0.2s ease;
     }
@@ -181,24 +175,23 @@
       opacity: 1;
     }
 
-    /* بڑا بولڈ فونٹ (46px) */
     .brand-text-row {
       display: flex;
       align-items: baseline;
-      font-family: 'Comfortaa', sans-serif;
-      font-weight: 700;
-      font-size: 46px;
-      line-height: 0.92;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 40px;
+      line-height: 0.94;
       color: #ffffff;
       letter-spacing: -2px;
-      min-height: 46px;
+      min-height: 40px;
     }
 
     .char-code {
       display: inline-block;
       font-family: monospace;
       font-weight: 800;
-      font-size: 40px;
+      font-size: 36px;
       color: #00A651;
       text-shadow: 0 0 10px rgba(0, 166, 81, 0.7);
     }
@@ -207,23 +200,21 @@
       color: #ffffff;
     }
 
-    /* بڑے، کشادہ اور کٹتے ہوئے سرکلز (WIDE CIRCLES AS IN 139456) */
+    /* سرکلز جو دونوں طرف بالکل برابر کٹتے ہیں (Symmetric Side Cutting) */
     .orbit-container {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 580px;
-      height: 580px;
+      width: 480px;
+      height: 480px;
       transform: translate(-50%, -50%);
       pointer-events: none;
       overflow: visible;
-      /* کناروں سے اسکرول کٹ ماسک */
-      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 70%, transparent 100%);
-      mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 70%, transparent 100%);
     }
     .orbit-svg {
       width: 100%;
       height: 100%;
+      overflow: visible;
     }
     @keyframes spinClockwise {
       from { transform: rotate(0deg); }
@@ -235,11 +226,11 @@
     }
     .orbit-ring-inner {
       animation: spinClockwise 38s linear infinite;
-      transform-origin: 290px 290px;
+      transform-origin: 240px 240px;
     }
     .orbit-ring-outer {
       animation: spinCounter 50s linear infinite;
-      transform-origin: 290px 290px;
+      transform-origin: 240px 240px;
     }
 
     /* HOME SCREEN */
@@ -414,38 +405,36 @@
         </div>
       </div>
 
-      <!-- STAGE 1: 11.jpeg (Strict 3.0 Seconds Stay) -->
+      <!-- STAGE 1: 11.jpeg -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
           <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: Slide + Wide Concentric Circles + Large Brand Text -->
+      <!-- STAGE 2: Slide + Balanced Side Cutting Circles -->
       <div id="splash-stage-2">
         
-        <!-- بڑے اور کشادہ اوریجنل سائز کے سرکلز (Radius 145 / Radius 240) -->
+        <!-- دونوں اطراف سے متناسب اور برابر کٹتے ہوئے کشادہ سرکلز -->
         <div class="orbit-container">
-          <svg class="orbit-svg" viewBox="0 0 580 580">
+          <svg class="orbit-svg" viewBox="0 0 480 480">
             <defs>
-              <!-- اندرونی سرکل: بالکل متوازن دوری پر -->
-              <path id="innerCirclePath" d="M 290, 290 m -145, 0 a 145,145 0 1,1 290,0 a 145,145 0 1,1 -290,0" fill="none" />
-              <!-- بیرونی سرکل: اسکرین کے کناروں سے کٹتا ہوا -->
-              <path id="outerCirclePath" d="M 290, 290 m -242, 0 a 242,242 0 1,1 484,0 a 242,242 0 1,1 -484,0" fill="none" />
+              <path id="innerCirclePath" d="M 240, 240 m -126, 0 a 126,126 0 1,1 252,0 a 126,126 0 1,1 -252,0" fill="none" />
+              <path id="outerCirclePath" d="M 240, 240 m -216, 0 a 216,216 0 1,1 432,0 a 216,216 0 1,1 -432,0" fill="none" />
             </defs>
 
-            <!-- Inner Ring: 'is now a digital bank · easypaisa ·' -->
+            <!-- Inner Ring -->
             <g class="orbit-ring-inner">
-              <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="16" font-weight="500" letter-spacing="3.2">
+              <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3">
                 <textPath href="#innerCirclePath" startOffset="0%">
                   is now a digital bank · easypaisa · is now a digital bank ·
                 </textPath>
               </text>
             </g>
 
-            <!-- Outer Ring: 'skip going to the bank -' -->
+            <!-- Outer Ring (دونوں کناروں سے برابر کٹے گا) -->
             <g class="orbit-ring-outer">
-              <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="17" font-weight="500" letter-spacing="4.8">
+              <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.5">
                 <textPath href="#outerCirclePath" startOffset="0%">
                   skip going to the bank - skip going to the bank -
                 </textPath>
@@ -454,13 +443,12 @@
           </svg>
         </div>
 
-        <div id="stage2-wrapper" class="stage2-content">
-          <!-- بڑا 'e' لوگو -->
+        <!-- سینٹرل کمپوزیشن (لوگو بائیں طرف اسکرین سے باہر نہیں بھاگے گا) -->
+        <div class="stage2-content">
           <div class="red-removed-logo-box">
             <canvas id="red-clean-canvas"></canvas>
           </div>
 
-          <!-- بڑا اور بولڈ ڈیجیٹل بینک ٹیکسٹ (46px) -->
           <div id="brand-type-wrap" class="brand-type-wrap">
             <div id="row-digital" class="brand-text-row"></div>
             <div id="row-bank" class="brand-text-row"></div>
@@ -613,7 +601,7 @@
       };
     }
 
-    /* ڈیجیٹل کوڈز سے اصل الفاظ بننے کی تیز رفتار متحرک اینیمیشن */
+    /* ڈیجیٹل کوڈز سے اصل الفاظ بننے کی اینیمیشن */
     const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
 
     function animateToFinalWord(container, word, onComplete) {
@@ -635,51 +623,42 @@
           container.innerHTML = `<span class="char-solid">${word}</span>`;
           if (onComplete) onComplete();
         }
-      }, 45);
+      }, 42);
     }
 
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
-      const stage2Wrapper = document.getElementById('stage2-wrapper');
       const brandTypeWrap = document.getElementById('brand-type-wrap');
       const rowDigital = document.getElementById('row-digital');
       const rowBank = document.getElementById('row-bank');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رہے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 350);
 
-        // 2. Stage 2: 'e' لوگو سینٹر میں نمودار ہوگا
+        // 2. Stage 2: 'e' لوگو بالکل درست متوازن پوزیشن پر ظاہر ہوگا
         stage2.style.opacity = '1';
 
-        // 3. ہمواری سے بائیں طرف سلائیڈ کرے گا
+        // 3. ڈیجیٹل بینک کی فلوئنگ ٹائپنگ
         setTimeout(() => {
-          stage2Wrapper.classList.add('shifted');
+          brandTypeWrap.classList.add('active');
 
-          // 4. فوری ڈیجیٹل بینک کی فلوئنگ ٹائپنگ
-          setTimeout(() => {
-            brandTypeWrap.classList.add('active');
+          animateToFinalWord(rowDigital, "digital", () => {
+            setTimeout(() => {
+              animateToFinalWord(rowBank, "bank", () => {
+                // 4. اینیمیشن مکمل ہوتے ہی سیدھا ہوم پیج
+                setTimeout(() => {
+                  go('screen-home');
+                }, 650);
+              });
+            }, 35);
+          });
 
-            // پہلے اوپر 'digital'
-            animateToFinalWord(rowDigital, "digital", () => {
-              // اس کے فورا بعد نیچے 'bank'
-              setTimeout(() => {
-                animateToFinalWord(rowBank, "bank", () => {
-                  // 5. ہوم پیج پر منتقلی
-                  setTimeout(() => {
-                    go('screen-home');
-                  }, 650);
-                });
-              }, 40);
-            });
-
-          }, 280);
-
-        }, 200);
+        }, 300);
 
       }, 3000);
     }
