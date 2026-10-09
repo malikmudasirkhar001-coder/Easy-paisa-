@@ -57,20 +57,20 @@
     /* Top Status Bar */
     .status-bar {
       position: absolute;
-      top: 8px;
+      top: 10px;
       left: 18px;
       right: 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 11px;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.75);
       font-weight: 600;
       z-index: 70;
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg (Strictly 3.0s Stay) */
+    /* STAGE 1: Centered 11.jpeg */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -146,7 +146,13 @@
       flex-shrink: 0;
       filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
     }
-    .red-filter-logo svg { width: 100%; height: 100%; display: block; }
+    .red-filter-logo canvas, 
+    .red-filter-logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
 
     .brand-type-wrap {
       display: flex;
@@ -215,7 +221,7 @@
       transform-origin: 300px 300px;
     }
 
-    /* HOME SCREEN & SCROLLABLE CONTENT */
+    /* HOME SCREEN */
     #screen-home {
       position: absolute;
       top: 0;
@@ -236,15 +242,13 @@
       z-index: 40;
     }
 
-    /* اسکرول ہونے والا باڈی ایریا (نیچے باٹم بار کے اوپر رکے گا) */
     .home-scrollable-body {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 90px;
+      padding-bottom: 100px;
     }
     .home-scrollable-body::-webkit-scrollbar { display: none; }
 
-    /* User Greeting Bar */
     .user-header-bar {
       padding: 16px 20px 10px 20px;
       display: flex;
@@ -268,7 +272,6 @@
     .user-greet-text { font-size: 17px; font-weight: 700; color: #1e293b; }
     .notif-bell-icon { font-size: 22px; color: #334155; }
 
-    /* Ello Search Bar */
     .search-wrap-ello { padding: 6px 18px 12px 18px; }
     .search-input-box {
       width: 100%;
@@ -293,29 +296,63 @@
     }
     .search-placeholder-text { font-size: 14px; color: #475569; font-weight: 500; }
 
-    /* خودکار اسکرول ہونے والا کارڈز کنٹینر (Cards Auto Slider) */
     .cards-slider-container {
       display: flex;
       gap: 12px;
       padding: 6px 18px 16px 18px;
       overflow-x: auto;
-      scroll-behavior: smooth;
     }
     .cards-slider-container::-webkit-scrollbar { display: none; }
 
-    .promo-card-item {
+    .card-ep-account-fixed {
       flex: 0 0 240px;
       height: 185px;
+      background: linear-gradient(145deg, #a7f3d0 0%, #6ee7b7 45%, #34d399 100%);
       border-radius: 26px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      box-shadow: 0 8px 20px rgba(52, 211, 153, 0.25);
+    }
+    .box-3d-graphic {
+      width: 58px;
+      height: 44px;
+      background: #059669;
+      border-radius: 12px;
+      position: relative;
+      border: 2px solid #34d399;
+    }
+    .coin-3d-gold {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      background: #fde047;
+      border-radius: 50%;
+      border: 2px solid #ca8a04;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 900;
+      color: #854d0e;
     }
 
-    /* سروسز گرڈ (Auto-rotating items) */
+    .card-dynamic-ad {
+      flex: 0 0 170px;
+      height: 185px;
+      border-radius: 26px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      transition: background 0.6s ease, transform 0.3s ease;
+      background: linear-gradient(145deg, #fef08a, #fde047);
+      color: #713f12;
+    }
+
     .services-main-wrapper { padding: 0 18px 20px 18px; }
     .section-title-label { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 14px; }
     
@@ -323,7 +360,6 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      transition: opacity 0.3s ease;
     }
     .service-btn-tile {
       background: #ffffff;
@@ -337,8 +373,19 @@
       border: 1px solid #f1f5f9;
       cursor: pointer;
       overflow: hidden;
+      outline: none;
+      transition: transform 0.15s ease;
     }
-    .service-btn-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .service-btn-tile:active { transform: scale(0.96); }
+    .service-btn-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .zoom-out-item img {
+      transform: scale(0.92);
+    }
 
     .slider-dots-center {
       display: flex;
@@ -350,18 +397,9 @@
     .dot-bullet { width: 6px; height: 6px; border-radius: 50%; background: #cbd5e1; }
     .dot-bullet.active-dot { background: var(--ep-green); }
 
-    /* STORIES SECTION (139498) */
-    .stories-container-wrap {
-      padding: 0 18px 24px 18px;
-    }
-    .stories-scroll-row {
-      display: flex;
-      gap: 14px;
-      overflow-x: auto;
-      padding-top: 6px;
-    }
+    .stories-container-wrap { padding: 0 18px 24px 18px; }
+    .stories-scroll-row { display: flex; gap: 14px; overflow-x: auto; padding-top: 6px; }
     .stories-scroll-row::-webkit-scrollbar { display: none; }
-
     .story-bubble-ring {
       width: 106px;
       height: 106px;
@@ -392,10 +430,7 @@
     }
     .story-bubble-inner span.green-txt { color: #a7f3d0; }
 
-    /* HUBS SECTION (139498) */
-    .hubs-container-wrap {
-      padding: 0 18px 24px 18px;
-    }
+    .hubs-container-wrap { padding: 0 18px 24px 18px; }
     .hubs-cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -404,47 +439,41 @@
     .hub-card-item {
       background: #ffffff;
       border-radius: 20px;
-      padding: 16px 14px;
+      padding: 0;
       border: 1px solid #f1f5f9;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 140px;
-      cursor: pointer;
-    }
-    .hub-card-title {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .hub-graphic-container {
-      width: 100%;
-      height: 60px;
-      background: #ecfdf5;
-      border-radius: 14px;
-      display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
-      color: #00A651;
+      aspect-ratio: 1.3 / 1;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.15s ease;
+    }
+    .hub-card-item:active { transform: scale(0.97); }
+    .hub-card-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    /* باٹم نیویگیشن بار مستقل لاک (100% FIXED AT BOTTOM) */
+    /* Fixed Bottom Navigation Bar */
     .bottom-navbar-fixed {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 66px;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      height: 68px;
       background: #ffffff;
-      border-top: 1px solid #e2e8f0;
+      border-radius: 26px;
+      border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 0 8px;
-      z-index: 60; /* مستقل لاک رہے گا */
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+      padding: 0 10px;
+      z-index: 60;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
     .nav-item-unit {
       display: flex;
@@ -452,35 +481,102 @@
       align-items: center;
       justify-content: center;
       color: #64748b;
-      font-size: 10px;
-      font-weight: 600;
-      gap: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      gap: 4px;
       background: none;
       border: none;
       cursor: pointer;
-      width: 52px;
+      width: 56px;
       height: 100%;
     }
-    .nav-item-unit img { width: 24px; height: 24px; object-fit: contain; }
+    .nav-item-unit img { width: 28px; height: 28px; object-fit: contain; }
     .nav-pay-btn-custom {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: var(--ep-green);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: -16px;
-      box-shadow: 0 4px 12px rgba(0, 166, 81, 0.4);
+      margin-top: -24px;
+      box-shadow: 0 6px 14px rgba(0, 166, 81, 0.45);
       border: none;
       cursor: pointer;
-      padding: 8px;
+      padding: 10px;
     }
     .nav-pay-btn-custom img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       filter: brightness(0) invert(1);
+    }
+
+    /* Process Modal Screen */
+    #process-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 90;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .process-modal-card {
+      width: 100%;
+      background: #ffffff;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      padding: 24px 20px 32px 20px;
+      animation: slideModalUp 0.3s ease forwards;
+    }
+    @keyframes slideModalUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .process-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .process-close-btn {
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .process-input-box {
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      padding: 0 14px;
+      font-size: 15px;
+      margin-top: 10px;
+      outline: none;
+    }
+    .process-action-btn {
+      width: 100%;
+      height: 48px;
+      background: var(--ep-green);
+      color: #ffffff;
+      border-radius: 14px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 18px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -504,7 +600,7 @@
       </div>
     </div>
 
-    <!-- 2. STAGE 2: Slide + Balanced Circles + Typography -->
+    <!-- 2. STAGE 2: Splash Matrix Animation -->
     <div id="splash-stage-2">
       
       <div class="orbit-container">
@@ -534,7 +630,8 @@
 
       <div class="stage2-content">
         <div class="red-filter-logo">
-          <svg viewBox="0 0 120 120">
+          <canvas id="red-clean-canvas" style="display:none;"></canvas>
+          <svg viewBox="0 0 120 120" id="vector-egg-svg">
             <ellipse cx="60" cy="46" rx="42" ry="32" fill="#ffffff"/>
             <ellipse cx="60" cy="47" rx="22" ry="14" fill="#261f30"/>
             <path d="M 18 50 C 20 76 44 96 68 96 C 88 96 102 85 102 85 L 96 73 C 96 73 83 82 66 82 C 45 82 32 68 28 50 Z" fill="#00A651" />
@@ -549,22 +646,21 @@
 
     </div>
 
-    <!-- 3. EXACT HOME SCREEN WITH LOCKED BOTTOM BAR -->
+    <!-- 3. EXACT HOME SCREEN -->
     <div id="screen-home">
       
-      <!-- اسکرول ہونے والا باڈی مواد -->
       <div class="home-scrollable-body">
         
         <!-- User Greeting -->
         <div class="user-header-bar">
           <div class="user-meta-left">
-            <div class="user-avatar-circle">MA</div>
-            <span class="user-greet-text">Hey There 👋</span>
+            <div class="user-avatar-circle" id="user-avatar-text">MA</div>
+            <span class="user-greet-text" id="user-greeting-text">Hey There 👋</span>
           </div>
           <i class="fa-regular fa-bell notif-bell-icon"></i>
         </div>
 
-        <!-- Ello Search Bar -->
+        <!-- Search Bar -->
         <div class="search-wrap-ello">
           <div class="search-input-box">
             <div class="ello-badge-avatar">🦁</div>
@@ -572,12 +668,18 @@
           </div>
         </div>
 
-        <!-- 4 خودکار روٹیٹ ہونے والے ایڈز کارڈز -->
-        <div class="cards-slider-container" id="cards-slider">
-          <!-- Card 1: Account -->
-          <div class="promo-card-item" style="background: linear-gradient(145deg, #a7f3d0 0%, #6ee7b7 45%, #34d399 100%);">
+        <!-- Cards Slider -->
+        <div class="cards-slider-container">
+          <!-- Permanent Green Sign-In Card -->
+          <div class="card-ep-account-fixed">
             <div>
-              <div style="font-size: 14px; font-weight: 700; color: #064e3b; display: flex; align-items: center; gap: 6px;">
+              <div class="card-top-icon-wrap" style="display:flex; align-items:center;">
+                <div class="box-3d-graphic">
+                  <div class="coin-3d-gold" style="top: -6px; left: 10px;">e</div>
+                  <div class="coin-3d-gold" style="top: 8px; left: 22px;">e</div>
+                </div>
+              </div>
+              <div style="font-size: 15px; font-weight: 700; color: #064e3b; display: flex; align-items: center; gap: 6px; margin-top: 10px;">
                 <span>easypaisa Account</span>
                 <i class="fa-solid fa-chevron-down" style="font-size: 11px;"></i>
               </div>
@@ -588,54 +690,32 @@
             </div>
           </div>
 
-          <!-- Card 2: Loan -->
-          <div class="promo-card-item" style="background: linear-gradient(145deg, #fef08a, #fde047); color: #713f12;">
+          <!-- Rotating Ad Card -->
+          <div class="card-dynamic-ad" id="rotating-ad-card">
             <div>
-              <div style="font-size: 12px; font-weight: 800; text-transform: uppercase;">BORROW MONEY</div>
-              <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
+              <div id="ad-tag" style="font-size: 12px; font-weight: 800; text-transform: uppercase;">BORROW MONEY</div>
+              <div id="ad-title" style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
                 Get up to<br><span style="font-size: 21px;">50,000</span>
               </div>
             </div>
-            <div style="font-size: 11px; font-weight: 700;">Instant Loan →</div>
-          </div>
-
-          <!-- Card 3: Savings -->
-          <div class="promo-card-item" style="background: linear-gradient(145deg, #bae6fd, #7dd3fc); color: #0369a1;">
-            <div>
-              <div style="font-size: 12px; font-weight: 800; text-transform: uppercase;">SAVINGS POCKET</div>
-              <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
-                Earn up to<br><span style="font-size: 21px;">18% Daily</span>
-              </div>
-            </div>
-            <div style="font-size: 11px; font-weight: 700;">Subscribe Now →</div>
-          </div>
-
-          <!-- Card 4: Cashback -->
-          <div class="promo-card-item" style="background: linear-gradient(145deg, #fed7aa, #fdba74); color: #9a3412;">
-            <div>
-              <div style="font-size: 12px; font-weight: 800; text-transform: uppercase;">MEGA CASHBACK</div>
-              <div style="font-size: 16px; font-weight: 800; margin-top: 8px; line-height: 1.2;">
-                Flat Rs. 100<br><span style="font-size: 21px;">Bill Bonus</span>
-              </div>
-            </div>
-            <div style="font-size: 11px; font-weight: 700;">Claim Now →</div>
+            <div id="ad-action" style="font-size: 11px; font-weight: 700;">Instant Loan →</div>
           </div>
         </div>
 
-        <!-- More with easypaisa (خودکار روٹیٹ ہونے والے 9 بٹن) -->
+        <!-- More with easypaisa Grid -->
         <div class="services-main-wrapper">
           <h3 class="section-title-label">More with easypaisa</h3>
           <div class="services-cards-grid" id="services-grid-container">
-            <!-- Dynamic Buttons from JSON -->
+            <!-- Dynamic Grid from JSON -->
           </div>
 
           <div class="slider-dots-center">
-            <span class="dot-bullet active-dot" id="dot-1"></span>
-            <span class="dot-bullet" id="dot-2"></span>
+            <span class="dot-bullet active-dot"></span>
+            <span class="dot-bullet"></span>
           </div>
         </div>
 
-        <!-- Stories Section (139498) -->
+        <!-- Stories Section -->
         <div class="stories-container-wrap">
           <h3 class="section-title-label">Stories</h3>
           <div class="stories-scroll-row">
@@ -660,159 +740,246 @@
           </div>
         </div>
 
-        <!-- Hubs Section (139498) -->
+        <!-- Hubs Section -->
         <div class="hubs-container-wrap">
           <h3 class="section-title-label">Hubs</h3>
-          <div class="hubs-cards-grid">
-            
-            <div class="hub-card-item">
-              <span class="hub-card-title">Load & Packages</span>
-              <div class="hub-graphic-container">
-                <i class="fa-solid fa-mobile-screen-button"></i>
-              </div>
-            </div>
-
-            <div class="hub-card-item">
-              <span class="hub-card-title">Insurance</span>
-              <div class="hub-graphic-container">
-                <i class="fa-solid fa-umbrella"></i>
-              </div>
-            </div>
-
-            <div class="hub-card-item">
-              <span class="hub-card-title">Mini Apps</span>
-              <div class="hub-graphic-container">
-                <i class="fa-solid fa-store"></i>
-              </div>
-            </div>
-
-            <div class="hub-card-item">
-              <span class="hub-card-title">Help Center</span>
-              <div class="hub-graphic-container">
-                <i class="fa-solid fa-headset"></i>
-              </div>
-            </div>
-
+          <div class="hubs-cards-grid" id="hubs-grid-container">
+            <!-- Dynamic Hubs from JSON -->
           </div>
         </div>
 
       </div>
 
-      <!-- باٹم نیویگیشن بار مستقل لاک (100% FIXED) -->
+      <!-- Bottom Navigation Bar -->
       <nav class="bottom-navbar-fixed">
         <button class="nav-item-unit" onclick="onNavClick('home')">
-          <img src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
+          <img id="nav-img-home" src="https://i.ibb.co/PGD4tQK5/139526.jpg" alt="">
           <span style="color: #00A651;">Home</span>
         </button>
         <button class="nav-item-unit" onclick="onNavClick('cards')">
-          <img src="https://i.ibb.co/Tx5fqRJR/139527.jpg" alt="">
+          <img id="nav-img-cards" src="https://i.ibb.co/Tx5fqRJR/139527.jpg" alt="">
           <span>Cards</span>
         </button>
         <button class="nav-pay-btn-custom" onclick="onNavClick('pay')">
-          <img src="https://i.ibb.co/rRDf8PBz/139528.jpg" alt="">
+          <img id="nav-img-pay" src="https://i.ibb.co/rRDf8PBz/139528.jpg" alt="">
         </button>
         <button class="nav-item-unit" onclick="onNavClick('promotions')">
-          <i class="fa-solid fa-tags" style="font-size: 20px;"></i>
+          <i class="fa-solid fa-tags" style="font-size: 22px;"></i>
           <span>Promotions</span>
         </button>
         <button class="nav-item-unit" onclick="onNavClick('zen')">
-          <i class="fa-solid fa-circle-nodes" style="font-size: 20px;"></i>
+          <i class="fa-solid fa-circle-nodes" style="font-size: 22px;"></i>
           <span>Zen</span>
         </button>
       </nav>
 
     </div>
 
+    <!-- Process Modal -->
+    <div id="process-modal">
+      <div class="process-modal-card">
+        <div class="process-header">
+          <h3 id="modal-process-title" style="font-size: 18px; font-weight: 800; color: #1e293b;">Process</h3>
+          <button class="process-close-btn" onclick="closeProcessModal()">✕</button>
+        </div>
+        <p id="modal-process-desc" style="font-size: 13px; color: #64748b; margin-bottom: 8px;">Enter details to continue</p>
+        <input type="text" id="modal-process-input" class="process-input-box" placeholder="Enter Mobile Number / Account">
+        <input type="number" id="modal-process-amount" class="process-input-box" placeholder="Enter Amount (Rs.)" style="margin-top: 10px;">
+        <button class="process-action-btn" onclick="submitProcessAction()">Continue</button>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    function onNavClick(tab) {
-      console.log("Nav clicked:", tab);
+    let dynamicAds = [];
+
+    // Red Chroma Key Cleaner for 2.png
+    function initChromaKeyRed(imgSrc) {
+      const img = new Image();
+      img.src = imgSrc;
+      img.onload = function() {
+        try {
+          const canvas = document.getElementById('red-clean-canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i+1], b = d[i+2];
+            if (r > 120 && (r - g) > 40 && (r - b) > 40) {
+              d[i+3] = 0;
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+          document.getElementById('vector-egg-svg').style.display = 'none';
+          canvas.style.display = 'block';
+        } catch(e) {}
+      };
     }
 
-    // JSON سے سروسز لوڈ کرنا اور روٹیشن کنٹرول
-    async function initHomeServices() {
-      const container = document.getElementById('services-grid-container');
-      const defaultData = [
-        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg" },
-        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg" },
-        { id: "load_packages", name: "Load packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg" },
-        { id: "enter_in_win", "name": "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg" },
-        { id: "easy_cash", name: "Easy cahs", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg" },
-        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg" },
-        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg" },
-        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg" },
-        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg" }
+    // Load Data from icons.json
+    async function loadDataFromJSON() {
+      const servicesContainer = document.getElementById('services-grid-container');
+      const hubsContainer = document.getElementById('hubs-grid-container');
+
+      const fallbackServices = [
+        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg", zoomOut: false },
+        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg", zoomOut: false },
+        { id: "load_packages", name: "Loads & Packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg", zoomOut: true },
+        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg", zoomOut: false },
+        { id: "easy_cash", name: "Easycash", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg", zoomOut: false },
+        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg", zoomOut: false },
+        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg", zoomOut: false },
+        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg", zoomOut: false },
+        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg", zoomOut: false }
       ];
 
-      function render(items) {
-        container.innerHTML = '';
+      const fallbackHubs = [
+        { id: "hub_load", name: "Load & Packages", image: "https://i.ibb.co/60T3n7fM/139536.jpg" },
+        { id: "hub_ins", name: "Insurance", image: "https://i.ibb.co/7xcytnPd/139537.jpg" },
+        { id: "hub_mini", name: "Mini Apps", image: "https://i.ibb.co/27yLsNkS/139538.jpg" },
+        { id: "hub_help", name: "Help Center", image: "https://i.ibb.co/wZd1dBCL/139539.jpg" }
+      ];
+
+      function renderServices(items) {
+        servicesContainer.innerHTML = '';
         items.forEach(item => {
           const btn = document.createElement('button');
-          btn.className = 'service-btn-tile';
+          btn.className = 'service-btn-tile' + (item.zoomOut ? ' zoom-out-item' : '');
           btn.setAttribute('data-id', item.id);
           btn.setAttribute('aria-label', item.name);
+          btn.onclick = () => onServiceClick(item.id, item.name);
           btn.innerHTML = `<img src="${item.image}" alt="">`;
-          container.appendChild(btn);
+          servicesContainer.appendChild(btn);
+        });
+      }
+
+      function renderHubs(items) {
+        hubsContainer.innerHTML = '';
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'hub-card-item';
+          card.onclick = () => onHubClick(item.name);
+          card.innerHTML = `<img src="${item.image}" alt="${item.name}">`;
+          hubsContainer.appendChild(card);
         });
       }
 
       try {
-        const res = await fetch('icons.json');
-        const d = await res.json();
-        render(d.services || defaultData);
+        const response = await fetch('icons.json');
+        const data = await response.json();
+
+        if (data.user) {
+          if (data.user.initials) document.getElementById('user-avatar-text').innerText = data.user.initials;
+          if (data.user.greeting) document.getElementById('user-greeting-text').innerText = data.user.greeting;
+        }
+
+        renderServices(data.services || fallbackServices);
+        renderHubs(data.hubs || fallbackHubs);
+
+        if (data.rotating_ads) {
+          dynamicAds = data.rotating_ads;
+        }
+
+        if (data.bottom_nav) {
+          if (data.bottom_nav.home) document.getElementById('nav-img-home').src = data.bottom_nav.home;
+          if (data.bottom_nav.cards) document.getElementById('nav-img-cards').src = data.bottom_nav.cards;
+          if (data.bottom_nav.pay) document.getElementById('nav-img-pay').src = data.bottom_nav.pay;
+        }
       } catch(e) {
-        render(defaultData);
+        renderServices(fallbackServices);
+        renderHubs(fallbackHubs);
       }
     }
 
-    // 1. اوپر والے کارڈز کا خودکار اسکرول (Auto Scroll Promo Cards)
-    function startCardSliderAutoScroll() {
-      const slider = document.getElementById('cards-slider');
-      let direction = 1;
-      setInterval(() => {
-        if (!slider) return;
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
-        if (slider.scrollLeft >= maxScroll - 10) {
-          direction = -1;
-        } else if (slider.scrollLeft <= 10) {
-          direction = 1;
+    // Modal Process Handlers
+    function onServiceClick(id, name) {
+      if (id === 'send_money') {
+        openProcessModal("Send Money (Money Transfer)", "Enter Receiver Mobile Number / IBAN");
+      } else if (id === 'bill_payment') {
+        openProcessModal("Bill Payment", "Enter Consumer Number / Reference ID");
+      } else if (id === 'load_packages') {
+        openProcessModal("Mobile Packages & Easyload", "Enter Mobile Number for Packages");
+      } else {
+        openProcessModal(name, "Enter details for " + name);
+      }
+    }
+
+    function openProcessModal(title, placeholder) {
+      document.getElementById('modal-process-title').innerText = title;
+      document.getElementById('modal-process-input').placeholder = placeholder;
+      document.getElementById('process-modal').style.display = 'flex';
+    }
+
+    function closeProcessModal() {
+      document.getElementById('process-modal').style.display = 'none';
+    }
+
+    function submitProcessAction() {
+      alert("درخواست کامیابی کے ساتھ پروسیس ہو چکی ہے!");
+      closeProcessModal();
+    }
+
+    function onHubClick(hubName) {
+      openProcessModal(hubName, "Enter details for " + hubName);
+    }
+
+    function onNavClick(tab) {
+      console.log("Nav Tab:", tab);
+    }
+
+    // Rotating 50,000 Ad Card
+    function startRotatingAdCard() {
+      const card = document.getElementById('rotating-ad-card');
+      const tag = document.getElementById('ad-tag');
+      const title = document.getElementById('ad-title');
+      const action = document.getElementById('ad-action');
+
+      const ads = dynamicAds.length > 0 ? dynamicAds : [
+        {
+          tag: "BORROW MONEY",
+          title: "Get up to<br><span style='font-size:21px;'>50,000</span>",
+          action: "Instant Loan →",
+          bg: "linear-gradient(145deg, #fef08a, #fde047)",
+          color: "#713f12"
+        },
+        {
+          tag: "SAVINGS POCKET",
+          title: "Earn up to<br><span style='font-size:21px;'>18% Daily</span>",
+          action: "Subscribe Now →",
+          bg: "linear-gradient(145deg, #bae6fd, #7dd3fc)",
+          color: "#0369a1"
+        },
+        {
+          tag: "MEGA CASHBACK",
+          title: "Flat Rs. 100<br><span style='font-size:21px;'>Bill Bonus</span>",
+          action: "Claim Now →",
+          bg: "linear-gradient(145deg, #fed7aa, #fdba74)",
+          color: "#9a3412"
         }
-        slider.scrollBy({ left: direction * 250, behavior: 'smooth' });
-      }, 3500);
-    }
+      ];
 
-    // 2. سروسز بٹنز کی روٹیشن (Services Rotate)
-    function startServiceAutoRotation() {
-      const container = document.getElementById('services-grid-container');
-      const dot1 = document.getElementById('dot-1');
-      const dot2 = document.getElementById('dot-2');
-      let page = 1;
-
+      let idx = 0;
       setInterval(() => {
-        if (!container) return;
-        container.style.opacity = '0';
+        idx = (idx + 1) % ads.length;
+        card.style.transform = 'scale(0.96)';
         setTimeout(() => {
-          if (page === 1) {
-            // دوسری ترتیب میں روٹیٹ
-            const firstThree = Array.from(container.children).slice(0, 3);
-            firstThree.forEach(el => container.appendChild(el));
-            page = 2;
-            dot1.classList.remove('active-dot');
-            dot2.classList.add('active-dot');
-          } else {
-            const lastThree = Array.from(container.children).slice(-3);
-            lastThree.reverse().forEach(el => container.insertBefore(el, container.firstChild));
-            page = 1;
-            dot2.classList.remove('active-dot');
-            dot1.classList.add('active-dot');
-          }
-          container.style.opacity = '1';
-        }, 250);
-      }, 5000);
+          tag.innerHTML = ads[idx].tag;
+          title.innerHTML = ads[idx].title;
+          action.innerHTML = ads[idx].action;
+          card.style.background = ads[idx].bg;
+          card.style.color = ads[idx].color;
+          card.style.transform = 'scale(1)';
+        }, 200);
+      }, 4000);
     }
 
-    // اسپلش اسکرین ٹائپنگ اینیمیشن
+    // Matrix Scramble Text Animation
     const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
     function animateToFinalWord(container, word, onComplete) {
       let step = 0;
@@ -847,8 +1014,7 @@
             setTimeout(() => {
               const home = document.getElementById('screen-home');
               if (home) home.classList.add('active-home');
-              startCardSliderAutoScroll();
-              startServiceAutoRotation();
+              startRotatingAdCard();
             }, 600);
           });
         }, 50);
@@ -856,7 +1022,8 @@
     }, 3900);
 
     window.addEventListener('DOMContentLoaded', () => {
-      initHomeServices();
+      initChromaKeyRed('2.png');
+      loadDataFromJSON();
     });
   </script>
 </body>
