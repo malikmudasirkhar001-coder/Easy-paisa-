@@ -90,7 +90,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Pure Image Centered (No White Border, No Box) */
+    /* STAGE 1: Centered 11.png (No Border, No White Box) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -103,7 +103,6 @@
       z-index: 20;
       transition: opacity 0.5s ease;
       pointer-events: none;
-      background: transparent;
     }
     .pure-image-container {
       width: 175px;
@@ -111,19 +110,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent;
     }
     .pure-image-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
-      border: none;
-      outline: none;
-      background: transparent;
     }
 
-    /* STAGE 2: Slide to Left + Rings + Typewriter */
+    /* STAGE 2: 2.png + Typewriter + Orbit Rings */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -154,15 +149,12 @@
       justify-content: center;
       margin-right: 14px;
       flex-shrink: 0;
-      background: transparent;
     }
     .left-logo-wrap img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
-      border: none;
-      background: transparent;
     }
     .typewriter-box {
       display: flex;
@@ -179,7 +171,7 @@
       min-height: 36px;
     }
 
-    /* Orbit SVG Rings */
+    /* Orbit SVG Text Rings */
     .orbit-svg {
       position: absolute;
       top: 0;
@@ -204,7 +196,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* Typewriter Caret */
+    /* Typewriter Cursor */
     @keyframes cursorPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
@@ -217,22 +209,6 @@
       margin-left: 3px;
       animation: cursorPulse 0.5s infinite;
       vertical-align: middle;
-    }
-
-    /* Keypad Styles */
-    .key-btn {
-      height: 56px;
-      border-radius: 16px;
-      background-color: #f8fafc;
-      font-size: 20px;
-      font-weight: 700;
-      color: #1e293b;
-      border: 1px solid #e2e8f0;
-      cursor: pointer;
-    }
-    .key-btn:active {
-      transform: scale(0.94);
-      background-color: #e2e8f0;
     }
   </style>
 </head>
@@ -253,25 +229,23 @@
         </div>
       </div>
 
-      <!-- STAGE 1: Pure Image Without Any Border or Box (3 Seconds Strict Stay) -->
+      <!-- STAGE 1: Exact Centered 11.png Path (No white border, 3 Seconds Fix Stay) -->
       <div id="splash-stage-1">
         <div class="pure-image-container">
-          <img id="img-11" src="11.png" alt="Easypaisa Logo 1" 
-               onerror="this.onerror=null; this.src='https://i.ibb.co/Lh0H11BY/138526.png';">
+          <img src="11.png" alt="Easypaisa Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: Left Side Logo + Typewriter Digital Bank + Distant Rings -->
+      <!-- STAGE 2: Left Side 2.png Path + Typewriter Digital Bank + Distant Rings -->
       <div id="splash-stage-2">
         
-        <!-- Distant Concentric Rings -->
+        <!-- Distant Rotating Rings -->
         <svg class="orbit-svg" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
             <path id="outerCirclePath" d="M 250, 250 m -225, 0 a 225,225 0 1,1 450,0 a 225,225 0 1,1 -450,0" fill="none" />
           </defs>
 
-          <!-- Inner Ring -->
           <g class="orbit-ring-inner">
             <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
               <textPath href="#innerCirclePath" startOffset="0%">
@@ -280,7 +254,6 @@
             </text>
           </g>
 
-          <!-- Outer Ring -->
           <g class="orbit-ring-outer">
             <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
@@ -293,8 +266,7 @@
         <!-- Center Unit: Left Logo + Typewriter -->
         <div class="stage2-content">
           <div class="left-logo-wrap">
-            <img id="img-2" src="2.png" alt="Easypaisa Logo 2" 
-                 onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5m42bkv91DtBj9AXA3R104H_yaItfi63HEg&s';">
+            <img src="2.png" alt="Easypaisa Logo 2">
           </div>
 
           <div class="typewriter-box">
@@ -307,52 +279,7 @@
 
     </div>
 
-    <!-- 2. LOGIN SCREEN (Direct Transition) -->
-    <div id="screen-login" class="screen" style="justify-content:space-between; padding:24px; background:#ffffff;">
-      <div style="display:flex; align-items:center; justify-content:space-between; padding-top:16px;">
-        <div style="width:32px;"></div>
-        <span style="font-size:12px; font-weight:700; color:#94a3b8; letter-spacing:0.1em; text-transform:uppercase;">Secure Sign In</span>
-        <div style="width:32px;"></div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px 0;">
-        <div style="width:64px; height:64px; border-radius:20px; background:linear-gradient(135deg, #008a43, #00A651); display:flex; align-items:center; justify-content:center; color:#ffffff; box-shadow:0 10px 20px rgba(0,166,81,0.25); margin-bottom:16px;">
-          <i class="fa-solid fa-lock" style="font-size:24px;"></i>
-        </div>
-        <h2 style="font-size:20px; font-weight:800; color:#1e293b;">Enter Your 5-Digit PIN</h2>
-        <p style="font-size:12px; color:#64748b; margin-top:4px;">Easypaisa Account: 0312-9876543</p>
-
-        <!-- PIN Dots indicator -->
-        <div style="display:flex; gap:14px; margin-top:24px; margin-bottom:8px;">
-          <div id="dot-0" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
-          <div id="dot-1" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
-          <div id="dot-2" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
-          <div id="dot-3" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
-          <div id="dot-4" style="width:16px; height:16px; border-radius:50%; border:2px solid #cbd5e1; background:transparent;"></div>
-        </div>
-        <span id="pin-feedback" style="font-size:12px; font-weight:600; color:#f43f5e; height:18px;"></span>
-      </div>
-
-      <!-- Keypad -->
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; width:100%; max-width:280px; margin:0 auto; padding-bottom:16px;">
-        <button onclick="pin('1')" class="key-btn">1</button>
-        <button onclick="pin('2')" class="key-btn">2</button>
-        <button onclick="pin('3')" class="key-btn">3</button>
-        <button onclick="pin('4')" class="key-btn">4</button>
-        <button onclick="pin('5')" class="key-btn">5</button>
-        <button onclick="pin('6')" class="key-btn">6</button>
-        <button onclick="pin('7')" class="key-btn">7</button>
-        <button onclick="pin('8')" class="key-btn">8</button>
-        <button onclick="pin('9')" class="key-btn">9</button>
-        <button onclick="pinClear()" class="key-btn" style="background:#f1f5f9; font-size:12px; color:#475569;">CLR</button>
-        <button onclick="pin('0')" class="key-btn">0</button>
-        <button onclick="pinDel()" class="key-btn" style="background:#f1f5f9; color:#475569;">
-          <i class="fa-solid fa-delete-left"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- 3. HOME SCREEN -->
+    <!-- 2. HOME SCREEN (Splash ختم ہوتے ہی سیدھا یہاں آئے گا) -->
     <div id="screen-home" class="screen" style="padding-bottom:80px;">
       <div style="background:linear-gradient(135deg, #008a43, #00A651); color:#ffffff; padding:20px; border-bottom-left-radius:28px; border-bottom-right-radius:28px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -365,6 +292,25 @@
         <div style="margin-top:20px; background:rgba(255,255,255,0.15); border-radius:20px; padding:16px; border:1px solid rgba(255,255,255,0.2);">
           <span style="font-size:12px; color:#ecfdf5;">Easypaisa Available Balance</span>
           <div style="font-size:26px; font-weight:900; margin-top:4px;">Rs. 7,000.00</div>
+          <div style="font-size:11px; color:#ffffff; opacity:0.8; margin-top:4px;">Account: 0312-9876543</div>
+        </div>
+      </div>
+
+      <div style="padding:20px;">
+        <h3 style="font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:12px;">Main Services</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="background:#ffffff; padding:16px; border-radius:18px; border:1px solid #e2e8f0; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:14px; background:#dcfce7; color:#00A651; display:flex; align-items:center; justify-content:center; margin:0 auto 8px auto; font-size:18px;">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+            <span style="font-size:12px; font-weight:700; color:#334155;">Money Transfer</span>
+          </div>
+          <div style="background:#ffffff; padding:16px; border-radius:18px; border:1px solid #e2e8f0; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:14px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; margin:0 auto 8px auto; font-size:18px;">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <span style="font-size:12px; font-weight:700; color:#334155;">Bill Payment</span>
+          </div>
         </div>
       </div>
     </div>
@@ -372,22 +318,20 @@
   </div>
 
   <script>
-    let pinStr = '';
-
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Pure Image Stays
+      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) 11.png Stays
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 500);
 
-        // 2. Stage 2: Reveal Left Logo + Rings + Typewriter starts
+        // 2. Stage 2: Reveal 2.png + Rings + Typewriter starts
         stage2.style.opacity = '1';
 
         const word1 = "digital";
@@ -407,10 +351,10 @@
             clearInterval(typeInterval);
             line2.innerHTML = word2;
 
-            // 3. Exactly 1.5 seconds after typing, go to LOGIN SCREEN
+            // 3. ٹائپنگ مکمل ہوتے ہی سیدھا Easypaisa کے ہوم پیج پر جائیں
             setTimeout(() => {
-              go('screen-login');
-            }, 1500);
+              go('screen-home');
+            }, 800);
           }
         }, 130);
 
@@ -423,58 +367,6 @@
       if (target) {
         target.classList.add('on');
       }
-    }
-
-    function pin(val) {
-      if (pinStr.length >= 5) return;
-      pinStr += val;
-      updatePinDots();
-
-      if (pinStr.length === 5) {
-        setTimeout(verifyPin, 180);
-      }
-    }
-
-    function pinDel() {
-      if (pinStr.length > 0) {
-        pinStr = pinStr.slice(0, -1);
-        updatePinDots();
-        document.getElementById('pin-feedback').innerText = '';
-      }
-    }
-
-    function pinClear() {
-      pinStr = '';
-      updatePinDots();
-      document.getElementById('pin-feedback').innerText = '';
-    }
-
-    function updatePinDots() {
-      for (let i = 0; i < 5; i++) {
-        const dot = document.getElementById(`dot-${i}`);
-        if (i < pinStr.length) {
-          dot.style.background = '#00A651';
-          dot.style.borderColor = '#00A651';
-        } else {
-          dot.style.background = 'transparent';
-          dot.style.borderColor = '#cbd5e1';
-        }
-      }
-    }
-
-    function verifyPin() {
-      const feedback = document.getElementById('pin-feedback');
-
-      if (pinStr === '32303') {
-        pinClear();
-        go('screen-home');
-        return;
-      }
-
-      feedback.innerText = 'Incorrect PIN. Try 32303';
-      setTimeout(() => {
-        pinClear();
-      }, 700);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
