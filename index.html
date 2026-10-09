@@ -90,7 +90,7 @@
       pointer-events: none;
     }
 
-    /* STAGE 1: Centered 11.jpeg (3 Seconds Stay) */
+    /* STAGE 1: Centered 11.jpeg (Strict 3.0 Seconds Stay) */
     #splash-stage-1 {
       position: absolute;
       top: 0;
@@ -134,7 +134,6 @@
       z-index: 10;
     }
 
-    /* متوازن اور ہلکی سی بائیں موومنٹ */
     .stage2-content {
       position: relative;
       z-index: 20;
@@ -142,22 +141,23 @@
       align-items: center;
       justify-content: center;
       transform: translateX(0px);
-      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.75s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .stage2-content.shifted {
-      transform: translateX(-36px); /* متوازن شفٹ */
+      transform: translateX(-38px);
     }
 
-    /* شفاف 'e' لوگو کنٹینر */
+    /* اصل Easypaisa 'e' لوگو کنٹینر */
     .pure-e-logo {
-      width: 60px;
-      height: 60px;
+      width: 68px;
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 12px;
+      margin-right: 14px;
       flex-shrink: 0;
       background: transparent;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
     }
     .pure-e-logo svg {
       width: 100%;
@@ -169,7 +169,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-width: 155px;
+      min-width: 165px;
       opacity: 0;
       transition: opacity 0.25s ease;
     }
@@ -178,11 +178,21 @@
     }
     .typewriter-line {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 800;
-      color: #ffffff;
       line-height: 1.1;
-      min-height: 34px;
+      min-height: 36px;
+      letter-spacing: -0.5px;
+    }
+
+    /* گرین ہائی لائٹ ایفیکٹ */
+    .char-white {
+      color: #ffffff;
+      transition: color 0.15s ease;
+    }
+    .char-green {
+      color: #00A651;
+      text-shadow: 0 0 10px rgba(0, 166, 81, 0.6);
     }
 
     /* Orbit SVG Rings */
@@ -209,21 +219,6 @@
       animation: spinCounter 48s linear infinite;
       transform-origin: 250px 250px;
     }
-
-    /* Typewriter Cursor */
-    @keyframes cursorPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    .cursor-caret {
-      display: inline-block;
-      width: 3px;
-      height: 0.9em;
-      background-color: #00A651;
-      margin-left: 2px;
-      animation: cursorPulse 0.5s infinite;
-      vertical-align: middle;
-    }
   </style>
 </head>
 <body>
@@ -242,14 +237,14 @@
         </div>
       </div>
 
-      <!-- STAGE 1: 11.jpeg (پورا 3 سیکنڈ سینٹر میں) -->
+      <!-- STAGE 1: 11.jpeg (Strict 3.0 Seconds Stay) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
           <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: صرف شفاف 'e' لوگو + ٹائپ رائٹر + سرکلز -->
+      <!-- STAGE 2: 'e' Logo + Green Glowing Typewriter + Orbit Rings -->
       <div id="splash-stage-2">
         
         <!-- Background Orbit Rings -->
@@ -278,13 +273,13 @@
 
         <!-- Center Unit -->
         <div id="stage2-wrapper" class="stage2-content">
-          <!-- شفاف 'e' لوگو (خالص ویکٹر - کوئی بیک گراؤنڈ نہیں) -->
+          <!-- اصل Easypaisa 'e' ویکٹر شیپ (تصویر کے عین مطابق) -->
           <div class="pure-e-logo">
-            <svg viewBox="0 0 100 100">
-              <!-- اوپر والا سفید حصہ -->
-              <path d="M 50 14 C 28 14 14 30 14 47 C 14 62 27 74 48 74 C 69 74 84 62 84 46 C 84 30 70 14 50 14 Z M 50 29 C 61 29 69 37 69 46 C 69 54 60 60 49 60 C 37 60 29 53 29 45 C 29 36 38 29 50 29 Z" fill="#ffffff" />
-              <!-- نیچے والا سبز قوس -->
-              <path d="M 13 49 C 14 68 33 86 54 86 C 73 86 86 73 86 73 C 86 73 71 80 53 80 C 32 80 18 64 13 49 Z" fill="#00A651" />
+            <svg viewBox="0 0 120 120">
+              <!-- Top White Curved Loop -->
+              <path d="M 60 14 C 36 14 20 28 20 48 C 20 67 36 78 62 78 C 88 78 102 67 102 48 C 102 28 86 14 60 14 Z M 60 30 C 74 30 83 38 83 48 C 83 58 72 64 60 64 C 44 64 36 57 36 47 C 36 37 47 30 60 30 Z" fill="#ffffff" />
+              <!-- Bottom Green Sweeping Swoosh with sharp angled cut -->
+              <path d="M 18 51 C 20 74 42 96 68 96 C 88 96 104 84 104 84 L 98 73 C 98 73 84 82 66 82 C 45 82 32 68 28 51 Z" fill="#00A651" />
             </svg>
           </div>
 
@@ -338,6 +333,20 @@
   </div>
 
   <script>
+    function renderHighlightedText(word, currentIndex) {
+      let html = '';
+      for (let k = 0; k <= currentIndex; k++) {
+        if (k === currentIndex) {
+          // نیا ٹائپ ہونے والا لفظ سبز رہے گا
+          html += `<span class="char-green">${word[k]}</span>`;
+        } else {
+          // پچھلے تمام الفاظ سفید ہو جائیں گے
+          html += `<span class="char-white">${word[k]}</span>`;
+        }
+      }
+      return html;
+    }
+
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
@@ -346,21 +355,21 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds 11.jpeg Stays
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 500);
 
-        // 2. Stage 2: 'e' Logo appears in center
+        // 2. Stage 2: 'e' لوگو سینٹر میں ظاہر ہوگا
         stage2.style.opacity = '1';
 
-        // 3. متوازن انداز میں ہلکا سا بائیں طرف موو کرے گا
+        // 3. متوازن طور پر بائیں طرف شفٹ ہوگا
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
-          // 4. موو ہوتے ہی سامنے ٹائپنگ شروع
+          // 4. شفٹ ہوتے ہی گرین ہائی لائٹ ٹائپنگ شروع
           setTimeout(() => {
             typewriterBox.classList.add('active');
 
@@ -371,24 +380,25 @@
 
             const typeInterval = setInterval(() => {
               if (i < word1.length) {
-                line1.innerHTML = word1.slice(0, i + 1) + '<span class="cursor-caret"></span>';
+                line1.innerHTML = renderHighlightedText(word1, i);
                 i++;
               } else if (j < word2.length) {
-                line1.innerHTML = word1;
-                line2.innerHTML = word2.slice(0, j + 1) + '<span class="cursor-caret"></span>';
+                // پہلی لائن کے تمام الفاظ مستقل سفید ہو جائیں گے
+                line1.innerHTML = `<span class="char-white">${word1}</span>`;
+                line2.innerHTML = renderHighlightedText(word2, j);
                 j++;
               } else {
                 clearInterval(typeInterval);
-                line2.innerHTML = word2;
+                line2.innerHTML = `<span class="char-white">${word2}</span>`;
 
-                // 5. اینیمیشن ختم ہوتے ہی سیدھا ہوم پیج
+                // 5. ٹائپنگ مکمل ہونے پر ہوم اسکرین پر منتقلی
                 setTimeout(() => {
                   go('screen-home');
                 }, 800);
               }
-            }, 130);
+            }, 140);
 
-          }, 700);
+          }, 650);
 
         }, 350);
 
