@@ -7,18 +7,17 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
       --ep-green: #00A651;
-      --ep-dark-green: #008a43;
       --ep-theme-dark: #261f30;
     }
     * {
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Comfortaa', -apple-system, sans-serif;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       margin: 0;
@@ -133,7 +132,7 @@
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
       z-index: 10;
     }
 
@@ -147,12 +146,12 @@
       transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
     }
     .stage2-content.shifted {
-      transform: translateX(-42px);
+      transform: translateX(-40px);
     }
 
     .red-removed-logo-box {
-      width: 66px;
-      height: 66px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -167,38 +166,52 @@
       object-fit: contain;
     }
 
-    .typewriter-box {
+    /* Brand Typography Container matching 139456.jpg */
+    .brand-type-wrap {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-width: 155px;
+      min-width: 170px;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transition: opacity 0.2s ease;
     }
-    .typewriter-box.active {
+    .brand-type-wrap.active {
       opacity: 1;
     }
-    .typewriter-line {
-      font-family: 'Space Grotesk', -apple-system, sans-serif;
-      font-size: 32px;
-      font-weight: 800;
+
+    /* Exactly Proportioned Brand Letters */
+    .brand-text-row {
+      display: flex;
+      align-items: baseline;
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 0.95;
       color: #ffffff;
-      line-height: 1.05;
-      min-height: 35px;
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
+      min-height: 38px;
     }
 
-    .char-white { color: #ffffff; }
-    .char-green { color: #00A651; }
-    .char-gray  { color: #94a3b8; }
+    .char-code {
+      display: inline-block;
+      font-family: monospace;
+      font-weight: 800;
+      font-size: 32px;
+      color: #00A651;
+      text-shadow: 0 0 6px rgba(0, 166, 81, 0.6);
+    }
+    .char-solid {
+      display: inline-block;
+      color: #ffffff;
+    }
 
-    /* ORBIT CIRCLES & TEXT (EXACT SCREEN SCALE) */
+    /* ORBIT CIRCLES & TEXT (EXACT SCREEN SCALE FROM SCREENSHOT) */
     .orbit-container {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 440px;
-      height: 440px;
+      width: 480px;
+      height: 480px;
       transform: translate(-50%, -50%);
       pointer-events: none;
       overflow: visible;
@@ -216,21 +229,22 @@
       to { transform: rotate(0deg); }
     }
     .orbit-ring-inner {
-      animation: spinClockwise 34s linear infinite;
-      transform-origin: 220px 220px;
+      animation: spinClockwise 36s linear infinite;
+      transform-origin: 240px 240px;
     }
     .orbit-ring-outer {
-      animation: spinCounter 46s linear infinite;
-      transform-origin: 220px 220px;
+      animation: spinCounter 48s linear infinite;
+      transform-origin: 240px 240px;
     }
 
-    /* HOME SCREEN STYLES */
+    /* HOME SCREEN */
     .home-top-bar {
       padding: 16px 16px 10px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
       background: #ffffff;
+      font-family: 'Inter', sans-serif;
     }
     .search-box-ello {
       flex: 1;
@@ -261,6 +275,7 @@
       gap: 12px;
       padding: 12px 16px;
       overflow-x: auto;
+      font-family: 'Inter', sans-serif;
     }
     .home-cards-scroll::-webkit-scrollbar { display: none; }
 
@@ -294,6 +309,7 @@
       border-radius: 24px;
       padding: 16px 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      font-family: 'Inter', sans-serif;
     }
     .services-title {
       font-size: 13px;
@@ -346,6 +362,7 @@
       justify-content: space-around;
       padding: 0 10px;
       z-index: 50;
+      font-family: 'Inter', sans-serif;
     }
     .nav-btn {
       display: flex;
@@ -399,31 +416,31 @@
         </div>
       </div>
 
-      <!-- STAGE 2: Slide + Perfectly Scaled Concentric Circles + Typewriter -->
+      <!-- STAGE 2: Slide + Perfectly Proportioned Circles + Pure Digital Bank Vectors -->
       <div id="splash-stage-2">
         
-        <!-- ویڈیو کے مطابق صحیح اسکیل پر بنے ہوئے سرکلز -->
+        <!-- ویڈیو اور اسکرین شاٹ 139456 کے عین تناسب پر مبنی سرکلز -->
         <div class="orbit-container">
-          <svg class="orbit-svg" viewBox="0 0 440 440">
+          <svg class="orbit-svg" viewBox="0 0 480 480">
             <defs>
-              <!-- اندرونی سرکل: بالکل ڈیجیٹل بینک کے اوپر اور نیچے متوازن دوری پر -->
-              <path id="innerCirclePath" d="M 220, 220 m -108, 0 a 108,108 0 1,1 216,0 a 108,108 0 1,1 -216,0" fill="none" />
-              <!-- بیرونی سرکل: اسکرین کے کناروں پر خوبصورتی سے کٹتا ہوا -->
-              <path id="outerCirclePath" d="M 220, 220 m -185, 0 a 185,185 0 1,1 370,0 a 185,185 0 1,1 -370,0" fill="none" />
+              <!-- اندرونی سرکل: بالکل متوازن دوری پر (Radius: 116) -->
+              <path id="innerCirclePath" d="M 240, 240 m -116, 0 a 116,116 0 1,1 232,0 a 116,116 0 1,1 -232,0" fill="none" />
+              <!-- بیرونی سرکل: اوپر اور نیچے سے برابر تناسب پر (Radius: 198) -->
+              <path id="outerCirclePath" d="M 240, 240 m -198, 0 a 198,198 0 1,1 396,0 a 198,198 0 1,1 -396,0" fill="none" />
             </defs>
 
-            <!-- Inner Orbiting Text -->
+            <!-- Inner Ring: 'easypaisa · is now a digital bank ·' -->
             <g class="orbit-ring-inner">
-              <text fill="#ffffff" fill-opacity="0.82" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="500" letter-spacing="2.6">
+              <text fill="#ffffff" fill-opacity="0.85" font-family="'Comfortaa', sans-serif" font-size="13.5" font-weight="500" letter-spacing="2.8">
                 <textPath href="#innerCirclePath" startOffset="0%">
                   is now a digital bank · easypaisa · is now a digital bank ·
                 </textPath>
               </text>
             </g>
 
-            <!-- Outer Orbiting Text -->
+            <!-- Outer Ring: 'skip going to the bank -' -->
             <g class="orbit-ring-outer">
-              <text fill="#ffffff" fill-opacity="0.6" font-family="'Space Grotesk', sans-serif" font-size="13.5" font-weight="500" letter-spacing="3.8">
+              <text fill="#ffffff" fill-opacity="0.65" font-family="'Comfortaa', sans-serif" font-size="14.5" font-weight="500" letter-spacing="4.2">
                 <textPath href="#outerCirclePath" startOffset="0%">
                   skip going to the bank - skip going to the bank -
                 </textPath>
@@ -437,9 +454,10 @@
             <canvas id="red-clean-canvas"></canvas>
           </div>
 
-          <div id="typewriter-box" class="typewriter-box">
-            <span id="typed-line-1" class="typewriter-line"></span>
-            <span id="typed-line-2" class="typewriter-line"></span>
+          <!-- اصلی برانڈ ٹائپوگرافی کے مطابق ڈیجیٹل اور بینک کا فلو -->
+          <div id="brand-type-wrap" class="brand-type-wrap">
+            <div id="row-digital" class="brand-text-row"></div>
+            <div id="row-bank" class="brand-text-row"></div>
           </div>
         </div>
 
@@ -558,7 +576,7 @@
   </div>
 
   <script>
-    /* ریڈ بیک گراؤنڈ کروما ریموور */
+    /* 2.png سے ریڈ بیک گراؤنڈ خودکار شفاف بنانا */
     function removeRedBackgroundFromImage(src) {
       const img = new Image();
       img.src = src;
@@ -578,7 +596,6 @@
             const g = d[i+1];
             const b = d[i+2];
 
-            // صرف لال رنگ کو شفاف کرے گا
             if (r > 115 && (r - g) > 35 && (r - b) > 35) {
               d[i+3] = 0;
             }
@@ -590,72 +607,74 @@
       };
     }
 
-    // تیز رفتار ڈیجیٹل ٹائپنگ
-    const scrambleChars = "0101Qabdeklnrtx";
+    /* اسکرین شاٹ 139456 کے عین مطابق ڈیجیٹل کوڈز سے اصل لفظ بننے کا اینیمیشن */
+    const codeMatrixPool = ["0", "1", "Q", "I", "l", "o", "d", "b"];
 
-    function typeCascadingWord(targetElem, finalWord, onDone) {
-      let idx = 0;
+    function animateToFinalWord(container, word, onComplete) {
+      let step = 0;
       const interval = setInterval(() => {
-        if (idx <= finalWord.length) {
-          let output = '';
-          for (let i = 0; i < idx; i++) {
-            output += `<span class="char-white">${finalWord[i]}</span>`;
+        if (step <= word.length) {
+          let html = '';
+          for (let i = 0; i < step; i++) {
+            html += `<span class="char-solid">${word[i]}</span>`;
           }
-          if (idx < finalWord.length) {
-            const rnd1 = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-            const rnd2 = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-            output += `<span class="char-green">${rnd1}</span><span class="char-gray">${rnd2}</span>`;
+          if (step < word.length) {
+            // اسکرین شاٹ میں چمکنے والا گرین ڈیجیٹل کوڈ
+            const rnd = codeMatrixPool[Math.floor(Math.random() * codeMatrixPool.length)];
+            html += `<span class="char-code">${rnd}</span>`;
           }
-          targetElem.innerHTML = output;
-          idx++;
+          container.innerHTML = html;
+          step++;
         } else {
           clearInterval(interval);
-          targetElem.innerHTML = `<span class="char-white">${finalWord}</span>`;
-          if (onDone) onDone();
+          container.innerHTML = `<span class="char-solid">${word}</span>`;
+          if (onComplete) onComplete();
         }
-      }, 50);
+      }, 45); // فاسٹ اور فلوئنگ اسپیڈ
     }
 
     function runSplashSequence() {
       const stage1 = document.getElementById('splash-stage-1');
       const stage2 = document.getElementById('splash-stage-2');
       const stage2Wrapper = document.getElementById('stage2-wrapper');
-      const typewriterBox = document.getElementById('typewriter-box');
-      const line1 = document.getElementById('typed-line-1');
-      const line2 = document.getElementById('typed-line-2');
+      const brandTypeWrap = document.getElementById('brand-type-wrap');
+      const rowDigital = document.getElementById('row-digital');
+      const rowBank = document.getElementById('row-bank');
 
-      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رہے گی
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg سینٹر میں رکے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 350);
 
-        // 2. Stage 2: 'e' لوگو سینٹر میں ظاہر ہوگا
+        // 2. Stage 2: 'e' لوگو سینٹر میں نمودار ہوگا
         stage2.style.opacity = '1';
 
-        // 3. ہمواری سے ہلکا سا بائیں شفٹ
+        // 3. ہمواری سے ہلکا سا بائیں طرف سلائیڈ کرے گا
         setTimeout(() => {
           stage2Wrapper.classList.add('shifted');
 
-          // 4. فلوئنگ ترتیب: پہلے digital مکمل ہوگا، پھر اس کے نیچے bank فلو کرے گا
+          // 4. فوری ڈیجیٹل بینک کی فلوئنگ ٹائپنگ
           setTimeout(() => {
-            typewriterBox.classList.add('active');
+            brandTypeWrap.classList.add('active');
 
-            typeCascadingWord(line1, "digital", () => {
+            // پہلے اوپر کی قطار میں 'digital' بنے گا
+            animateToFinalWord(rowDigital, "digital", () => {
+              // اس کے فورا بعد نیچے 'bank' قدرتی فلو کے ساتھ بنے گا
               setTimeout(() => {
-                typeCascadingWord(line2, "bank", () => {
-                  // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج
+                animateToFinalWord(rowBank, "bank", () => {
+                  // 5. ٹائپنگ ختم ہوتے ہی سیدھا ہوم پیج پر جائیں
                   setTimeout(() => {
                     go('screen-home');
-                  }, 550);
+                  }, 600);
                 });
               }, 40);
             });
 
-          }, 300);
+          }, 280);
 
-        }, 220);
+        }, 200);
 
       }, 3000);
     }
