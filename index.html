@@ -54,6 +54,40 @@
       }
     }
 
+    /* TOP LIVE PUSH NOTIFICATION BANNER */
+    #ep-top-notification {
+      position: absolute;
+      top: -100px;
+      left: 12px;
+      right: 12px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+      z-index: 120;
+      transition: top 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+    }
+    #ep-top-notification.show-notif {
+      top: 14px;
+    }
+    .notif-badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #00A651;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
     /* Top Status Bar */
     .status-bar {
       position: absolute;
@@ -233,7 +267,7 @@
     .home-scrollable-body {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 130px;
+      padding-bottom: 125px;
     }
     .home-scrollable-body::-webkit-scrollbar { display: none; }
 
@@ -448,7 +482,7 @@
       justify-content: space-between;
       height: 136px;
       cursor: pointer;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
     .hub-card-item:active { transform: scale(0.97); }
     .hub-card-title {
@@ -472,7 +506,7 @@
       display: block;
     }
 
-    /* BOTTOM NAVIGATION BAR: 3 سَتر اوپر اٹھایا گیا اور بڑے آئیکونز */
+    /* BOTTOM NAVIGATION BAR */
     .bottom-navbar-fixed {
       position: absolute;
       bottom: 34px;
@@ -759,7 +793,7 @@
       border: 1px solid #f1f5f9;
     }
 
-    /* SECRET ADMIN PANEL MODAL (PIN: 11111) */
+    /* ADVANCED MASTER ADMIN PANEL MODAL (Triggered via 11111) */
     #admin-panel-modal {
       position: absolute;
       top: 0;
@@ -767,7 +801,7 @@
       right: 0;
       bottom: 0;
       background: #0f172a;
-      z-index: 99;
+      z-index: 110;
       display: none;
       flex-direction: column;
       padding: 24px 20px;
@@ -805,7 +839,35 @@
       font-weight: 700;
       font-size: 15px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+    .admin-sec-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #38bdf8;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 6px;
+      margin: 18px 0 12px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .saved-accounts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 140px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+    .account-badge-pill {
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 8px 12px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
     }
   </style>
 </head>
@@ -813,6 +875,18 @@
 
   <div id="phone-frame">
 
+    <!-- TOP PUSH NOTIFICATION (APPS CALLS TRIGGER) -->
+    <div id="ep-top-notification" onclick="dismissTopNotification()">
+      <div class="notif-badge-icon">
+        <i class="fa-solid fa-bell"></i>
+      </div>
+      <div style="flex: 1; overflow: hidden;">
+        <h4 id="notif-title" style="font-size: 13.5px; font-weight: 800; color: #1e293b;">Transaction Alert</h4>
+        <p id="notif-body" style="font-size: 11.5px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Your transaction has been processed.</p>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
     <div class="status-bar">
       <span>1:25</span>
       <div style="display:flex; gap:6px; align-items:center;">
@@ -929,7 +1003,7 @@
           </div>
         </div>
 
-        <!-- More with easypaisa Grid -->
+        <!-- More with easypaisa Grid (All 14 Modular Files Routing) -->
         <div class="services-main-wrapper">
           <h3 class="section-title-label">More with easypaisa</h3>
           <div class="services-cards-grid" id="services-grid-container">
@@ -1055,26 +1129,81 @@
       </div>
     </div>
 
-    <!-- 7. SECRET ADMIN PANEL (Triggered via PIN 11111) -->
+    <!-- 7. SECRET ADMIN PANEL WITH BANK DATABASE & NOTIFICATIONS (PIN: 11111) -->
     <div id="admin-panel-modal">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:14px; margin-bottom:16px;">
         <h2 style="font-size:18px; font-weight:800; color:#00A651;">🛠️ Master Admin Panel</h2>
         <button onclick="closeAdminModal()" style="background:#1e293b; border:1px solid #334155; color:#fff; border-radius:8px; padding:6px 12px; cursor:pointer;">Exit</button>
       </div>
 
+      <!-- User Profile Settings -->
+      <div class="admin-sec-title">👤 User Balance & Title</div>
       <div class="admin-input-group">
         <label>Account Title (Name):</label>
         <input type="text" id="admin-user-name" value="Mudasir Abbas">
       </div>
-
       <div class="admin-input-group">
         <label>Live Balance (Rs.):</label>
         <input type="text" id="admin-user-balance" value="48,250.00">
       </div>
 
-      <hr style="border:0; border-top:1px solid #334155; margin:16px 0;">
-      <h4 style="font-size:14px; font-weight:700; color:#cbd5e1; margin-bottom:12px;">Add Statement Record:</h4>
+      <!-- Add Beneficiary / Bank Search Database -->
+      <div class="admin-sec-title">🏦 Bank & Wallet Account Database (Auto Fetch)</div>
+      <p style="font-size: 11px; color: #94a3b8; margin-bottom: 10px;">جب بھی سینڈ منی میں یہ نمبر لکھا جائے گا، یہ نام خود بخود فیچ ہو جائے گا۔</p>
 
+      <div class="admin-input-group">
+        <label>Select Bank / Wallet:</label>
+        <select id="admin-bank-select">
+          <option value="Easypaisa">Easypaisa</option>
+          <option value="JazzCash">JazzCash</option>
+          <option value="SadaPay">SadaPay</option>
+          <option value="NayaPay">NayaPay</option>
+          <option value="Raast ID">Raast (National QR)</option>
+          <option value="UBL">United Bank Limited (UBL)</option>
+          <option value="HBL">Habib Bank Limited (HBL)</option>
+          <option value="Allied Bank">Allied Bank Limited (ABL)</option>
+          <option value="Meezan Bank">Meezan Bank</option>
+          <option value="Bank Alfalah">Bank Alfalah</option>
+          <option value="MCB Bank">MCB Bank Limited</option>
+          <option value="Standard Chartered">Standard Chartered</option>
+          <option value="Faysal Bank">Faysal Bank</option>
+          <option value="National Bank">National Bank of Pakistan (NBP)</option>
+          <option value="Dubai Islamic">Dubai Islamic Bank</option>
+          <option value="Other Bank">Any International / Other Bank</option>
+        </select>
+      </div>
+
+      <div class="admin-input-group">
+        <label>Account / Mobile Number:</label>
+        <input type="text" id="admin-bank-number" placeholder="e.g. 03001234567 or IBAN">
+      </div>
+
+      <div class="admin-input-group">
+        <label>Account Owner Name (Auto Search Title):</label>
+        <input type="text" id="admin-bank-owner" placeholder="e.g. Muhammad Ali">
+      </div>
+
+      <button class="admin-save-btn" style="background:#2563eb;" onclick="saveBeneficiaryToDB()">+ Save to Bank Directory</button>
+
+      <!-- Saved Accounts List -->
+      <div class="saved-accounts-list" id="saved-beneficiaries-list">
+        <!-- Dynamic list of saved accounts -->
+      </div>
+
+      <!-- Live App Push Notification Trigger -->
+      <div class="admin-sec-title">🔔 Send Live App Push Notification</div>
+      <div class="admin-input-group">
+        <label>Notification Header:</label>
+        <input type="text" id="admin-notif-title" placeholder="e.g. Easypaisa Transfer Successful">
+      </div>
+      <div class="admin-input-group">
+        <label>Notification Message:</label>
+        <input type="text" id="admin-notif-body" placeholder="e.g. Rs. 5,000 sent to Ali (JazzCash).">
+      </div>
+      <button class="admin-save-btn" style="background:#f59e0b;" onclick="triggerLiveNotificationFromAdmin()">🚀 Push Notification Now</button>
+
+      <!-- Statement Record -->
+      <div class="admin-sec-title">📝 Add Statement Record</div>
       <div class="admin-input-group">
         <label>Transaction Type:</label>
         <select id="admin-tx-type">
@@ -1084,18 +1213,16 @@
           <option value="Bill Payment">Bill Payment</option>
         </select>
       </div>
-
       <div class="admin-input-group">
         <label>Target Number / Receiver:</label>
         <input type="text" id="admin-tx-target" placeholder="03001234567">
       </div>
-
       <div class="admin-input-group">
         <label>Amount (Rs.):</label>
         <input type="number" id="admin-tx-amount" placeholder="2500">
       </div>
 
-      <button class="admin-save-btn" onclick="saveAdminData()">Save & Update Live App</button>
+      <button class="admin-save-btn" onclick="saveAdminData()">Save All & Sync App</button>
     </div>
 
   </div>
@@ -1107,13 +1234,51 @@
     let accountTitle = localStorage.getItem("ep_name") || "Mudasir Abbas";
     let isLoggedIn = false;
 
-    // Statements Data (Default + Local Storage)
+    // Beneficiaries Database for Bank/Wallet Auto Fetch
+    let bankDirectory = JSON.parse(localStorage.getItem("ep_bank_directory")) || [
+      { bank: "JazzCash", number: "03001234567", owner: "Ali Raza" },
+      { bank: "Easypaisa", number: "03451122334", owner: "Usman Ghani" },
+      { bank: "SadaPay", number: "03049988776", owner: "Hamza Tariq" },
+      { bank: "UBL", number: "12345678901234", owner: "Bilal Ahmad" }
+    ];
+
+    // Statements Data
     let statements = JSON.parse(localStorage.getItem("ep_statements")) || [
       { type: "Money Transfer", target: "03041234567", amount: "-1,500.00", date: "Today, 01:15 PM", isDebit: true },
       { type: "Received Money", target: "03217654321", amount: "+5,000.00", date: "Yesterday, 04:30 PM", isDebit: false },
       { type: "Easyload", target: "03009876543", amount: "-300.00", date: "08 Oct 2026", isDebit: true },
       { type: "Bill Payment", target: "MEPCO Electricity", amount: "-4,210.00", date: "05 Oct 2026", isDebit: true }
     ];
+
+    // Live App Push Notification Trigger (App Call)
+    function showAppNotification(title, message) {
+      const banner = document.getElementById('ep-top-notification');
+      document.getElementById('notif-title').innerText = title;
+      document.getElementById('notif-body').innerText = message;
+      banner.classList.add('show-notif');
+
+      // Auto dismiss after 5 seconds
+      setTimeout(() => {
+        dismissTopNotification();
+      }, 5500);
+    }
+
+    function dismissTopNotification() {
+      const banner = document.getElementById('ep-top-notification');
+      banner.classList.remove('show-notif');
+    }
+
+    // Check if coming from a successful page transfer
+    function checkIncomingNotifications() {
+      const pendingNotif = localStorage.getItem("ep_pending_notif");
+      if (pendingNotif) {
+        const data = JSON.parse(pendingNotif);
+        setTimeout(() => {
+          showAppNotification(data.title, data.message);
+          localStorage.removeItem("ep_pending_notif");
+        }, 1200);
+      }
+    }
 
     // Red Chroma Key Cleaner
     function initChromaKeyRed(imgSrc) {
@@ -1143,29 +1308,29 @@
       };
     }
 
-    // Load JSON Data
+    // Load JSON Data & Strict 14 Modular Files Routing
     async function loadDataFromJSON() {
       const servicesContainer = document.getElementById('services-grid-container');
       const hubsContainer = document.getElementById('hubs-grid-container');
       const storiesContainer = document.getElementById('stories-scroll-container');
 
       const fallbackServices = [
-        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg", zoomOut: false, file: "send_money.html" },
-        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg", zoomOut: false, file: "bill_payment.html" },
-        { id: "load_packages", name: "Loads & Packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg", zoomOut: true, file: "loads_packages.html" },
-        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg", zoomOut: false, file: "" },
-        { id: "easy_cash", name: "Easycash", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg", zoomOut: false, file: "" },
-        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg", zoomOut: false, file: "" },
-        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg", zoomOut: false, file: "" },
-        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg", zoomOut: false, file: "" },
-        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg", zoomOut: false, file: "" }
+        { id: "send_money", name: "Send money", image: "https://i.ibb.co/HfTnHM4y/139517.jpg", zoomOut: false, file: "send-money.html" },
+        { id: "bill_payment", name: "Bill payment", image: "https://i.ibb.co/xqWkXLqB/139518.jpg", zoomOut: false, file: "bill-payment.html" },
+        { id: "load_packages", name: "Loads & Packages", image: "https://i.ibb.co/Zp3VvGHH/139519.jpg", zoomOut: true, file: "load-packages.html" },
+        { id: "enter_in_win", name: "Enter in win", image: "https://i.ibb.co/R4d4xcsW/139520.jpg", zoomOut: false, file: "promotions.html" },
+        { id: "easy_cash", name: "Easycash", image: "https://i.ibb.co/Qjpqzd6F/139521.jpg", zoomOut: false, file: "easycash.html" },
+        { id: "term_deposit", name: "Term deposit", image: "https://i.ibb.co/B2Hqtjp6/139522.jpg", zoomOut: false, file: "term-deposit.html" },
+        { id: "insurance", name: "Insurance", image: "https://i.ibb.co/ZpYTBzkn/139523.jpg", zoomOut: false, file: "insurance.html" },
+        { id: "rs1_game", name: "Rd.1 game", image: "https://i.ibb.co/ccszj3QF/139524.jpg", zoomOut: false, file: "promotions.html" },
+        { id: "see_all", name: "See all", image: "https://i.ibb.co/XrSfSYff/139525.jpg", zoomOut: false, file: "see-all.html" }
       ];
 
       const fallbackHubs = [
-        { id: "hub_load", name: "Load & Packages", image: "https://i.ibb.co/60T3n7fM/139536.jpg", file: "loads_packages.html" },
-        { id: "hub_ins", name: "Insurance", image: "https://i.ibb.co/7xcytnPd/139537.jpg", file: "" },
-        { id: "hub_mini", name: "Mini Apps", image: "https://i.ibb.co/27yLsNkS/139538.jpg", file: "" },
-        { id: "hub_help", name: "Help Center", image: "https://i.ibb.co/wZd1dBCL/139539.jpg", file: "" }
+        { id: "hub_load", name: "Load & Packages", image: "https://i.ibb.co/60T3n7fM/139536.jpg", file: "load-packages.html" },
+        { id: "hub_ins", name: "Insurance", image: "https://i.ibb.co/7xcytnPd/139537.jpg", file: "insurance.html" },
+        { id: "hub_mini", name: "Mini Apps", image: "https://i.ibb.co/27yLsNkS/139538.jpg", file: "see-all.html" },
+        { id: "hub_help", name: "Help Center", image: "https://i.ibb.co/wZd1dBCL/139539.jpg", file: "profile.html" }
       ];
 
       const fallbackStories = [
@@ -1257,7 +1422,7 @@
       }
     }
 
-    // صرف 6 سیکنڈ کی لوڈنگ پٹی دکھانا اور آگے کچھ نہ کرنا
+    // صرف 6 سیکنڈ کی لوڈنگ پٹی
     function onlyShowLoadingAction() {
       const loader = document.getElementById('ep-loading-overlay');
       loader.style.display = 'flex';
@@ -1266,7 +1431,7 @@
       }, 6000);
     }
 
-    // لوڈنگ کے بعد دوسری فائل پر نیویگیٹ کرنا
+    // 6 سیکنڈ کی لوڈنگ کے بعد دوسری فائل پر نیویگیشن
     function openPage(pageUrl) {
       const loader = document.getElementById('ep-loading-overlay');
       loader.style.display = 'flex';
@@ -1336,7 +1501,6 @@
     // PIN Submit (Admin trigger '11111' + Normal Login)
     function submitPinProceed() {
       if (enteredPin === "11111") {
-        // ماسٹر ایڈمن پینل ٹریگر
         closePinModal();
         openAdminModal();
         return;
@@ -1360,6 +1524,7 @@
           <div style="font-size: 13px; font-weight: 700; color: #064e3b; text-transform: uppercase;">Available Balance</div>
           <div style="font-size: 26px; font-weight: 800; color: #064e3b; letter-spacing: -0.5px; line-height: 1.1;">Rs. ${userBalance}</div>
         `;
+        showAppNotification("Easypaisa Logged In", "Welcome back, " + accountTitle + "!");
       }, 6000);
     }
 
@@ -1404,11 +1569,59 @@
     function openAdminModal() {
       document.getElementById('admin-user-name').value = accountTitle;
       document.getElementById('admin-user-balance').value = userBalance;
+      renderAdminBeneficiaries();
       document.getElementById('admin-panel-modal').style.display = 'flex';
     }
 
     function closeAdminModal() {
       document.getElementById('admin-panel-modal').style.display = 'none';
+    }
+
+    // Save Bank Account to Directory (Auto Fetch in Send Money)
+    function saveBeneficiaryToDB() {
+      const bank = document.getElementById('admin-bank-select').value;
+      const number = document.getElementById('admin-bank-number').value.trim();
+      const owner = document.getElementById('admin-bank-owner').value.trim();
+
+      if (!number || !owner) {
+        alert("براہ کرم نمبر اور اکاؤنٹ اونر کا نام درج کریں!");
+        return;
+      }
+
+      bankDirectory.unshift({ bank, number, owner });
+      localStorage.setItem("ep_bank_directory", JSON.stringify(bankDirectory));
+      renderAdminBeneficiaries();
+      alert(`اکاؤنٹ محفوظ ہو گیا!\nبینک: ${bank}\nنمبر: ${number}\nنام: ${owner}`);
+      document.getElementById('admin-bank-number').value = '';
+      document.getElementById('admin-bank-owner').value = '';
+    }
+
+    function renderAdminBeneficiaries() {
+      const container = document.getElementById('saved-beneficiaries-list');
+      container.innerHTML = '';
+      bankDirectory.forEach((b, index) => {
+        const pill = document.createElement('div');
+        pill.className = 'account-badge-pill';
+        pill.innerHTML = `
+          <div><strong>${b.bank}:</strong> ${b.number} - <span style="color:#38bdf8;">${b.owner}</span></div>
+          <span style="color:#ef4444; cursor:pointer;" onclick="deleteBeneficiary(${index})">✕</span>
+        `;
+        container.appendChild(pill);
+      });
+    }
+
+    function deleteBeneficiary(index) {
+      bankDirectory.splice(index, 1);
+      localStorage.setItem("ep_bank_directory", JSON.stringify(bankDirectory));
+      renderAdminBeneficiaries();
+    }
+
+    // Trigger Notification from Admin Panel
+    function triggerLiveNotificationFromAdmin() {
+      const t = document.getElementById('admin-notif-title').value.trim() || "Easypaisa Notification";
+      const b = document.getElementById('admin-notif-body').value.trim() || "Test notification broadcast sent.";
+      closeAdminModal();
+      showAppNotification(t, b);
     }
 
     function saveAdminData() {
@@ -1544,6 +1757,7 @@
               if (home) home.classList.add('active-home');
               startRotatingAdCard();
               startStoriesAutoScroll();
+              checkIncomingNotifications();
             }, 600);
           });
         }, 50);
