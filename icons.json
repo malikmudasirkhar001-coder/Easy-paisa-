@@ -1,0 +1,53 @@
+{
+  "user": {
+    "initials": "MA",
+    "greeting": "Hey There 👋"
+  },
+  "services": [
+    {
+      "id": "send_money",
+      "title": "Send Money",
+      "icon": "https://img.icons8.com/color/96/paper-plane.png"
+    },
+    {
+      "id": "bill_payment",
+      "title": "Bill Payment",
+      "icon": "https://img.icons8.com/color/96/bill.png"
+    },
+    {
+      "id": "loads_packages",
+      "title": "Loads & Packages",
+      "icon": "https://img.icons8.com/color/96/smartphone-tablet.png"
+    },
+    {
+      "id": "enter_win",
+      "title": "Enter and Win",
+      "icon": "https://img.icons8.com/color/96/ice-cream-cone.png"
+    },
+    {
+      "id": "easycash",
+      "title": "Easycash",
+      "icon": "https://img.icons8.com/color/96/hand-holding-dollar.png"
+    },
+    {
+      "id": "term_deposit",
+      "title": "Term Deposit",
+      "icon": "https://img.icons8.com/color/96/money-bag.png"
+    },
+    {
+      "id": "insurance",
+      "title": "Insurance",
+      "icon": "https://img.icons8.com/color/96/umbrella.png"
+    },
+    {
+      "id": "rs1_game",
+      "title": "Rs. 1 Game",
+      "icon": "https://img.icons8.com/color/96/controller.png"
+    },
+    {
+      "id": "see_all",
+      "title": "See All",
+      "icon": "https://img.icons8.com/color/96/menu--v1.png"
+    }
+  ]
+}
