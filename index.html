@@ -118,7 +118,7 @@
       display: block;
     }
 
-    /* STAGE 2: Slide to Left + Rings + Typewriter */
+    /* STAGE 2: 2.png + Typewriter + Rings */
     #splash-stage-2 {
       position: absolute;
       top: 0;
@@ -171,7 +171,7 @@
       min-height: 36px;
     }
 
-    /* Orbit SVG Rings */
+    /* Orbit Rings */
     .orbit-svg {
       position: absolute;
       top: 0;
@@ -196,7 +196,7 @@
       transform-origin: 250px 250px;
     }
 
-    /* Typewriter Caret */
+    /* Cursor */
     @keyframes cursorPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
@@ -219,7 +219,6 @@
     <!-- 1. SPLASH SCREEN -->
     <div id="screen-splash" class="screen on">
       
-      <!-- Top Mobile Status Bar -->
       <div class="status-bar">
         <span>5:55</span>
         <div style="display:flex; gap:6px; align-items:center;">
@@ -229,24 +228,22 @@
         </div>
       </div>
 
-      <!-- STAGE 1: صرف آپ کا لوکل پاتھ 11.png (3 Seconds Stay) -->
+      <!-- STAGE 1: Exact GitHub File Name (11.jpeg) -->
       <div id="splash-stage-1">
         <div class="center-logo-box">
-          <img src="11.png" alt="Logo 1">
+          <img src="11.jpeg" alt="Logo 1">
         </div>
       </div>
 
-      <!-- STAGE 2: صرف آپ کا لوکل پاتھ 2.png + Typewriter Digital Bank + Distant Rings -->
+      <!-- STAGE 2: 2.png + Typewriter + Rings -->
       <div id="splash-stage-2">
         
-        <!-- Distant Concentric Rings -->
         <svg class="orbit-svg" viewBox="0 0 500 500">
           <defs>
             <path id="innerCirclePath" d="M 250, 250 m -165, 0 a 165,165 0 1,1 330,0 a 165,165 0 1,1 -330,0" fill="none" />
             <path id="outerCirclePath" d="M 250, 250 m -225, 0 a 225,225 0 1,1 450,0 a 225,225 0 1,1 -450,0" fill="none" />
           </defs>
 
-          <!-- Inner Ring -->
           <g class="orbit-ring-inner">
             <text fill="#ffffff" fill-opacity="0.85" font-family="'Space Grotesk', sans-serif" font-size="14.5" font-weight="500" letter-spacing="3.5">
               <textPath href="#innerCirclePath" startOffset="0%">
@@ -255,7 +252,6 @@
             </text>
           </g>
 
-          <!-- Outer Ring -->
           <g class="orbit-ring-outer">
             <text fill="#ffffff" fill-opacity="0.65" font-family="'Space Grotesk', sans-serif" font-size="15.5" font-weight="500" letter-spacing="4.8">
               <textPath href="#outerCirclePath" startOffset="0%">
@@ -265,7 +261,6 @@
           </g>
         </svg>
 
-        <!-- Center Unit: Left Logo + Typewriter -->
         <div class="stage2-content">
           <div class="left-logo-wrap">
             <img src="2.png" alt="Logo 2">
@@ -326,14 +321,14 @@
       const line1 = document.getElementById('typed-line-1');
       const line2 = document.getElementById('typed-line-2');
 
-      // 1. Stage 1: Exactly 3.0 Seconds (3000ms) Centered Box Stays
+      // 1. Stage 1: پورے 3 سیکنڈ 11.jpeg رکے گی
       setTimeout(() => {
         stage1.style.opacity = '0';
         setTimeout(() => {
           stage1.style.display = 'none';
         }, 500);
 
-        // 2. Stage 2: Reveal Left Logo + Rings + Typewriter starts
+        // 2. Stage 2: 2.png + Rings + Typewriter شروع
         stage2.style.opacity = '1';
 
         const word1 = "digital";
@@ -353,7 +348,7 @@
             clearInterval(typeInterval);
             line2.innerHTML = word2;
 
-            // 3. اینیمیشن ختم ہوتے ہی سیدھا ہوم پیج پر جائیں
+            // 3. اینیمیشن مکمل ہوتے ہی سیدھا ہوم پیج
             setTimeout(() => {
               go('screen-home');
             }, 800);
