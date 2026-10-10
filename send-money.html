@@ -182,10 +182,41 @@
       color: #1e293b;
     }
 
+    /* نیچے نمودار ہونے والا تجویز کردہ نمبر اور پروسیس بٹن (Typed Number Suggestion Row) */
+    #number-action-preview-row {
+      margin: 8px 18px 12px 18px;
+      background: #f8fafc;
+      border: 1.5px solid #00A651;
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,166,81,0.08);
+      animation: fadeInPreview 0.2s ease;
+    }
+    @keyframes fadeInPreview {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .preview-action-circle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--ep-green);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,166,81,0.3);
+    }
+
     .bank-directory-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 10px 18px 24px 18px;
+      padding: 6px 18px 24px 18px;
     }
     .bank-list-item-row {
       display: flex;
@@ -213,11 +244,6 @@
       font-size: 13px;
       font-weight: 800;
       color: #0369a1;
-    }
-    .bank-logo-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
     }
 
     /* Form Fields for Raast & CNIC */
@@ -251,7 +277,6 @@
     }
     .form-field-card input:focus { border-color: var(--ep-green); }
 
-    /* Raast Sub-Chips (Raast ID, IBAN, Account No.) */
     .raast-segmented-control {
       display: flex;
       background: #ffffff;
@@ -474,38 +499,97 @@
     .receipt-row-meta span.lbl { color: #64748b; font-weight: 500; }
     .receipt-row-meta span.vl { color: #1e293b; font-weight: 700; text-align: right; }
 
-    /* Verification Error Modal */
-    #verification-error-modal {
+    /* EXACT ERROR POPUP (Matching 139691 & 141358.jpg 100%) */
+    #mepco-error-modal {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(3px);
-      z-index: 100;
+      background: rgba(45, 35, 55, 0.65);
+      backdrop-filter: blur(2px);
+      z-index: 110;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
-    .error-dialog-box {
+    .mepco-error-card {
       width: 100%;
-      max-width: 320px;
+      max-width: 326px;
       background: #ffffff;
-      border-radius: 20px;
-      padding: 24px 20px 20px 20px;
+      border-radius: 26px;
+      padding: 24px 22px 26px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      position: relative;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+      animation: popErrorUp 0.25s ease forwards;
     }
-    .error-dismiss-btn {
+    @keyframes popErrorUp {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .error-close-circle-x {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .error-triangle-icon-wrap {
+      width: 96px;
+      height: 96px;
+      margin: 4px auto 14px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #canvas-error-triangle {
       width: 100%;
-      height: 44px;
-      background: #ef4444;
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      font-size: 14px;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    .fallback-error-triangle-svg {
+      width: 76px;
+      height: 76px;
+    }
+    .error-code-header-txt {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+    .error-desc-sub-txt {
+      font-size: 13.5px;
+      color: #475569;
+      line-height: 1.45;
+      margin-bottom: 22px;
+      max-width: 260px;
+    }
+    .error-cancel-pill-btn {
+      width: 100%;
+      height: 48px;
+      border-radius: 999px;
+      border: 1.5px solid #00A651;
+      background: #ffffff;
+      color: #065f46;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      margin-top: 14px;
+      transition: background 0.15s ease;
+    }
+    .error-cancel-pill-btn:active {
+      background: #ecfdf5;
     }
   </style>
 </head>
@@ -549,13 +633,22 @@
           <div class="search-field-pill" style="border-color:#00A651;">
             <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
             <input type="tel" id="ep-number-input" placeholder="Enter 11 Digit Number" maxlength="12" oninput="onEpNumberTyped()">
-            <button id="ep-submit-arrow" style="border:none; width:30px; height:30px; border-radius:50%; background:#cbd5e1; color:#fff; cursor:not-allowed;" onclick="submitEpNumber()">
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
           </div>
         </div>
       </div>
-      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 21px; font-weight: 800; color: #1e293b;">easypaisa Transfer</h2></div>
+
+      <!-- نمبر ٹائپ کرنے کے بعد نیچے آنے والی سلیکٹ رو -->
+      <div id="number-action-preview-row" onclick="proceedWithTypedNumber()">
+        <div>
+          <div style="font-size:11px; font-weight:700; color:#047857; text-transform:uppercase;">Transfer to Account</div>
+          <div style="font-size:15px; font-weight:800; color:#1e293b;" id="preview-typed-number-val">03001234567</div>
+        </div>
+        <div class="preview-action-circle-btn">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+
+      <div style="padding: 10px 18px 4px 18px;"><h2 style="font-size: 21px; font-weight: 800; color: #1e293b;">easypaisa Transfer</h2></div>
       <div class="bank-directory-scroll" id="ep-contacts-scroll"></div>
     </div>
 
@@ -871,17 +964,28 @@
       </div>
     </div>
 
-    <!-- 12. BENEFICIARY ERROR MODAL -->
-    <div id="verification-error-modal">
-      <div class="error-dialog-box">
-        <div style="width:52px; height:52px; border-radius:50%; background:#fee2e2; color:#ef4444; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px auto;">
-          <i class="fa-solid fa-triangle-exclamation"></i>
+    <!-- 12. EXACT ERROR MODAL (Matching 139691 & 141358.jpg) -->
+    <div id="mepco-error-modal">
+      <div class="mepco-error-card">
+        <!-- Close circle (X) -->
+        <div class="error-close-circle-x" onclick="dismissMepcoError()">✕</div>
+
+        <!-- Warning Triangle Clean Image / Canvas -->
+        <div class="error-triangle-icon-wrap">
+          <canvas id="canvas-error-triangle"></canvas>
+          <svg class="fallback-error-triangle-svg" id="svg-error-triangle" viewBox="0 0 100 100">
+            <polygon points="50,10 90,85 10,85" fill="#fde047" stroke="#ca8a04" stroke-width="4" stroke-linejoin="round"/>
+            <rect x="47" y="36" width="6" height="26" rx="3" fill="#ef4444"/>
+            <circle cx="50" cy="72" r="4" fill="#ef4444"/>
+          </svg>
         </div>
-        <h4 style="font-size:16px; font-weight:800; color:#1e293b; margin-bottom:8px;">Beneficiary Verification Failed</h4>
-        <p style="font-size:13px; color:#64748b; line-height:1.4;" id="verification-error-msg">
-          Unable to fetch account title from directory. This recipient account is not registered in verified database.
-        </p>
-        <button class="error-dismiss-btn" onclick="dismissVerificationError()">OK, Try Again</button>
+
+        <!-- Exact Error Texts (Matching 139691) -->
+        <h3 class="error-code-header-txt">Error Code:ESB99125</h3>
+        <p class="error-desc-sub-txt">We couldn’t find your details. The entered ID is incorrect.</p>
+
+        <!-- Green Outline Cancel Button -->
+        <button class="error-cancel-pill-btn" onclick="dismissMepcoError()">Cancel</button>
       </div>
     </div>
 
@@ -954,6 +1058,38 @@
       };
     }
 
+    // 141358.jpg (Error Triangle) Chroma Cleaner to blend with White Card
+    function initChromaErrorTriangle(imgSrc) {
+      const img = new Image();
+      img.src = imgSrc;
+      img.crossOrigin = "Anonymous";
+      img.onload = function() {
+        try {
+          const canvas = document.getElementById('canvas-error-triangle');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+
+          // Pure white background removal
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i+1], b = d[i+2];
+            if (r > 220 && g > 220 && b > 220) {
+              d[i+3] = 0;
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+          document.getElementById('svg-error-triangle').style.display = 'none';
+          canvas.style.display = 'block';
+        } catch(e) {
+          // Fallback SVG displays cleanly
+        }
+      };
+    }
+
     // Step 1 Navigation Routing
     function routeOption(opt) {
       currentMethod = opt;
@@ -1011,21 +1147,26 @@
 
     function onEpNumberTyped() {
       const val = document.getElementById('ep-number-input').value.trim();
-      const btn = document.getElementById('ep-submit-arrow');
+      const previewRow = document.getElementById('number-action-preview-row');
+      const previewVal = document.getElementById('preview-typed-number-val');
       renderEpContacts(val);
-      if (val.length >= 11) {
-        btn.style.background = '#00A651';
-        btn.style.cursor = 'pointer';
+
+      if (val.length >= 10) {
+        previewVal.innerText = val;
+        previewRow.style.display = 'flex';
       } else {
-        btn.style.background = '#cbd5e1';
-        btn.style.cursor = 'not-allowed';
+        previewRow.style.display = 'none';
       }
     }
 
-    function submitEpNumber() {
+    function proceedWithTypedNumber() {
       const val = document.getElementById('ep-number-input').value.trim();
-      if (val.length < 11) return;
-      validateNumberAndProceed(val);
+      if (!val) return;
+      
+      // تلاش کریں یا فرضی رجسٹریشن بنائیں، اماؤنٹ کے بعد اصل ایڈمن ڈیٹا بیس چیک ہوگا
+      const matched = bankDirectory.find(b => b.number === val);
+      const ownerName = matched ? matched.owner : "Account Holder";
+      selectContactAndProceed(ownerName, val);
     }
 
     // Banks Listing (139684)
@@ -1081,7 +1222,9 @@
     function promptAccountForInstitution(instName) {
       const num = prompt(`Enter Account / Mobile Number for ${instName}:`);
       if (num && num.length >= 10) {
-        validateNumberAndProceed(num.trim(), instName);
+        const matched = bankDirectory.find(b => b.number === num.trim());
+        const ownerName = matched ? matched.owner : "Account Holder";
+        selectContactAndProceed(ownerName, num.trim(), instName);
       }
     }
 
@@ -1103,7 +1246,9 @@
     function submitRaastFlow() {
       const val = document.getElementById('raast-target-input').value.trim();
       if (val.length < 11) return;
-      validateNumberAndProceed(val, "Raast ID");
+      const matched = bankDirectory.find(b => b.number === val);
+      const ownerName = matched ? matched.owner : "Raast Account";
+      selectContactAndProceed(ownerName, val, "Raast ID");
     }
 
     // CNIC Flow (139687)
@@ -1125,17 +1270,9 @@
     function submitCnicFlow() {
       const cnic = document.getElementById('cnic-card-input').value.trim();
       if (cnic.length < 15) return;
-      validateNumberAndProceed(cnic, "CNIC");
-    }
-
-    // Strict Admin Verification Rule
-    function validateNumberAndProceed(targetNumber, inst = "easypaisa") {
-      const matched = bankDirectory.find(b => b.number === targetNumber || targetNumber.includes(b.number));
-      if (matched) {
-        selectContactAndProceed(matched.owner, targetNumber, inst);
-      } else {
-        showVerificationError(`Beneficiary verification failed for (${targetNumber}). Record not registered in verified directory database.`);
-      }
+      const matched = bankDirectory.find(b => b.number === cnic);
+      const ownerName = matched ? matched.owner : "CNIC Holder";
+      selectContactAndProceed(ownerName, cnic, "CNIC");
     }
 
     function selectContactAndProceed(name, number, inst = "easypaisa") {
@@ -1187,6 +1324,14 @@
       }
       if (amt > userBalance) {
         alert("Insufficient balance!");
+        return;
+      }
+
+      // Check if number is in Admin Directory AFTER amount entered
+      const isVerified = bankDirectory.some(b => b.number === selectedContact.number || selectedContact.number.includes(b.number));
+      if (!isVerified) {
+        // Trigger Exact Image 139691 Error Modal
+        showMepcoErrorModal();
         return;
       }
 
@@ -1258,13 +1403,13 @@
       document.getElementById('step-receipt-full').style.display = 'flex';
     }
 
-    function showVerificationError(msg) {
-      document.getElementById('verification-error-msg').innerText = msg;
-      document.getElementById('verification-error-modal').style.display = 'flex';
+    // MEPCO Exact Error Popup Handlers (139691)
+    function showMepcoErrorModal() {
+      document.getElementById('mepco-error-modal').style.display = 'flex';
     }
 
-    function dismissVerificationError() {
-      document.getElementById('verification-error-modal').style.display = 'none';
+    function dismissMepcoError() {
+      document.getElementById('mepco-error-modal').style.display = 'none';
     }
 
     function finishAndGoHome() {
@@ -1273,6 +1418,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       initChromaSuccessLogo('12.png');
+      initChromaErrorTriangle('https://i.ibb.co/8L97pCSs/141358.jpg');
     });
   </script>
 </body>
