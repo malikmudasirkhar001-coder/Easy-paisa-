@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     :root {
@@ -56,6 +57,16 @@
       }
     }
 
+    /* Universal Step Panels */
+    .view-screen-pane {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 40;
+    }
+
     /* Common Header */
     .top-header-nav {
       padding: 16px 18px 12px 18px;
@@ -87,26 +98,52 @@
       cursor: pointer;
     }
 
-    /* Tabs (Send Money / History) */
-    .subnav-tabs-row {
-      display: flex;
-      border-bottom: 1px solid #e2e8f0;
+    /* Dynamic Process Loading Bar with 11.png logo inside */
+    #ep-dynamic-loading-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+    }
+    .loading-dialog-inner {
+      width: 100%;
+      max-width: 320px;
       background: #ffffff;
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
     }
-    .subnav-tab-item {
-      flex: 1;
-      text-align: center;
-      padding: 12px 0;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #64748b;
-      cursor: pointer;
-      border-bottom: 2.5px solid transparent;
+    .custom-loader-ring-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 3.5px solid #e2e8f0;
+      border-top-color: #00A651;
+      border-right-color: #00A651;
+      animation: spinDial 0.75s linear infinite;
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .subnav-tab-item.active-tab {
-      color: var(--ep-green);
-      border-bottom-color: var(--ep-green);
+    @keyframes spinDial { to { transform: rotate(360deg); } }
+    .loader-logo-inside {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      border-radius: 50%;
+      animation: counterSpinDial 0.75s linear infinite;
     }
+    @keyframes counterSpinDial { to { transform: rotate(-360deg); } }
 
     /* Step 1: Popup Modal (139570) */
     #step-1-modal {
@@ -151,38 +188,7 @@
     .option-item-box:active { transform: scale(0.96); }
     .option-item-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* Universal Listing View (Bank, Wallet, Easypaisa) */
-    .view-screen-pane {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #ffffff;
-      display: none;
-      flex-direction: column;
-      z-index: 40;
-    }
-    .list-search-bar-wrap {
-      padding: 14px 18px 8px 18px;
-    }
-    .search-field-pill {
-      width: 100%;
-      height: 46px;
-      border: 1px solid #cbd5e1;
-      border-radius: 999px;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .search-field-pill input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1e293b;
-    }
-
-    /* نیچے نمودار ہونے والا تجویز کردہ نمبر اور پروسیس بٹن (Typed Number Suggestion Row) */
+    /* Number suggestion row */
     #number-action-preview-row {
       margin: 8px 18px 12px 18px;
       background: #f8fafc;
@@ -198,7 +204,7 @@
     }
     @keyframes fadeInPreview {
       from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
+      to { transform: translateY(0); }
     }
     .preview-action-circle-btn {
       width: 36px;
@@ -246,78 +252,7 @@
       color: #0369a1;
     }
 
-    /* Form Fields for Raast & CNIC */
-    .form-inputs-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 18px 24px 18px;
-    }
-    .form-field-card {
-      margin-bottom: 18px;
-    }
-    .form-field-card label {
-      font-size: 13px;
-      font-weight: 700;
-      color: #334155;
-      display: block;
-      margin-bottom: 8px;
-    }
-    .form-field-card input, 
-    .form-field-card select {
-      width: 100%;
-      height: 50px;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 0 14px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #1e293b;
-      outline: none;
-      background: #ffffff;
-    }
-    .form-field-card input:focus { border-color: var(--ep-green); }
-
-    .raast-segmented-control {
-      display: flex;
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 20px;
-    }
-    .raast-chip-tab {
-      flex: 1;
-      text-align: center;
-      padding: 10px 0;
-      font-size: 13px;
-      font-weight: 700;
-      color: #475569;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .raast-chip-tab.active-chip {
-      background: #d1fae5;
-      color: #065f46;
-    }
-
-    .form-next-btn {
-      width: 100%;
-      height: 48px;
-      background: #94a3b8;
-      color: #ffffff;
-      border: none;
-      border-radius: 999px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: not-allowed;
-      margin-top: 10px;
-    }
-    .form-next-btn.ready-btn {
-      background: #00A651;
-      cursor: pointer;
-    }
-
-    /* STEP: Enter Amount Screen (139572) */
+    /* STEP: Enter Amount Screen */
     #step-amount-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -375,7 +310,7 @@
     }
     .key-unit-btn:active { background: #f1f5f9; }
 
-    /* STEP: Confirm Transaction Screen (139573) */
+    /* STEP: Confirm Transaction Screen */
     #step-confirm-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -400,7 +335,7 @@
       font-size: 13px;
     }
 
-    /* STEP: Sending Animation (139574) */
+    /* STEP: Sending Animation */
     #step-sending-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -425,7 +360,7 @@
     }
     @keyframes coinPulse { from { transform: scale(0.96); } to { transform: scale(1.06); } }
 
-    /* STEP: Success Screen (139575) */
+    /* STEP: Success Screen */
     #step-success-pane {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -463,7 +398,7 @@
     }
     .fallback-sun-badge i { font-size: 48px; color: #00A651; }
 
-    /* STEP: Detailed Transaction Receipt (139674) */
+    /* STEP: Detailed Transaction Receipt (Print / Downloadable Area) */
     #step-receipt-full {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -499,7 +434,7 @@
     .receipt-row-meta span.lbl { color: #64748b; font-weight: 500; }
     .receipt-row-meta span.vl { color: #1e293b; font-weight: 700; text-align: right; }
 
-    /* EXACT ERROR POPUP (Matching 139691 & 141358.jpg 100%) */
+    /* Exact MEPCO Error Modal (139691 & 141358.jpg) */
     #mepco-error-modal {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -586,10 +521,6 @@
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.15s ease;
-    }
-    .error-cancel-pill-btn:active {
-      background: #ecfdf5;
     }
   </style>
 </head>
@@ -597,28 +528,38 @@
 
   <div id="phone-frame">
 
+    <!-- DYNAMIC PROCESS LOADER WITH 11.PNG (1 to 3 Seconds) -->
+    <div id="ep-dynamic-loading-bar">
+      <div class="loading-dialog-inner">
+        <div class="custom-loader-ring-wrap">
+          <img src="11.png" alt="Logo" class="loader-logo-inside" onerror="this.src='11.jpeg'">
+        </div>
+        <span id="loading-bar-message" style="font-size:14px; font-weight:600; color:#475569;">Please wait...</span>
+      </div>
+    </div>
+
     <!-- 1. POPUP MODAL (139570) -->
     <div id="step-1-modal">
       <div class="options-card-panel">
         <h3 style="text-align: center; font-size: 18px; font-weight: 800; color: #1e293b;">Send Money</h3>
         
         <div class="options-grid-2x2">
-          <div class="option-item-box" onclick="routeOption('easypaisa')">
+          <div class="option-item-box" onclick="routeOptionWithTimer('easypaisa', 1000)">
             <img src="https://i.ibb.co/4g5Nd0YG/139661.jpg" alt="easypaisa">
           </div>
-          <div class="option-item-box" onclick="routeOption('Bank')">
+          <div class="option-item-box" onclick="routeOptionWithTimer('Bank', 1500)">
             <img src="https://i.ibb.co/5xtFkKQS/139662.jpg" alt="Bank">
           </div>
-          <div class="option-item-box" onclick="routeOption('Wallet')">
+          <div class="option-item-box" onclick="routeOptionWithTimer('Wallet', 1200)">
             <img src="https://i.ibb.co/1tKxKKYZ/139663.jpg" alt="Wallet">
           </div>
-          <div class="option-item-box" onclick="routeOption('Raast')">
+          <div class="option-item-box" onclick="routeOptionWithTimer('Raast', 1400)">
             <img src="https://i.ibb.co/ks4DzgZG/139664.jpg" alt="Raast">
           </div>
         </div>
 
         <div style="display:flex; justify-content:center; margin-top: 14px;">
-          <div class="option-item-box" style="width: 140px;" onclick="routeOption('CNIC')">
+          <div class="option-item-box" style="width: 140px;" onclick="routeOptionWithTimer('CNIC', 1200)">
             <img src="https://i.ibb.co/jPHFjwJ3/139665.jpg" alt="CNIC">
           </div>
         </div>
@@ -630,15 +571,14 @@
       <div class="top-header-nav">
         <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
         <div style="flex:1; margin:0 10px;">
-          <div class="search-field-pill" style="border-color:#00A651;">
+          <div style="width:100%; height:46px; border:1px solid #00A651; border-radius:999px; padding:0 16px; display:flex; align-items:center; gap:10px;">
             <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
-            <input type="tel" id="ep-number-input" placeholder="Enter 11 Digit Number" maxlength="12" oninput="onEpNumberTyped()">
+            <input type="tel" id="ep-number-input" placeholder="Enter 11 Digit Number" maxlength="12" oninput="onEpNumberTyped()" style="border:none; outline:none; width:100%; font-size:14px; font-weight:600; color:#1e293b;">
           </div>
         </div>
       </div>
 
-      <!-- نمبر ٹائپ کرنے کے بعد نیچے آنے والی سلیکٹ رو -->
-      <div id="number-action-preview-row" onclick="proceedWithTypedNumber()">
+      <div id="number-action-preview-row" onclick="proceedWithTypedNumberWithTimer()">
         <div>
           <div style="font-size:11px; font-weight:700; color:#047857; text-transform:uppercase;">Transfer to Account</div>
           <div style="font-size:15px; font-weight:800; color:#1e293b;" id="preview-typed-number-val">03001234567</div>
@@ -652,143 +592,7 @@
       <div class="bank-directory-scroll" id="ep-contacts-scroll"></div>
     </div>
 
-    <!-- 3. BANK TRANSFER SCREEN (139684) -->
-    <div id="view-bank" class="view-screen-pane">
-      <div class="top-header-nav">
-        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
-        <div class="help-btn-box">Help</div>
-      </div>
-      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">Bank Transfer</h2></div>
-      <div class="subnav-tabs-row">
-        <div class="subnav-tab-item active-tab">Send Money</div>
-        <div class="subnav-tab-item">History</div>
-      </div>
-      <div class="list-search-bar-wrap">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <span style="font-size:13px; font-weight:700; color:#1e293b;">My Bank Favourites</span>
-          <span style="font-size:12px; font-weight:700; color:#00A651; cursor:pointer;">+ Add Favourite</span>
-        </div>
-        <p style="font-size:12px; color:#64748b; margin-bottom:12px;">You don't have any favourites added</p>
-        <div class="search-field-pill">
-          <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
-          <input type="text" id="bank-search-query" placeholder="Search Bank by Name" oninput="filterBanksList()">
-        </div>
-      </div>
-      <div class="bank-directory-scroll" id="banks-list-scroll"></div>
-    </div>
-
-    <!-- 4. WALLET TRANSFER SCREEN (139685) -->
-    <div id="view-wallet" class="view-screen-pane">
-      <div class="top-header-nav">
-        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
-        <div class="help-btn-box">Help</div>
-      </div>
-      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">Wallet Transfer</h2></div>
-      <div class="subnav-tabs-row">
-        <div class="subnav-tab-item active-tab">Send Money</div>
-        <div class="subnav-tab-item">History</div>
-      </div>
-      <div class="list-search-bar-wrap">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <span style="font-size:13px; font-weight:700; color:#1e293b;">My Bank Favourites</span>
-          <span style="font-size:12px; font-weight:700; color:#00A651; cursor:pointer;">+ Add Favourite</span>
-        </div>
-        <p style="font-size:12px; color:#64748b; margin-bottom:12px;">You don't have any favourites added</p>
-        <div class="search-field-pill">
-          <i class="fa-solid fa-magnifying-glass" style="color: #64748b;"></i>
-          <input type="text" id="wallet-search-query" placeholder="Search Wallet by Name" oninput="filterWalletsList()">
-        </div>
-      </div>
-      <div class="bank-directory-scroll" id="wallets-list-scroll"></div>
-    </div>
-
-    <!-- 5. RAAST TRANSFER SCREEN (139686) -->
-    <div id="view-raast" class="view-screen-pane">
-      <div class="top-header-nav">
-        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
-        <div class="help-btn-box">Help</div>
-      </div>
-      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">Raast Transfer</h2></div>
-      <div class="subnav-tabs-row">
-        <div class="subnav-tab-item active-tab">Send Money</div>
-        <div class="subnav-tab-item">Raast ID Managment</div>
-      </div>
-      <div class="form-inputs-scroll">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <span style="font-size:13px; font-weight:700; color:#1e293b;">My Raast Favourites</span>
-          <span style="font-size:12px; font-weight:700; color:#1e293b; cursor:pointer;">See All</span>
-        </div>
-        <div style="display:flex; flex-direction:column; align-items:center; width:70px; margin-bottom:18px;">
-          <div style="width:48px; height:48px; border-radius:50%; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:700; color:#64748b;">MA</div>
-          <span style="font-size:9.5px; text-align:center; color:#64748b; margin-top:4px;">MUDDASIR ABBAS</span>
-        </div>
-
-        <div class="raast-segmented-control">
-          <div class="raast-chip-tab active-chip" id="r-chip-id" onclick="setRaastChip('Raast ID')">Raast ID</div>
-          <div class="raast-chip-tab" id="r-chip-iban" onclick="setRaastChip('IBAN')">IBAN</div>
-          <div class="raast-chip-tab" id="r-chip-acc" onclick="setRaastChip('Account No.')">Account No.</div>
-        </div>
-
-        <div class="form-field-card">
-          <label>Enter Receiver's Raast ID</label>
-          <input type="text" id="raast-target-input" placeholder="Enter Here" oninput="checkRaastFormValid()">
-        </div>
-
-        <div class="form-field-card">
-          <label>Select Purpose of Payment</label>
-          <select id="raast-purpose-input">
-            <option value="Others">Others</option>
-            <option value="Family Support">Family Support</option>
-            <option value="Educational Payments">Educational Payments</option>
-          </select>
-        </div>
-
-        <button class="form-next-btn" id="raast-submit-btn" onclick="submitRaastFlow()">Next</button>
-      </div>
-    </div>
-
-    <!-- 6. CNIC TRANSFER SCREEN (139687) -->
-    <div id="view-cnic" class="view-screen-pane">
-      <div class="top-header-nav">
-        <div class="back-btn-box" onclick="backToMainModal()"><i class="fa-solid fa-chevron-left"></i></div>
-        <div class="help-btn-box">Help</div>
-      </div>
-      <div style="padding: 14px 18px 4px 18px;"><h2 style="font-size: 22px; font-weight: 800; color: #1e293b;">CNIC Transfer</h2></div>
-      <div class="subnav-tabs-row">
-        <div class="subnav-tab-item active-tab">Send Money</div>
-        <div class="subnav-tab-item">History</div>
-      </div>
-      <div class="form-inputs-scroll">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <span style="font-size:13px; font-weight:700; color:#1e293b;">My CNIC Favourites</span>
-          <span style="font-size:12px; font-weight:700; color:#00A651; cursor:pointer;">+ Add Favourite</span>
-        </div>
-        <p style="font-size:12px; color:#64748b; margin-bottom:14px;">You don't have any favourites added</p>
-
-        <div class="form-field-card">
-          <label>Enter CNIC Number</label>
-          <input type="text" id="cnic-card-input" placeholder="XXXXX-XXXXXXX-X" maxlength="15" oninput="formatCnicInput(this); checkCnicFormValid();">
-        </div>
-
-        <div class="form-field-card">
-          <label>Enter Mobile Number</label>
-          <input type="tel" id="cnic-phone-input" placeholder="Enter Receiver's Number or Search Contacts" maxlength="12" oninput="checkCnicFormValid()">
-        </div>
-
-        <div class="form-field-card">
-          <label>Select Purpose of Payment</label>
-          <select id="cnic-purpose-input">
-            <option value="Others">Others</option>
-            <option value="Family Support">Family Support</option>
-            <option value="Medical Expenses">Medical Expenses</option>
-          </select>
-        </div>
-
-        <button class="form-next-btn" id="cnic-submit-btn" onclick="submitCnicFlow()">Next</button>
-      </div>
-    </div>
-
-    <!-- 7. ENTER AMOUNT PANE (139572) -->
+    <!-- 3. ENTER AMOUNT PANE (139572) -->
     <div id="step-amount-pane">
       <div class="amount-header-card">
         <div>
@@ -826,11 +630,11 @@
         <button class="key-unit-btn" onclick="onNumKey('9')">9</button>
         <button class="key-unit-btn" onclick="onNumKeyBackspace()"><i class="fa-solid fa-delete-left"></i></button>
         <button class="key-unit-btn" onclick="onNumKey('0')">0</button>
-        <button class="key-unit-btn" style="background:#00A651; color:#fff; font-size:15px; font-weight:800;" onclick="goToConfirmPane()">NEXT</button>
+        <button class="key-unit-btn" style="background:#00A651; color:#fff; font-size:15px; font-weight:800;" onclick="goToConfirmPaneWithTimer()">NEXT</button>
       </div>
     </div>
 
-    <!-- 8. CONFIRM TRANSACTION PANE (139573) -->
+    <!-- 4. CONFIRM TRANSACTION PANE (139573) -->
     <div id="step-confirm-pane">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
         <div class="back-btn-box" onclick="backToAmountPane()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -838,7 +642,7 @@
       </div>
 
       <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:8px;">Pay From</div>
-      <div class="confirm-white-card" style="display:flex; align-items:center; justify-content:space-between;">
+      <div class="confirm-white-card" style="display:flex; align-items:center; justify-content:space-between; border:1px solid #e2e8f0; border-radius:18px; padding:16px; margin-bottom:14px;">
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="width:40px; height:28px; background:#00A651; border-radius:8px;"></div>
           <div>
@@ -850,7 +654,7 @@
       </div>
 
       <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:8px;">Pay To</div>
-      <div class="confirm-white-card" style="display:flex; align-items:center; justify-content:space-between;">
+      <div class="confirm-white-card" style="display:flex; align-items:center; justify-content:space-between; border:1px solid #e2e8f0; border-radius:18px; padding:16px; margin-bottom:14px;">
         <div style="display:flex; align-items:center; gap:12px;">
           <img id="confirm-badge-icon" src="https://i.ibb.co/4g5Nd0YG/139661.jpg" style="width:36px; height:36px; object-fit:contain;" alt="">
           <div>
@@ -862,26 +666,26 @@
       </div>
 
       <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:8px;">Payment Summary</div>
-      <div class="confirm-white-card">
-        <div class="confirm-detail-row">
+      <div class="confirm-white-card" style="border:1px solid #e2e8f0; border-radius:18px; padding:16px; margin-bottom:14px;">
+        <div class="confirm-detail-row" style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px;">
           <span style="color:#64748b;">Transfer Amount</span>
           <strong id="confirm-summary-amount">Rs. 10</strong>
         </div>
-        <div class="confirm-detail-row">
+        <div class="confirm-detail-row" style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px;">
           <span style="color:#64748b;">Fee (including tax)</span>
           <strong style="color:#00A651;">Free</strong>
         </div>
         <hr style="border:0; border-top:1px solid #f1f5f9; margin:10px 0;">
-        <div class="confirm-detail-row" style="font-size:16px;">
+        <div class="confirm-detail-row" style="display:flex; justify-content:space-between; padding:6px 0; font-size:16px;">
           <strong style="color:#1e293b;">Total Amount</strong>
           <strong style="color:#1e293b; font-size:18px;" id="confirm-summary-total">Rs. 10.00</strong>
         </div>
       </div>
 
-      <button style="width:100%; height:50px; background:#00A651; color:#fff; border:none; border-radius:999px; font-size:16px; font-weight:800; cursor:pointer; margin-top:20px;" onclick="executeSendingMoney()">Send Now</button>
+      <button style="width:100%; height:50px; background:#00A651; color:#fff; border:none; border-radius:999px; font-size:16px; font-weight:800; cursor:pointer; margin-top:20px;" onclick="executeSendingMoneyWithPulse()">Send Now</button>
     </div>
 
-    <!-- 9. SENDING MONEY PULSE PANE (139574) -->
+    <!-- 5. SENDING MONEY PULSE (139574) -->
     <div id="step-sending-pane">
       <div class="css-coin-graphic">
         <span style="font-size:42px; font-weight:900; color:#00A651;">e</span>
@@ -890,7 +694,7 @@
       <p style="font-size: 14px; color: #64748b;">Please wait</p>
     </div>
 
-    <!-- 10. SUCCESS PANE (139575) -->
+    <!-- 6. SUCCESS PANE (139575) -->
     <div id="step-success-pane">
       <div style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:20px;">
         <div class="chroma-sun-wrapper">
@@ -914,63 +718,63 @@
 
       <div style="display:flex; align-items:center; gap:12px; width:100%;">
         <button style="flex:1; height:50px; border-radius:999px; border:1.5px solid #00A651; background:#fff; color:#065f46; font-size:15px; font-weight:700; cursor:pointer;" onclick="finishAndGoHome()">Back to home</button>
-        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;"><i class="fa-solid fa-share-nodes"></i></button>
-        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;" onclick="openFullReceiptPane()"><i class="fa-regular fa-file-lines"></i></button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;" onclick="shareSuccessReceipt()"><i class="fa-solid fa-share-nodes"></i></button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;" onclick="openFullReceiptWithTimer()"><i class="fa-regular fa-file-lines"></i></button>
       </div>
     </div>
 
-    <!-- 11. DETAILED RECEIPT PANE (139674) -->
+    <!-- 7. DETAILED RECEIPT PANE (139674) - LIVE CLOCK & DOWNLOAD -->
     <div id="step-receipt-full">
-      <div class="receipt-top-badge-gold">
-        <i class="fa-solid fa-check" style="font-size:38px; color:#00A651;"></i>
-      </div>
-      <h2 style="text-align:center; font-size: 20px; font-weight: 800; color: #1e293b;">Transaction Successful</h2>
-      <p style="text-align:center; font-size: 13px; color: #64748b; margin-top: 4px;">Money has been sent</p>
+      <div id="receipt-capture-area">
+        <div class="receipt-top-badge-gold">
+          <i class="fa-solid fa-check" style="font-size:38px; color:#00A651;"></i>
+        </div>
+        <h2 style="text-align:center; font-size: 20px; font-weight: 800; color: #1e293b;">Transaction Successful</h2>
+        <p style="text-align:center; font-size: 13px; color: #64748b; margin-top: 4px;">Money has been sent</p>
 
-      <div class="receipt-info-block" style="border-top:none;">
-        <div class="receipt-row-meta"><span class="lbl">Transaction ID</span><span class="vl" id="rcpt-full-txid">#57093641736</span></div>
-        <div class="receipt-row-meta"><span class="lbl">Date & Time</span><span class="vl" id="rcpt-full-datetime">09 October 2026, 2:42 PM</span></div>
-        <div class="receipt-row-meta"><span class="lbl">Funding Source</span><span class="vl">easypaisa Account</span></div>
-      </div>
+        <div class="receipt-info-block" style="border-top:none;">
+          <div class="receipt-row-meta"><span class="lbl">Transaction ID</span><span class="vl" id="rcpt-full-txid">#57093641736</span></div>
+          <div class="receipt-row-meta"><span class="lbl">Date & Time</span><span class="vl" id="rcpt-full-datetime">10 October 2026, 8:08 PM</span></div>
+          <div class="receipt-row-meta"><span class="lbl">Funding Source</span><span class="vl">easypaisa Account</span></div>
+        </div>
 
-      <div class="receipt-info-block">
-        <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Sent to</div>
-        <div class="receipt-row-meta"><span class="lbl">Name</span><span class="vl" id="rcpt-full-recv-name">Mudaser</span></div>
-        <div class="receipt-row-meta"><span class="lbl">Account Number</span><span class="vl" id="rcpt-full-recv-num">03084191378</span></div>
-      </div>
+        <div class="receipt-info-block">
+          <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Sent to</div>
+          <div class="receipt-row-meta"><span class="lbl">Name</span><span class="vl" id="rcpt-full-recv-name">Mudaser</span></div>
+          <div class="receipt-row-meta"><span class="lbl">Account Number</span><span class="vl" id="rcpt-full-recv-num">03084191378</span></div>
+        </div>
 
-      <div class="receipt-info-block">
-        <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Sent by</div>
-        <div class="receipt-row-meta"><span class="lbl">Name</span><span class="vl" id="rcpt-full-sender-name">Muddasir Abbas</span></div>
-        <div class="receipt-row-meta"><span class="lbl">Account Number</span><span class="vl">03291667662</span></div>
-      </div>
+        <div class="receipt-info-block">
+          <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Sent by</div>
+          <div class="receipt-row-meta"><span class="lbl">Name</span><span class="vl" id="rcpt-full-sender-name">Muddasir Abbas</span></div>
+          <div class="receipt-row-meta"><span class="lbl">Account Number</span><span class="vl">03291667662</span></div>
+        </div>
 
-      <div class="receipt-info-block">
-        <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Charges</div>
-        <div class="receipt-row-meta"><span class="lbl">Amount</span><span class="vl" id="rcpt-full-subtotal">Rs. 10.00</span></div>
-        <div class="receipt-row-meta"><span class="lbl">Fee</span><span class="vl">Rs. 0.00</span></div>
-        <hr style="border:0; border-top:1px solid #f1f5f9; margin:10px 0;">
-        <div class="receipt-row-meta" style="font-size:15px;"><strong style="color:#1e293b;">Total Amount</strong><strong style="color:#1e293b; font-size:17px;" id="rcpt-full-total">Rs. 10.00</strong></div>
-      </div>
+        <div class="receipt-info-block">
+          <div style="font-size:13.5px; font-weight:800; color:#1e293b; margin-bottom:8px;">Charges</div>
+          <div class="receipt-row-meta"><span class="lbl">Amount</span><span class="vl" id="rcpt-full-subtotal">Rs. 10.00</span></div>
+          <div class="receipt-row-meta"><span class="lbl">Fee</span><span class="vl">Rs. 0.00</span></div>
+          <hr style="border:0; border-top:1px solid #f1f5f9; margin:10px 0;">
+          <div class="receipt-row-meta" style="font-size:15px;"><strong style="color:#1e293b;">Total Amount</strong><strong style="color:#1e293b; font-size:17px;" id="rcpt-full-total">Rs. 10.00</strong></div>
+        </div>
 
-      <div style="text-align:center; margin: 24px 0 16px 0; font-size:12px; color:#64748b;">
-        Paid via <strong style="color:#00A651;">easypaisa</strong> <span style="font-size:10px; color:#1e293b;">digital bank</span>
+        <div style="text-align:center; margin: 24px 0 16px 0; font-size:12px; color:#64748b;">
+          Paid via <strong style="color:#00A651;">easypaisa</strong> <span style="font-size:10px; color:#1e293b;">digital bank</span>
+        </div>
       </div>
 
       <div style="display:flex; align-items:center; gap:12px; width:100%; margin-top:auto;">
         <button style="flex:1; height:50px; border-radius:999px; border:1.5px solid #00A651; background:#fff; color:#065f46; font-size:15px; font-weight:700; cursor:pointer;" onclick="finishAndGoHome()">Back to Home</button>
-        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;"><i class="fa-solid fa-share-nodes"></i></button>
-        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;"><i class="fa-solid fa-arrow-down-to-line"></i></button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;" onclick="shareSuccessReceipt()"><i class="fa-solid fa-share-nodes"></i></button>
+        <button style="width:50px; height:50px; border-radius:50%; border:1.5px solid #00A651; background:#fff; color:#00A651; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer;" onclick="downloadReceiptAsImage()"><i class="fa-solid fa-arrow-down-to-line"></i></button>
       </div>
     </div>
 
-    <!-- 12. EXACT ERROR MODAL (Matching 139691 & 141358.jpg) -->
+    <!-- 8. EXACT ERROR MODAL (139691 & 141358.jpg) -->
     <div id="mepco-error-modal">
       <div class="mepco-error-card">
-        <!-- Close circle (X) -->
         <div class="error-close-circle-x" onclick="dismissMepcoError()">✕</div>
 
-        <!-- Warning Triangle Clean Image / Canvas -->
         <div class="error-triangle-icon-wrap">
           <canvas id="canvas-error-triangle"></canvas>
           <svg class="fallback-error-triangle-svg" id="svg-error-triangle" viewBox="0 0 100 100">
@@ -980,11 +784,8 @@
           </svg>
         </div>
 
-        <!-- Exact Error Texts (Matching 139691) -->
         <h3 class="error-code-header-txt">Error Code:ESB99125</h3>
         <p class="error-desc-sub-txt">We couldn’t find your details. The entered ID is incorrect.</p>
-
-        <!-- Green Outline Cancel Button -->
         <button class="error-cancel-pill-btn" onclick="dismissMepcoError()">Cancel</button>
       </div>
     </div>
@@ -996,7 +797,6 @@
     let userBalance = parseFloat(userBalanceStr.replace(/,/g, '')) || 20090;
     let senderName = localStorage.getItem("ep_name") || "Muddasir Abbas";
 
-    // Synced Directory from Admin Panel
     let bankDirectory = JSON.parse(localStorage.getItem("ep_bank_directory")) || [
       { bank: "easypaisa", number: "03084191378", owner: "Mudaser" },
       { bank: "easypaisa", number: "03280591997", owner: "Farhad Ali" },
@@ -1007,31 +807,23 @@
       { bank: "CNIC", number: "31202-1234567-1", owner: "Mudaser" }
     ];
 
-    // Bank & Wallet list catalogs
-    const banksCatalog = [
-      { name: "ABHI Microfinance Bank", tag: "ABHI" },
-      { name: "Aik Digital", tag: "AIK" },
-      { name: "Al Baraka Islamic Bank Limited", tag: "BARAKA" },
-      { name: "Alfa Pay", tag: "ALFA" },
-      { name: "Allied Bank Limited", tag: "ABL" },
-      { name: "Apna Microfinance Bank", tag: "APNA" }
-    ];
-
-    const walletsCatalog = [
-      { name: "ABHI Microfinance Bank", tag: "ABHI" },
-      { name: "Alfa Pay", tag: "ALFA" },
-      { name: "Digitt", tag: "DIGITT" },
-      { name: "FirstPay", tag: "FIRSTPAY" },
-      { name: "HBL Konnect", tag: "KONNECT" },
-      { name: "JazzCash", tag: "JAZZCASH" }
-    ];
-
     let currentActiveView = "step-1-modal";
     let currentMethod = "easypaisa";
     let selectedContact = { name: "Mudaser", number: "03084191378" };
     let enteredAmount = "0";
 
-    // 12.png Chroma-Key Auto Background Cleaner
+    // Dynamic Loading Function with variable timer (1000ms to 3000ms)
+    function triggerProcessLoader(msg, duration, callback) {
+      const loader = document.getElementById('ep-dynamic-loading-bar');
+      document.getElementById('loading-bar-message').innerText = msg || "Loading...";
+      loader.style.display = 'flex';
+      setTimeout(() => {
+        loader.style.display = 'none';
+        if (callback) callback();
+      }, duration || 1500);
+    }
+
+    // 12.png Chroma-Key Background Cleaner for Success Badge
     function initChromaSuccessLogo(imgSrc) {
       const img = new Image();
       img.src = imgSrc;
@@ -1058,7 +850,7 @@
       };
     }
 
-    // 141358.jpg (Error Triangle) Chroma Cleaner to blend with White Card
+    // 141358.jpg Warning Triangle Background Cleaner
     function initChromaErrorTriangle(imgSrc) {
       const img = new Image();
       img.src = imgSrc;
@@ -1074,46 +866,26 @@
           const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
           const d = imgData.data;
 
-          // Pure white background removal
           for (let i = 0; i < d.length; i += 4) {
             const r = d[i], g = d[i+1], b = d[i+2];
-            if (r > 220 && g > 220 && b > 220) {
-              d[i+3] = 0;
-            }
+            if (r > 220 && g > 220 && b > 220) d[i+3] = 0;
           }
           ctx.putImageData(imgData, 0, 0);
           document.getElementById('svg-error-triangle').style.display = 'none';
           canvas.style.display = 'block';
-        } catch(e) {
-          // Fallback SVG displays cleanly
-        }
+        } catch(e) {}
       };
     }
 
-    // Step 1 Navigation Routing
-    function routeOption(opt) {
-      currentMethod = opt;
-      document.getElementById('step-1-modal').style.display = 'none';
-
-      if (opt === 'easypaisa') {
+    // Routing with Loading Timer (1.2s to 1.5s)
+    function routeOptionWithTimer(opt, ms) {
+      triggerProcessLoader("Opening " + opt + "...", ms, () => {
+        currentMethod = opt;
+        document.getElementById('step-1-modal').style.display = 'none';
         currentActiveView = 'view-easypaisa';
         document.getElementById('view-easypaisa').style.display = 'flex';
         renderEpContacts();
-      } else if (opt === 'Bank') {
-        currentActiveView = 'view-bank';
-        document.getElementById('view-bank').style.display = 'flex';
-        renderBanksList();
-      } else if (opt === 'Wallet') {
-        currentActiveView = 'view-wallet';
-        document.getElementById('view-wallet').style.display = 'flex';
-        renderWalletsList();
-      } else if (opt === 'Raast') {
-        currentActiveView = 'view-raast';
-        document.getElementById('view-raast').style.display = 'flex';
-      } else if (opt === 'CNIC') {
-        currentActiveView = 'view-cnic';
-        document.getElementById('view-cnic').style.display = 'flex';
-      }
+      });
     }
 
     function backToMainModal() {
@@ -1121,7 +893,6 @@
       document.getElementById('step-1-modal').style.display = 'flex';
     }
 
-    // Easypaisa Contacts Flow
     function renderEpContacts(filter = "") {
       const container = document.getElementById('ep-contacts-scroll');
       container.innerHTML = '';
@@ -1130,7 +901,7 @@
       list.forEach(c => {
         const row = document.createElement('div');
         row.className = 'bank-list-item-row';
-        row.onclick = () => selectContactAndProceed(c.owner, c.number);
+        row.onclick = () => selectContactWithTimer(c.owner, c.number);
         row.innerHTML = `
           <div class="bank-item-left-meta">
             <div class="bank-logo-circle">${c.owner.charAt(0)}</div>
@@ -1159,124 +930,24 @@
       }
     }
 
-    function proceedWithTypedNumber() {
+    function proceedWithTypedNumberWithTimer() {
       const val = document.getElementById('ep-number-input').value.trim();
       if (!val) return;
-      
-      // تلاش کریں یا فرضی رجسٹریشن بنائیں، اماؤنٹ کے بعد اصل ایڈمن ڈیٹا بیس چیک ہوگا
-      const matched = bankDirectory.find(b => b.number === val);
-      const ownerName = matched ? matched.owner : "Account Holder";
-      selectContactAndProceed(ownerName, val);
-    }
-
-    // Banks Listing (139684)
-    function renderBanksList(filter = "") {
-      const container = document.getElementById('banks-list-scroll');
-      container.innerHTML = '';
-      const list = filter ? banksCatalog.filter(b => b.name.toLowerCase().includes(filter.toLowerCase())) : banksCatalog;
-
-      list.forEach(b => {
-        const row = document.createElement('div');
-        row.className = 'bank-list-item-row';
-        row.onclick = () => promptAccountForInstitution(b.name);
-        row.innerHTML = `
-          <div class="bank-item-left-meta">
-            <div class="bank-logo-circle">${b.tag}</div>
-            <span style="font-size:13.5px; font-weight:700; color:#1e293b;">${b.name}</span>
-          </div>
-          <i class="fa-solid fa-chevron-right" style="color:#cbd5e1; font-size:13px;"></i>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function filterBanksList() {
-      renderBanksList(document.getElementById('bank-search-query').value.trim());
-    }
-
-    // Wallets Listing (139685)
-    function renderWalletsList(filter = "") {
-      const container = document.getElementById('wallets-list-scroll');
-      container.innerHTML = '';
-      const list = filter ? walletsCatalog.filter(w => w.name.toLowerCase().includes(filter.toLowerCase())) : walletsCatalog;
-
-      list.forEach(w => {
-        const row = document.createElement('div');
-        row.className = 'bank-list-item-row';
-        row.onclick = () => promptAccountForInstitution(w.name);
-        row.innerHTML = `
-          <div class="bank-item-left-meta">
-            <div class="bank-logo-circle" style="color:#059669;">${w.tag}</div>
-            <span style="font-size:13.5px; font-weight:700; color:#1e293b;">${w.name}</span>
-          </div>
-          <i class="fa-solid fa-chevron-right" style="color:#cbd5e1; font-size:13px;"></i>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function filterWalletsList() {
-      renderWalletsList(document.getElementById('wallet-search-query').value.trim());
-    }
-
-    function promptAccountForInstitution(instName) {
-      const num = prompt(`Enter Account / Mobile Number for ${instName}:`);
-      if (num && num.length >= 10) {
-        const matched = bankDirectory.find(b => b.number === num.trim());
+      triggerProcessLoader("Verifying Account...", 1500, () => {
+        const matched = bankDirectory.find(b => b.number === val);
         const ownerName = matched ? matched.owner : "Account Holder";
-        selectContactAndProceed(ownerName, num.trim(), instName);
-      }
+        selectContactAndProceed(ownerName, val);
+      });
     }
 
-    // Raast Flow (139686)
-    function setRaastChip(chipType) {
-      document.querySelectorAll('.raast-chip-tab').forEach(c => c.classList.remove('active-chip'));
-      if (chipType === 'Raast ID') document.getElementById('r-chip-id').classList.add('active-chip');
-      if (chipType === 'IBAN') document.getElementById('r-chip-iban').classList.add('active-chip');
-      if (chipType === 'Account No.') document.getElementById('r-chip-acc').classList.add('active-chip');
+    function selectContactWithTimer(name, number) {
+      triggerProcessLoader("Loading Account Details...", 1000, () => {
+        selectContactAndProceed(name, number);
+      });
     }
 
-    function checkRaastFormValid() {
-      const val = document.getElementById('raast-target-input').value.trim();
-      const btn = document.getElementById('raast-submit-btn');
-      if (val.length >= 11) btn.classList.add('ready-btn');
-      else btn.classList.remove('ready-btn');
-    }
-
-    function submitRaastFlow() {
-      const val = document.getElementById('raast-target-input').value.trim();
-      if (val.length < 11) return;
-      const matched = bankDirectory.find(b => b.number === val);
-      const ownerName = matched ? matched.owner : "Raast Account";
-      selectContactAndProceed(ownerName, val, "Raast ID");
-    }
-
-    // CNIC Flow (139687)
-    function formatCnicInput(el) {
-      let v = el.value.replace(/\D/g, '');
-      if (v.length > 5 && v.length <= 12) v = v.slice(0,5) + '-' + v.slice(5);
-      else if (v.length > 12) v = v.slice(0,5) + '-' + v.slice(5,12) + '-' + v.slice(12,13);
-      el.value = v;
-    }
-
-    function checkCnicFormValid() {
-      const cnic = document.getElementById('cnic-card-input').value.trim();
-      const ph = document.getElementById('cnic-phone-input').value.trim();
-      const btn = document.getElementById('cnic-submit-btn');
-      if (cnic.length >= 15 && ph.length >= 11) btn.classList.add('ready-btn');
-      else btn.classList.remove('ready-btn');
-    }
-
-    function submitCnicFlow() {
-      const cnic = document.getElementById('cnic-card-input').value.trim();
-      if (cnic.length < 15) return;
-      const matched = bankDirectory.find(b => b.number === cnic);
-      const ownerName = matched ? matched.owner : "CNIC Holder";
-      selectContactAndProceed(ownerName, cnic, "CNIC");
-    }
-
-    function selectContactAndProceed(name, number, inst = "easypaisa") {
-      selectedContact = { name, number, inst };
+    function selectContactAndProceed(name, number) {
+      selectedContact = { name, number };
       document.getElementById('receiver-title-lbl').innerText = name;
       document.getElementById('amount-screen-balance').innerText = "Rs. " + userBalance.toLocaleString() + ".00";
       enteredAmount = "0";
@@ -1293,7 +964,6 @@
       document.getElementById(currentActiveView).style.display = 'flex';
     }
 
-    // Math Keypad Handlers
     function loadMathematicalKeypad() {
       document.getElementById('inapp-keypad-panel').style.display = 'grid';
       document.getElementById('amount-focus-wrapper').classList.add('active-focus-box');
@@ -1315,8 +985,7 @@
       document.getElementById('typed-amount-display').innerText = enteredAmount;
     }
 
-    // Amount -> Confirm (139573)
-    function goToConfirmPane() {
+    function goToConfirmPaneWithTimer() {
       const amt = parseFloat(enteredAmount);
       if (!amt || amt < 1) {
         alert("Please enter a valid amount!");
@@ -1327,22 +996,22 @@
         return;
       }
 
-      // Check if number is in Admin Directory AFTER amount entered
-      const isVerified = bankDirectory.some(b => b.number === selectedContact.number || selectedContact.number.includes(b.number));
-      if (!isVerified) {
-        // Trigger Exact Image 139691 Error Modal
-        showMepcoErrorModal();
-        return;
-      }
+      triggerProcessLoader("Validating Beneficiary...", 2000, () => {
+        const isVerified = bankDirectory.some(b => b.number === selectedContact.number || selectedContact.number.includes(b.number));
+        if (!isVerified) {
+          showMepcoErrorModal();
+          return;
+        }
 
-      document.getElementById('confirm-wallet-balance').innerText = "Balance: Rs. " + userBalance.toLocaleString() + ".00";
-      document.getElementById('confirm-payto-name').innerText = selectedContact.name;
-      document.getElementById('confirm-payto-num').innerText = selectedContact.number;
-      document.getElementById('confirm-summary-amount').innerText = "Rs. " + amt.toLocaleString();
-      document.getElementById('confirm-summary-total').innerText = "Rs. " + amt.toFixed(2);
+        document.getElementById('confirm-wallet-balance').innerText = "Balance: Rs. " + userBalance.toLocaleString() + ".00";
+        document.getElementById('confirm-payto-name').innerText = selectedContact.name;
+        document.getElementById('confirm-payto-num').innerText = selectedContact.number;
+        document.getElementById('confirm-summary-amount').innerText = "Rs. " + amt.toLocaleString();
+        document.getElementById('confirm-summary-total').innerText = "Rs. " + amt.toFixed(2);
 
-      document.getElementById('step-amount-pane').style.display = 'none';
-      document.getElementById('step-confirm-pane').style.display = 'flex';
+        document.getElementById('step-amount-pane').style.display = 'none';
+        document.getElementById('step-confirm-pane').style.display = 'flex';
+      });
     }
 
     function backToAmountPane() {
@@ -1350,14 +1019,17 @@
       document.getElementById('step-amount-pane').style.display = 'flex';
     }
 
-    // Confirm -> Sending (139574) -> Success (139575)
-    function executeSendingMoney() {
+    function executeSendingMoneyWithPulse() {
       document.getElementById('step-confirm-pane').style.display = 'none';
       document.getElementById('step-sending-pane').style.display = 'flex';
 
       const amt = parseFloat(enteredAmount);
       const generatedTxId = "#570936" + Math.floor(10000 + Math.random() * 90000);
-      const nowStr = "09 October 2026, 2:42 PM";
+
+      // Real system live time
+      const now = new Date();
+      const options = { day: '2-digit', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+      const liveTimeStr = now.toLocaleDateString('en-GB', options);
 
       setTimeout(() => {
         userBalance -= amt;
@@ -1378,14 +1050,12 @@
           message: `Rs. ${amt.toLocaleString()} sent to ${selectedContact.name}.`
         }));
 
-        // Populate Success (139575)
         document.getElementById('success-final-amt').innerText = "Rs. " + amt.toFixed(2);
         document.getElementById('success-receiver-name').innerText = selectedContact.name;
         document.getElementById('success-receiver-num').innerText = selectedContact.number;
 
-        // Populate Detailed Receipt (139674)
         document.getElementById('rcpt-full-txid').innerText = generatedTxId;
-        document.getElementById('rcpt-full-datetime').innerText = nowStr;
+        document.getElementById('rcpt-full-datetime').innerText = liveTimeStr;
         document.getElementById('rcpt-full-recv-name').innerText = selectedContact.name;
         document.getElementById('rcpt-full-recv-num').innerText = selectedContact.number;
         document.getElementById('rcpt-full-sender-name').innerText = senderName;
@@ -1397,13 +1067,45 @@
       }, 2000);
     }
 
-    // Success -> Detailed Receipt (139674)
-    function openFullReceiptPane() {
-      document.getElementById('step-success-pane').style.display = 'none';
-      document.getElementById('step-receipt-full').style.display = 'flex';
+    function openFullReceiptWithTimer() {
+      triggerProcessLoader("Generating Official Receipt...", 1200, () => {
+        document.getElementById('step-success-pane').style.display = 'none';
+        document.getElementById('step-receipt-full').style.display = 'flex';
+      });
     }
 
-    // MEPCO Exact Error Popup Handlers (139691)
+    // Native Web Share API (WhatsApp, Message, Any App)
+    function shareSuccessReceipt() {
+      const amt = document.getElementById('success-final-amt').innerText;
+      const rec = document.getElementById('success-receiver-name').innerText;
+      const num = document.getElementById('success-receiver-num').innerText;
+      const txid = document.getElementById('rcpt-full-txid').innerText;
+      const dt = document.getElementById('rcpt-full-datetime').innerText;
+
+      const shareText = `*easypaisa Transaction Receipt*\nAmount: ${amt}\nSent to: ${rec} (${num})\nTx ID: ${txid}\nDate: ${dt}\nStatus: Successful`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'easypaisa Transaction Receipt',
+          text: shareText
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareText);
+        alert("Receipt details copied to clipboard!");
+      }
+    }
+
+    // Download Receipt as Clean Image
+    function downloadReceiptAsImage() {
+      const captureElem = document.getElementById('receipt-capture-area');
+      html2canvas(captureElem, { scale: 2, backgroundColor: "#ffffff" }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `easypaisa_receipt_${Date.now()}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+
     function showMepcoErrorModal() {
       document.getElementById('mepco-error-modal').style.display = 'flex';
     }
