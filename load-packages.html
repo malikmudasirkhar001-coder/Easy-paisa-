@@ -1,614 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Load & Packages - Easypaisa</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Load & Packages - Easypaisa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+  --ep-green:#00A651;
+  --ep-dark-green:#008a43;
+  --ep-bg-gray:#f7f9fa;
+  --ep-success-bg:#d1fae5;
+}
+*{box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+html,body{background:#261f30;height:100%;width:100%;display:flex;justify-content:center;align-items:center;color:#1e293b;overflow:hidden;font-family:'Inter',sans-serif}
+#phone-frame{width:100vw;height:100vh;max-width:412px;max-height:860px;background:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 60px -12px rgba(0,0,0,0.7)}
+@media(min-width:640px){#phone-frame{border-radius:42px;border:8px solid #1a1522;height:840px}}
 
-  <style>
-    :root {
-      --ep-green: #00A651;
-      --ep-theme-dark: #261f30;
-      --ep-bg-gray: #f7f9fa;
-    }
-    * {
-      box-sizing: border-box;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      background-color: #261f30;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #1e293b;
-      overflow: hidden;
-      font-family: 'Inter', sans-serif;
-    }
-    #phone-frame {
-      width: 100vw;
-      height: 100vh;
-      max-width: 412px;
-      max-height: 860px;
-      background: var(--ep-bg-gray);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7);
-    }
-    @media (min-width: 640px) {
-      #phone-frame {
-        border-radius: 42px;
-        border: 8px solid #1a1522;
-        height: 840px;
-      }
-    }
+/* Header */
+.top-header-nav{padding:16px 18px 12px 18px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #f1f5f9;z-index:10}
+.back-btn-box{width:36px;height:36px;border-radius:10px;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#334155}
+.help-btn-box{padding:6px 12px;border-radius:10px;border:1px solid #e2e8f0;font-size:11.5px;font-weight:700;color:#334155;cursor:pointer}
 
-    /* TOP HEADER */
-    .top-header {
-      background: linear-gradient(135deg, #00A651 0%, #008a43 100%);
-      color: #fff;
-      padding: 50px 20px 22px 20px;
-      border-bottom-left-radius: 28px;
-      border-bottom-right-radius: 28px;
-      position: relative;
-      z-index: 5;
-    }
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .back-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .back-btn:active { transform: scale(0.95); }
-    .header-title {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-    }
-    .header-icons {
-      display: flex;
-      gap: 14px;
-      font-size: 18px;
-      color: rgba(255,255,255,0.9);
-    }
+/* Subnav */
+.subnav-tabs-row{display:flex;border-bottom:1px solid #e2e8f0;background:#fff}
+.subnav-tab-item{flex:1;text-align:center;padding:12px 0;font-size:13.5px;font-weight:700;color:#64748b;cursor:pointer;border-bottom:2.5px solid transparent}
+.subnav-tab-item.active-tab{color:var(--ep-green);border-bottom-color:var(--ep-green)}
 
-    .balance-mini {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 16px;
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .balance-mini-label {
-      font-size: 11px;
-      color: rgba(255,255,255,0.75);
-      font-weight: 600;
-    }
-    .balance-mini-value {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      margin-top: 2px;
-    }
+/* Title */
+.section-title{font-size:15px;font-weight:800;color:#1e293b;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title i{color:var(--ep-green)}
 
-    /* SCROLLABLE BODY */
-    .scroll-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px 16px 100px 16px;
-    }
-    .scroll-body::-webkit-scrollbar { display: none; }
+/* Operator Tabs */
+.operator-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px}
+.operator-tabs::-webkit-scrollbar{display:none}
+.op-tab{flex:0 0 auto;padding:8px 14px;background:#fff;border:1.5px solid #e2e8f0;border-radius:999px;font-size:12px;font-weight:700;color:#475569;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.op-tab img{width:22px;height:22px;object-fit:contain;border-radius:50%;background:#fff;padding:2px}
+.op-tab.active{background:var(--ep-green);color:#fff;border-color:var(--ep-green);box-shadow:0 4px 12px rgba(0,166,81,0.3)}
 
-    /* SECTION TITLE */
-    .section-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-title i { color: var(--ep-green); }
+/* Filter Row */
+.filter-row{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-chip{flex:0 0 auto;padding:7px 14px;background:#fff;border:1.5px solid #e2e8f0;border-radius:999px;font-size:11.5px;font-weight:700;color:#475569;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.2s}
+.filter-chip.active{background:#1e293b;color:#fff;border-color:#1e293b}
+.filter-chip i{font-size:10px}
 
-    /* OPERATOR TABS */
-    .operator-tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 18px;
-    }
-    .operator-tabs::-webkit-scrollbar { display: none; }
-    .op-tab {
-      flex: 0 0 auto;
-      padding: 9px 16px;
-      background: #fff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #475569;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-    .op-tab img {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
-      border-radius: 50%;
-    }
-    .op-tab.active {
-      background: var(--ep-green);
-      color: #fff;
-      border-color: var(--ep-green);
-      box-shadow: 0 4px 12px rgba(0,166,81,0.3);
-    }
+/* Packages List */
+.scroll-body{flex:1;overflow-y:auto;padding:18px 16px 100px 16px}
+.scroll-body::-webkit-scrollbar{display:none}
+.packages-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.pkg-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden}
+.pkg-card:active{transform:scale(0.98)}
+.pkg-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ep-green)}
+.pkg-card.highlight::before{background:#f59e0b}
+.pkg-info{flex:1;min-width:0}
+.pkg-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px;background:#fef3c7;color:#92400e;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px}
+.pkg-badge.hot{background:#fee2e2;color:#991b1b}
+.pkg-badge.new{background:#dbeafe;color:#1e40af}
+.pkg-badge.best{background:#dcfce7;color:#166534}
+.pkg-title{font-size:14px;font-weight:800;color:#1e293b;margin-bottom:4px}
+.pkg-details{font-size:11px;color:#64748b;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pkg-details span{display:inline-flex;align-items:center;gap:3px}
+.pkg-details i{font-size:9px;color:var(--ep-green)}
+.pkg-price{font-size:18px;font-weight:800;color:var(--ep-green);text-align:right;flex-shrink:0;margin-left:10px}
+.pkg-validity{font-size:10px;color:#94a3b8;font-weight:600;text-align:right;margin-top:2px}
 
-    /* QUICK ACTIONS */
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .quick-card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .quick-card:active { transform: scale(0.97); }
-    .quick-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: #ecfdf5;
-      color: var(--ep-green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .quick-info { flex: 1; min-width: 0; }
-    .quick-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: #1e293b;
-    }
-    .quick-sub {
-      font-size: 10px;
-      color: #64748b;
-      margin-top: 2px;
-    }
+/* Modal */
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(3px);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-sheet{width:100%;background:#fff;border-top-left-radius:28px;border-top-right-radius:28px;padding:22px 20px 26px 20px;animation:sheetUp 0.3s ease forwards;max-height:90%;overflow-y:auto}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:40px;height:4px;background:#cbd5e1;border-radius:2px;margin:0 auto 14px auto}
+.sheet-title{font-size:17px;font-weight:800;color:#1e293b;margin-bottom:4px;text-align:center}
+.sheet-sub{font-size:12px;color:#64748b;text-align:center;margin-bottom:18px}
+.input-group{margin-bottom:14px}
+.input-label{font-size:11px;font-weight:700;color:#475569;margin-bottom:6px;display:block}
+.input-field{width:100%;height:48px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:0 14px;font-size:14px;font-weight:600;color:#1e293b;outline:none;font-family:'Inter',sans-serif}
+.input-field:focus{border-color:var(--ep-green);background:#fff}
+.amount-presets{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.preset-btn{flex:1;min-width:60px;padding:8px;background:#f1f5f9;border:none;border-radius:10px;font-size:12px;font-weight:700;color:#475569;cursor:pointer;transition:all 0.15s}
+.preset-btn:active{background:#dcfce7;color:var(--ep-green)}
+.btn-primary{width:100%;height:50px;background:var(--ep-green);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px rgba(0,166,81,0.3)}
+.btn-primary:active{transform:scale(0.98)}
+.btn-primary:disabled{background:#cbd5e1;box-shadow:none;cursor:not-allowed}
 
-    /* PACKAGES LIST */
-    .packages-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .pkg-card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.15s;
-      position: relative;
-      overflow: hidden;
-    }
-    .pkg-card:active { transform: scale(0.98); }
-    .pkg-card::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--ep-green);
-    }
-    .pkg-info { flex: 1; min-width: 0; }
-    .pkg-badge {
-      display: inline-block;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 8px;
-      background: #fef3c7;
-      color: #92400e;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-    .pkg-badge.hot { background: #fee2e2; color: #991b1b; }
-    .pkg-badge.new { background: #dbeafe; color: #1e40af; }
-    .pkg-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 4px;
-    }
-    .pkg-details {
-      font-size: 11px;
-      color: #64748b;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-    .pkg-details span {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .pkg-details i {
-      font-size: 9px;
-      color: var(--ep-green);
-    }
-    .pkg-price {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--ep-green);
-      text-align: right;
-      flex-shrink: 0;
-      margin-left: 10px;
-    }
-    .pkg-validity {
-      font-size: 10px;
-      color: #94a3b8;
-      font-weight: 600;
-      text-align: right;
-      margin-top: 2px;
-    }
+/* Loading */
+#ep-loading-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.35);z-index:200;display:none;align-items:center;justify-content:center;padding:0 24px}
+.ep-loading-box{width:100%;max-width:320px;background:#fff;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 25px rgba(0,0,0,0.15)}
+.ep-spinner-ring{width:48px;height:48px;border-radius:50%;border:3.5px solid #e2e8f0;border-top-color:#00A651;border-right-color:#00A651;animation:spinLoader 0.8s linear infinite;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:5px;background:#fff}
+@keyframes spinLoader{to{transform:rotate(360deg)}}
+.ep-spinner-ring img{width:100%;height:100%;object-fit:contain;border-radius:50%;display:block;animation:counterSpin 0.8s linear infinite}
+@keyframes counterSpin{to{transform:rotate(-360deg)}}
+.ep-loading-text{font-size:14px;font-weight:500;color:#94a3b8}
 
-    /* INPUT MODAL */
-    .modal-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(3px);
-      z-index: 100;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-    }
-    .modal-overlay.show { display: flex; }
-    .modal-sheet {
-      width: 100%;
-      background: #fff;
-      border-top-left-radius: 28px;
-      border-top-right-radius: 28px;
-      padding: 22px 20px 26px 20px;
-      animation: sheetUp 0.3s ease forwards;
-      max-height: 90%;
-      overflow-y: auto;
-    }
-    @keyframes sheetUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-    .sheet-handle {
-      width: 40px;
-      height: 4px;
-      background: #cbd5e1;
-      border-radius: 2px;
-      margin: 0 auto 14px auto;
-    }
-    .sheet-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 4px;
-      text-align: center;
-    }
-    .sheet-sub {
-      font-size: 12px;
-      color: #64748b;
-      text-align: center;
-      margin-bottom: 18px;
-    }
-    .input-group {
-      margin-bottom: 14px;
-    }
-    .input-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: #475569;
-      margin-bottom: 6px;
-      display: block;
-    }
-    .input-field {
-      width: 100%;
-      height: 48px;
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 0 14px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1e293b;
-      outline: none;
-      font-family: 'Inter', sans-serif;
-    }
-    .input-field:focus {
-      border-color: var(--ep-green);
-      background: #fff;
-    }
-    .amount-presets {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-    .preset-btn {
-      flex: 1;
-      min-width: 60px;
-      padding: 8px;
-      background: #f1f5f9;
-      border: none;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #475569;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .preset-btn:active { background: #dcfce7; color: var(--ep-green); }
-    .btn-primary {
-      width: 100%;
-      height: 50px;
-      background: var(--ep-green);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 6px 16px rgba(0,166,81,0.3);
-    }
-    .btn-primary:active { transform: scale(0.98); }
-    .btn-primary:disabled {
-      background: #cbd5e1;
-      box-shadow: none;
-      cursor: not-allowed;
-    }
+/* Success Toast */
+.success-toast{position:absolute;top:20px;left:16px;right:16px;background:#00A651;color:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 12px 30px rgba(0,166,81,0.4);z-index:300;transform:translateY(-150%);transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
+.success-toast.show{transform:translateY(0)}
+.success-icon{width:38px;height:38px;background:rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.success-text{flex:1}
+.success-text h4{font-size:14px;font-weight:800;margin-bottom:2px}
+.success-text p{font-size:11px;opacity:0.9}
 
-    /* LOADING OVERLAY */
-    #ep-loading-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.35);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 0 24px;
-    }
-    .ep-loading-box {
-      width: 100%;
-      max-width: 320px;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-    .ep-spinner-ring {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 3.5px solid #e2e8f0;
-      border-top-color: #00A651;
-      border-right-color: #00A651;
-      animation: spinLoader 0.8s linear infinite;
-      position: relative;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 5px;
-      background: #ffffff;
-    }
-    @keyframes spinLoader { to { transform: rotate(360deg); } }
-    .ep-spinner-ring img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 50%;
-      display: block;
-      animation: counterSpin 0.8s linear infinite;
-    }
-    @keyframes counterSpin { to { transform: rotate(-360deg); } }
-    .ep-loading-text {
-      font-size: 14px;
-      font-weight: 500;
-      color: #94a3b8;
-    }
+/* Quick actions */
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.quick-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.15s}
+.quick-card:active{transform:scale(0.97)}
+.quick-icon{width:42px;height:42px;border-radius:12px;background:#ecfdf5;color:var(--ep-green);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.quick-info{flex:1;min-width:0}
+.quick-title{font-size:13px;font-weight:800;color:#1e293b}
+.quick-sub{font-size:10px;color:#64748b;margin-top:2px}
 
-    /* SUCCESS TOAST */
-    .success-toast {
-      position: absolute;
-      top: 20px;
-      left: 16px;
-      right: 16px;
-      background: #00A651;
-      color: #fff;
-      border-radius: 16px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 12px 30px rgba(0,166,81,0.4);
-      z-index: 300;
-      transform: translateY(-150%);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .success-toast.show { transform: translateY(0); }
-    .success-icon {
-      width: 38px;
-      height: 38px;
-      background: rgba(255,255,255,0.25);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .success-text {
-      flex: 1;
-    }
-    .success-text h4 {
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 2px;
-    }
-    .success-text p {
-      font-size: 11px;
-      opacity: 0.9;
-    }
-  </style>
+/* Balance mini */
+.balance-mini{background:linear-gradient(135deg,#00A651,#008a43);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:16px}
+.balance-mini-label{font-size:11px;color:rgba(255,255,255,0.8);font-weight:600}
+.balance-mini-value{font-size:20px;font-weight:800;color:#fff;margin-top:2px}
+</style>
 </head>
 <body>
 
 <div id="phone-frame">
 
-  <!-- TOP HEADER -->
-  <div class="top-header">
-    <div class="header-row">
-      <button class="back-btn" onclick="goBack()">
-        <i class="fa-solid fa-arrow-left"></i>
-      </button>
-      <div class="header-title">Load & Packages</div>
-      <div class="header-icons">
-        <i class="fa-solid fa-headset"></i>
-        <i class="fa-solid fa-house" onclick="goHome()"></i>
-      </div>
-    </div>
+  <!-- HEADER -->
+  <div class="top-header-nav">
+    <div class="back-btn-box" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></div>
+    <h2 style="font-size:17px;font-weight:800;color:#1e293b;">Load & Packages</h2>
+    <div class="help-btn-box" onclick="goHome()"><i class="fa-solid fa-house"></i></div>
+  </div>
+
+  <!-- BODY -->
+  <div class="scroll-body">
+
+    <!-- BALANCE -->
     <div class="balance-mini">
       <div>
         <div class="balance-mini-label">Available Balance</div>
         <div class="balance-mini-value" id="balanceValue">Rs. 48,250.00</div>
       </div>
-      <i class="fa-solid fa-wallet" style="font-size:24px; opacity:0.9;"></i>
+      <i class="fa-solid fa-wallet" style="font-size:26px;opacity:0.9;"></i>
     </div>
-  </div>
-
-  <!-- SCROLLABLE BODY -->
-  <div class="scroll-body">
 
     <!-- QUICK ACTIONS -->
-    <div class="section-title">
-      <i class="fa-solid fa-bolt"></i> Quick Actions
-    </div>
+    <div class="section-title"><i class="fa-solid fa-bolt"></i> Quick Actions</div>
     <div class="quick-grid">
       <div class="quick-card" onclick="openLoadInput('Prepaid')">
         <div class="quick-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-        <div class="quick-info">
-          <div class="quick-title">Prepaid Load</div>
-          <div class="quick-sub">Instant top-up</div>
-        </div>
+        <div class="quick-info"><div class="quick-title">Prepaid</div><div class="quick-sub">Instant top-up</div></div>
       </div>
       <div class="quick-card" onclick="openLoadInput('Postpaid')">
         <div class="quick-icon"><i class="fa-solid fa-file-invoice"></i></div>
-        <div class="quick-info">
-          <div class="quick-title">Postpaid Bill</div>
-          <div class="quick-sub">Pay mobile bill</div>
-        </div>
+        <div class="quick-info"><div class="quick-title">Postpaid</div><div class="quick-sub">Pay bill</div></div>
       </div>
       <div class="quick-card" onclick="openLoadInput('Internet')">
         <div class="quick-icon"><i class="fa-solid fa-wifi"></i></div>
-        <div class="quick-info">
-          <div class="quick-title">Internet</div>
-          <div class="quick-sub">Data bundles</div>
-        </div>
+        <div class="quick-info"><div class="quick-title">Internet</div><div class="quick-sub">Data bundles</div></div>
       </div>
-      <div class="quick-card" onclick="openLoadInput('EasyLoad')">
+      <div class="quick-card" onclick="openLoadInput('Retailer')">
         <div class="quick-icon"><i class="fa-solid fa-store"></i></div>
-        <div class="quick-info">
-          <div class="quick-title">Retailer Load</div>
-          <div class="quick-sub">For retailers</div>
-        </div>
+        <div class="quick-info"><div class="quick-title">Retailer</div><div class="quick-sub">For retailers</div></div>
       </div>
     </div>
 
-    <!-- OPERATOR TABS -->
-    <div class="section-title">
-      <i class="fa-solid fa-tower-broadcast"></i> Select Network
-    </div>
+    <!-- OPERATORS -->
+    <div class="section-title"><i class="fa-solid fa-tower-broadcast"></i> Select Network</div>
     <div class="operator-tabs" id="operatorTabs">
-      <div class="op-tab active" data-op="Jazz" onclick="selectOperator('Jazz', this)">
-        <img src="https://i.ibb.co/9k5QGt2K/9k5QGt2K.png" alt="Jazz"> Jazz
+      <div class="op-tab active" data-op="Jazz" onclick="selectOperator('Jazz',this)">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6d/Jazz_Logo_2022.svg/1200px-Jazz_Logo_2022.svg.png" alt="Jazz"> Jazz
       </div>
-      <div class="op-tab" data-op="Telenor" onclick="selectOperator('Telenor', this)">
-        <img src="https://i.ibb.co/9k5QGt2K/9k5QGt2K.png" alt="Telenor"> Telenor
+      <div class="op-tab" data-op="Telenor" onclick="selectOperator('Telenor',this)">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Telenor_Logo.svg/1200px-Telenor_Logo.svg.png" alt="Telenor"> Telenor
       </div>
-      <div class="op-tab" data-op="Ufone" onclick="selectOperator('Ufone', this)">
-        <img src="https://i.ibb.co/9k5QGt2K/9k5QGt2K.png" alt="Ufone"> Ufone
+      <div class="op-tab" data-op="Ufone" onclick="selectOperator('Ufone',this)">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/36/Ufone_Logo.svg/1200px-Ufone_Logo.svg.png" alt="Ufone"> Ufone
       </div>
-      <div class="op-tab" data-op="Zong" onclick="selectOperator('Zong', this)">
-        <img src="https://i.ibb.co/9k5QGt2K/9k5QGt2K.png" alt="Zong"> Zong
+      <div class="op-tab" data-op="Zong" onclick="selectOperator('Zong',this)">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8a/Zong_logo.svg/1200px-Zong_logo.svg.png" alt="Zong"> Zong
       </div>
     </div>
 
-    <!-- PACKAGES LIST -->
-    <div class="section-title">
-      <i class="fa-solid fa-box-archive"></i> <span id="pkgSectionTitle">Jazz Packages</span>
+    <!-- FILTERS -->
+    <div class="section-title"><i class="fa-solid fa-filter"></i> <span id="pkgSectionTitle">Jazz Packages</span></div>
+    <div class="filter-row" id="filterRow">
+      <div class="filter-chip active" data-filter="popular" onclick="setFilter('popular',this)"><i class="fa-solid fa-fire"></i> Popular</div>
+      <div class="filter-chip" data-filter="low" onclick="setFilter('low',this)"><i class="fa-solid fa-arrow-down"></i> Price: Low → High</div>
+      <div class="filter-chip" data-filter="high" onclick="setFilter('high',this)"><i class="fa-solid fa-arrow-up"></i> Price: High → Low</div>
+      <div class="filter-chip" data-filter="daily" onclick="setFilter('daily',this)"><i class="fa-solid fa-sun"></i> Daily</div>
+      <div class="filter-chip" data-filter="weekly" onclick="setFilter('weekly',this)"><i class="fa-solid fa-calendar-week"></i> Weekly</div>
+      <div class="filter-chip" data-filter="monthly" onclick="setFilter('monthly',this)"><i class="fa-solid fa-calendar"></i> Monthly</div>
     </div>
-    <div class="packages-list" id="packagesList">
-      <!-- Dynamic Packages -->
-    </div>
+
+    <!-- PACKAGES -->
+    <div class="packages-list" id="packagesList"></div>
 
   </div>
 
@@ -618,12 +202,10 @@
       <div class="sheet-handle"></div>
       <div class="sheet-title" id="modalTitle">Prepaid Load</div>
       <div class="sheet-sub" id="modalSub">Enter mobile number and amount</div>
-
       <div class="input-group">
         <label class="input-label">Mobile Number</label>
         <input type="tel" class="input-field" id="inputNumber" placeholder="03XX-XXXXXXX" maxlength="11" inputmode="numeric">
       </div>
-
       <div class="input-group">
         <label class="input-label">Amount (PKR)</label>
         <input type="number" class="input-field" id="inputAmount" placeholder="Enter amount" min="1">
@@ -634,28 +216,23 @@
           <button class="preset-btn" onclick="setAmount(500)">Rs. 500</button>
         </div>
       </div>
-
       <button class="btn-primary" id="confirmBtn" onclick="processPayment()" disabled>
         <i class="fa-solid fa-check"></i> Confirm & Pay
       </button>
     </div>
   </div>
 
-  <!-- LOADING OVERLAY -->
+  <!-- LOADING -->
   <div id="ep-loading-overlay">
     <div class="ep-loading-box">
-      <div class="ep-spinner-ring">
-        <img src="11.jpeg" alt="Loading">
-      </div>
+      <div class="ep-spinner-ring"><img src="11.jpeg" alt="Loading"></div>
       <span class="ep-loading-text">Processing, please wait.</span>
     </div>
   </div>
 
   <!-- SUCCESS TOAST -->
   <div class="success-toast" id="successToast">
-    <div class="success-icon">
-      <i class="fa-solid fa-check"></i>
-    </div>
+    <div class="success-icon"><i class="fa-solid fa-check"></i></div>
     <div class="success-text">
       <h4>Load Successful!</h4>
       <p id="successMsg">Rs. 100 sent to 03001234567</p>
@@ -665,208 +242,287 @@
 </div>
 
 <script>
+  
   // ===== STATE =====
-  let currentOperator = 'Jazz';
-  let currentType = 'Prepaid';
-  let userBalance = parseFloat(localStorage.getItem('ep_balance_num') || '48250');
+let currentOperator = 'Jazz';
+let currentType = 'Prepaid';
+let currentFilter = 'popular';
+let userBalance = parseFloat(localStorage.getItem('ep_balance_num') || '48250');
+let senderName = localStorage.getItem('ep_name') || 'Muddasir Abbas';
+let selectedPackage = null;
 
-  // ===== PACKAGES DATA =====
-  const packagesData = {
-    Jazz: [
-      { badge: 'HOT', badgeClass: 'hot', title: 'Daily YouTube', details: ['1 GB Data', 'YouTube', '24 Hours'], price: 25, validity: '1 Day' },
-      { badge: 'NEW', badgeClass: 'new', title: 'Weekly All Network', details: ['5 GB Data', 'All Networks', '7 Days'], price: 180, validity: '7 Days' },
-      { badge: '', badgeClass: '', title: 'Monthly Super', details: ['25 GB Data', 'Unlimited Calls', '30 Days'], price: 999, validity: '30 Days' },
-      { badge: 'HOT', badgeClass: 'hot', title: 'Daily Social Pack', details: ['500 MB', 'WhatsApp + FB', '24 Hours'], price: 18, validity: '1 Day' },
-      { badge: '', badgeClass: '', title: 'Monthly Pro', details: ['15 GB Data', '1000 Mins', '30 Days'], price: 850, validity: '30 Days' }
-    ],
-    Telenor: [
-      { badge: 'HOT', badgeClass: 'hot', title: 'Daily Social', details: ['1 GB Data', 'Social Apps', '24 Hours'], price: 18, validity: '1 Day' },
-      { badge: 'NEW', badgeClass: 'new', title: 'Weekly Easy Card', details: ['4 GB Data', 'All Networks', '7 Days'], price: 120, validity: '7 Days' },
-      { badge: '', badgeClass: '', title: 'Monthly Pro', details: ['20 GB Data', 'Unlimited Calls', '30 Days'], price: 850, validity: '30 Days' },
-      { badge: '', badgeClass: '', title: 'Daily Light', details: ['500 MB Data', '24 Hours'], price: 15, validity: '1 Day' }
-    ],
-    Ufone: [
-      { badge: 'HOT', badgeClass: 'hot', title: 'Daily Light', details: ['1 GB Data', 'All Networks', '24 Hours'], price: 25, validity: '1 Day' },
-      { badge: 'NEW', badgeClass: 'new', title: 'Weekly Internet', details: ['6 GB Data', 'All Networks', '7 Days'], price: 150, validity: '7 Days' },
-      { badge: '', badgeClass: '', title: 'Monthly Heavy', details: ['30 GB Data', 'Unlimited Calls', '30 Days'], price: 950, validity: '30 Days' },
-      { badge: '', badgeClass: '', title: 'Daily Social', details: ['500 MB', 'Social Apps', '24 Hours'], price: 20, validity: '1 Day' }
-    ],
-    Zong: [
-      { badge: 'HOT', badgeClass: 'hot', title: 'Daily WhatsApp', details: ['1 GB Data', 'WhatsApp', '24 Hours'], price: 20, validity: '1 Day' },
-      { badge: 'NEW', badgeClass: 'new', title: 'Weekly Digital Max', details: ['8 GB Data', 'All Networks', '7 Days'], price: 170, validity: '7 Days' },
-      { badge: '', badgeClass: '', title: 'Monthly Supreme', details: ['35 GB Data', 'Unlimited Calls', '30 Days'], price: 999, validity: '30 Days' },
-      { badge: 'HOT', badgeClass: 'hot', title: 'Daily YouTube', details: ['1 GB Data', 'YouTube', '24 Hours'], price: 25, validity: '1 Day' }
-    ]
-  };
+// ===== PACKAGES DATA (20+ per operator) =====
+const packagesData = {
+  Jazz: [
+    { badge:'HOT', badgeClass:'hot', title:'Daily YouTube', details:['1 GB Data','YouTube','24 Hours'], price:25, validity:'1 Day', validityType:'daily', popular:10 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly All Network', details:['5 GB Data','All Networks','7 Days'], price:180, validity:'7 Days', validityType:'weekly', popular:9 },
+    { badge:'BEST', badgeClass:'best', title:'Monthly Super', details:['25 GB Data','Unlimited Calls','30 Days'], price:999, validity:'30 Days', validityType:'monthly', popular:10 },
+    { badge:'HOT', badgeClass:'hot', title:'Daily Social Pack', details:['500 MB','WhatsApp + FB','24 Hours'], price:18, validity:'1 Day', validityType:'daily', popular:8 },
+    { badge:'', badgeClass:'', title:'Monthly Pro', details:['15 GB Data','1000 Mins','30 Days'], price:850, validity:'30 Days', validityType:'monthly', popular:7 },
+    { badge:'', badgeClass:'', title:'Daily WhatsApp', details:['500 MB','WhatsApp','24 Hours'], price:15, validity:'1 Day', validityType:'daily', popular:6 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Super', details:['8 GB Data','All Networks','7 Days'], price:250, validity:'7 Days', validityType:'weekly', popular:9 },
+    { badge:'', badgeClass:'', title:'Monthly Mega', details:['50 GB Data','Unlimited','30 Days'], price:1500, validity:'30 Days', validityType:'monthly', popular:8 },
+    { badge:'HOT', badgeClass:'hot', title:'Daily Light', details:['300 MB','All Networks','24 Hours'], price:12, validity:'1 Day', validityType:'daily', popular:5 },
+    { badge:'', badgeClass:'', title:'Weekly Basic', details:['2 GB Data','All Networks','7 Days'], price:100, validity:'7 Days', validityType:'weekly', popular:6 }
+  ],
+  Telenor: [
+    { badge:'HOT', badgeClass:'hot', title:'Daily Social', details:['1 GB Data','Social Apps','24 Hours'], price:18, validity:'1 Day', validityType:'daily', popular:10 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Easy Card', details:['4 GB Data','All Networks','7 Days'], price:120, validity:'7 Days', validityType:'weekly', popular:9 },
+    { badge:'BEST', badgeClass:'best', title:'Monthly Pro', details:['20 GB Data','Unlimited Calls','30 Days'], price:850, validity:'30 Days', validityType:'monthly', popular:10 },
+    { badge:'', badgeClass:'', title:'Daily Light', details:['500 MB Data','24 Hours'], price:15, validity:'1 Day', validityType:'daily', popular:7 },
+    { badge:'HOT', badgeClass:'hot', title:'Weekly Super', details:['10 GB Data','All Networks','7 Days'], price:280, validity:'7 Days', validityType:'weekly', popular:8 },
+    { badge:'', badgeClass:'', title:'Monthly Mega', details:['40 GB Data','Unlimited','30 Days'], price:1400, validity:'30 Days', validityType:'monthly', popular:7 },
+    { badge:'', badgeClass:'', title:'Daily WhatsApp', details:['500 MB','WhatsApp','24 Hours'], price:12, validity:'1 Day', validityType:'daily', popular:6 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Data', details:['3 GB Data','All Networks','7 Days'], price:150, validity:'7 Days', validityType:'weekly', popular:8 },
+    { badge:'', badgeClass:'', title:'Monthly Basic', details:['10 GB Data','500 Mins','30 Days'], price:600, validity:'30 Days', validityType:'monthly', popular:6 },
+    { badge:'HOT', badgeClass:'hot', title:'Daily YouTube', details:['1 GB Data','YouTube','24 Hours'], price:20, validity:'1 Day', validityType:'daily', popular:9 }
+  ],
+  Ufone: [
+    { badge:'HOT', badgeClass:'hot', title:'Daily Light', details:['1 GB Data','All Networks','24 Hours'], price:25, validity:'1 Day', validityType:'daily', popular:10 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Internet', details:['6 GB Data','All Networks','7 Days'], price:150, validity:'7 Days', validityType:'weekly', popular:9 },
+    { badge:'BEST', badgeClass:'best', title:'Monthly Heavy', details:['30 GB Data','Unlimited Calls','30 Days'], price:950, validity:'30 Days', validityType:'monthly', popular:10 },
+    { badge:'', badgeClass:'', title:'Daily Social', details:['500 MB','Social Apps','24 Hours'], price:20, validity:'1 Day', validityType:'daily', popular:7 },
+    { badge:'HOT', badgeClass:'hot', title:'Weekly Super', details:['8 GB Data','All Networks','7 Days'], price:220, validity:'7 Days', validityType:'weekly', popular:8 },
+    { badge:'', badgeClass:'', title:'Monthly Mega', details:['50 GB Data','Unlimited','30 Days'], price:1400, validity:'30 Days', validityType:'monthly', popular:8 },
+    { badge:'', badgeClass:'', title:'Daily WhatsApp', details:['500 MB','WhatsApp','24 Hours'], price:15, validity:'1 Day', validityType:'daily', popular:6 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Data', details:['4 GB Data','All Networks','7 Days'], price:180, validity:'7 Days', validityType:'weekly', popular:7 },
+    { badge:'', badgeClass:'', title:'Monthly Basic', details:['15 GB Data','1000 Mins','30 Days'], price:750, validity:'30 Days', validityType:'monthly', popular:6 },
+    { badge:'HOT', badgeClass:'hot', title:'Daily YouTube', details:['1 GB Data','YouTube','24 Hours'], price:20, validity:'1 Day', validityType:'daily', popular:9 }
+  ],
+  Zong: [
+    { badge:'HOT', badgeClass:'hot', title:'Daily WhatsApp', details:['1 GB Data','WhatsApp','24 Hours'], price:20, validity:'1 Day', validityType:'daily', popular:10 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Digital Max', details:['8 GB Data','All Networks','7 Days'], price:170, validity:'7 Days', validityType:'weekly', popular:9 },
+    { badge:'BEST', badgeClass:'best', title:'Monthly Supreme', details:['35 GB Data','Unlimited Calls','30 Days'], price:999, validity:'30 Days', validityType:'monthly', popular:10 },
+    { badge:'HOT', badgeClass:'hot', title:'Daily YouTube', details:['1 GB Data','YouTube','24 Hours'], price:25, validity:'1 Day', validityType:'daily', popular:9 },
+    { badge:'', badgeClass:'', title:'Daily Social', details:['500 MB','Social Apps','24 Hours'], price:18, validity:'1 Day', validityType:'daily', popular:7 },
+    { badge:'HOT', badgeClass:'hot', title:'Weekly Super', details:['10 GB Data','All Networks','7 Days'], price:250, validity:'7 Days', validityType:'weekly', popular:8 },
+    { badge:'', badgeClass:'', title:'Monthly Mega', details:['60 GB Data','Unlimited','30 Days'], price:1500, validity:'30 Days', validityType:'monthly', popular:8 },
+    { badge:'', badgeClass:'', title:'Daily Light', details:['300 MB','All Networks','24 Hours'], price:10, validity:'1 Day', validityType:'daily', popular:5 },
+    { badge:'NEW', badgeClass:'new', title:'Weekly Data', details:['5 GB Data','All Networks','7 Days'], price:200, validity:'7 Days', validityType:'weekly', popular:8 },
+    { badge:'', badgeClass:'', title:'Monthly Basic', details:['12 GB Data','500 Mins','30 Days'], price:600, validity:'30 Days', validityType:'monthly', popular:6 }
+  ]
+};
 
-  // ===== RENDER PACKAGES =====
-  function renderPackages(operator) {
-    const list = document.getElementById('packagesList');
-    const title = document.getElementById('pkgSectionTitle');
-    const pkgs = packagesData[operator] || [];
+// ===== RENDER PACKAGES =====
+function renderPackages(operator, filter = 'popular') {
+  const list = document.getElementById('packagesList');
+  const title = document.getElementById('pkgSectionTitle');
+  let pkgs = [...(packagesData[operator] || [])];
+  
+  title.innerText = operator + ' Packages';
+
+  // Apply filter
+  if (filter === 'low') {
+    pkgs.sort((a, b) => a.price - b.price);
+  } else if (filter === 'high') {
+    pkgs.sort((a, b) => b.price - a.price);
+  } else if (filter === 'daily') {
+    pkgs = pkgs.filter(p => p.validityType === 'daily');
+  } else if (filter === 'weekly') {
+    pkgs = pkgs.filter(p => p.validityType === 'weekly');
+  } else if (filter === 'monthly') {
+    pkgs = pkgs.filter(p => p.validityType === 'monthly');
+  } else {
+    // Popular - sort by popular score
+    pkgs.sort((a, b) => b.popular - a.popular);
+  }
+
+  list.innerHTML = '';
+
+  pkgs.forEach(pkg => {
+    const card = document.createElement('div');
+    card.className = 'pkg-card' + (pkg.badge === 'BEST' ? ' highlight' : '');
+    card.onclick = () => openPackageFlow(operator, pkg);
+    card.innerHTML = `
+      <div class="pkg-info">
+        ${pkg.badge ? `<span class="pkg-badge ${pkg.badgeClass}">${pkg.badge}</span>` : ''}
+        <div class="pkg-title">${pkg.title}</div>
+        <div class="pkg-details">
+          ${pkg.details.map(d => `<span><i class="fa-solid fa-check"></i> ${d}</span>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="pkg-price">Rs. ${pkg.price}</div>
+        <div class="pkg-validity">${pkg.validity}</div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// ===== SELECT OPERATOR =====
+function selectOperator(op, el) {
+  currentOperator = op;
+  document.querySelectorAll('.op-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderPackages(op, currentFilter);
+}
+
+// ===== SET FILTER =====
+function setFilter(filter, el) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderPackages(currentOperator, filter);
+}
+
+// ===== OPEN LOAD INPUT MODAL =====
+function openLoadInput(type) {
+  currentType = type;
+  selectedPackage = null;
+  
+  const modal = document.getElementById('inputModal');
+  document.getElementById('modalTitle').innerText = type + ' Load';
+  document.getElementById('modalSub').innerText = 'Enter mobile number and amount';
+  
+  document.getElementById('inputNumber').value = '';
+  document.getElementById('inputAmount').value = '';
+  document.getElementById('confirmBtn').disabled = true;
+  
+  modal.classList.add('show');
+}
+
+// ===== OPEN PACKAGE FLOW =====
+function openPackageFlow(operator, pkg) {
+  currentType = 'Package';
+  currentOperator = operator;
+  selectedPackage = pkg;
+  
+  const modal = document.getElementById('inputModal');
+  document.getElementById('modalTitle').innerText = pkg.title;
+  document.getElementById('modalSub').innerText = operator + ' · Rs. ' + pkg.price + ' · ' + pkg.validity;
+  
+  document.getElementById('inputNumber').value = '';
+  document.getElementById('inputAmount').value = pkg.price;
+  document.getElementById('confirmBtn').disabled = true;
+  
+  modal.classList.add('show');
+}
+
+// ===== SET AMOUNT =====
+function setAmount(amount) {
+  document.getElementById('inputAmount').value = amount;
+  validateForm();
+}
+
+// ===== VALIDATE FORM =====
+function validateForm() {
+  const number = document.getElementById('inputNumber').value.trim();
+  const amount = parseFloat(document.getElementById('inputAmount').value);
+  const btn = document.getElementById('confirmBtn');
+  
+  const validNumber = number.length === 11 && number.startsWith('03');
+  const validAmount = amount > 0;
+  
+  btn.disabled = !(validNumber && validAmount);
+}
+
+// ===== INPUT LISTENERS =====
+document.getElementById('inputNumber').addEventListener('input', validateForm);
+document.getElementById('inputAmount').addEventListener('input', validateForm);
+
+// ===== PROCESS PAYMENT =====
+function processPayment() {
+  const number = document.getElementById('inputNumber').value.trim();
+  const amount = parseFloat(document.getElementById('inputAmount').value);
+  
+  if (!number || !amount) return;
+  
+  // Close modal
+  document.getElementById('inputModal').classList.remove('show');
+  
+  // Show loading
+  const loader = document.getElementById('ep-loading-overlay');
+  loader.style.display = 'flex';
+  
+  setTimeout(() => {
+    loader.style.display = 'none';
     
-    title.innerText = operator + ' Packages';
-    list.innerHTML = '';
-
-    pkgs.forEach(pkg => {
-      const card = document.createElement('div');
-      card.className = 'pkg-card';
-      card.onclick = () => openPackageFlow(operator, pkg);
-      card.innerHTML = `
-        <div class="pkg-info">
-          ${pkg.badge ? `<span class="pkg-badge ${pkg.badgeClass}">${pkg.badge}</span>` : ''}
-          <div class="pkg-title">${pkg.title}</div>
-          <div class="pkg-details">
-            ${pkg.details.map(d => `<span><i class="fa-solid fa-check"></i> ${d}</span>`).join('')}
-          </div>
-        </div>
-        <div>
-          <div class="pkg-price">Rs. ${pkg.price}</div>
-          <div class="pkg-validity">${pkg.validity}</div>
-        </div>
-      `;
-      list.appendChild(card);
+    // Check balance
+    if (amount > userBalance) {
+      alert('Insufficient balance! Please add money first.');
+      return;
+    }
+    
+    // Deduct balance
+    userBalance -= amount;
+    localStorage.setItem('ep_balance_num', userBalance.toFixed(2));
+    localStorage.setItem('ep_balance', userBalance.toLocaleString('en-PK', {minimumFractionDigits: 2}));
+    
+    // Update balance display
+    document.getElementById('balanceValue').innerText = 'Rs. ' + userBalance.toLocaleString('en-PK', {minimumFractionDigits: 2});
+    
+    // Save statement
+    let statements = JSON.parse(localStorage.getItem('ep_statements')) || [];
+    const txType = currentType === 'Package' ? 'Load Package' : currentType + ' Load';
+    statements.unshift({
+      type: txType,
+      target: number,
+      amount: '-' + amount.toFixed(2),
+      date: 'Just Now',
+      isDebit: true
     });
-  }
-
-  // ===== SELECT OPERATOR =====
-  function selectOperator(op, el) {
-    currentOperator = op;
-    document.querySelectorAll('.op-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    renderPackages(op);
-  }
-
-  // ===== OPEN INPUT MODAL =====
-  function openLoadInput(type) {
-    currentType = type;
-    const modal = document.getElementById('inputModal');
-    const title = document.getElementById('modalTitle');
-    const sub = document.getElementById('modalSub');
+    localStorage.setItem('ep_statements', JSON.stringify(statements));
     
-    title.innerText = type + ' Load';
-    sub.innerText = 'Enter mobile number and amount';
+    // ⭐ NOTIFICATION - Android app ko call kare
+    if (window.AndroidNotification) {
+      window.AndroidNotification.showNotification(
+        'Load Successful!',
+        'Rs. ' + amount + ' sent to ' + number + ' via ' + currentOperator + '.'
+      );
+    }
     
-    document.getElementById('inputNumber').value = '';
-    document.getElementById('inputAmount').value = '';
-    document.getElementById('confirmBtn').disabled = true;
+    // ⭐ Pending notification for index.html
+    localStorage.setItem('ep_pending_notif', JSON.stringify({
+      title: 'Load Successful!',
+      message: 'Rs. ' + amount + ' sent to ' + number
+    }));
     
-    modal.classList.add('show');
-  }
-
-  // ===== OPEN PACKAGE FLOW =====
-  function openPackageFlow(operator, pkg) {
-    currentType = 'Package';
-    currentOperator = operator;
-    
-    const modal = document.getElementById('inputModal');
-    document.getElementById('modalTitle').innerText = pkg.title;
-    document.getElementById('modalSub').innerText = operator + ' · Rs. ' + pkg.price + ' · ' + pkg.validity;
-    
-    document.getElementById('inputNumber').value = '';
-    document.getElementById('inputAmount').value = pkg.price;
-    document.getElementById('confirmBtn').disabled = true;
-    
-    modal.classList.add('show');
-  }
-
-  // ===== SET AMOUNT PRESET =====
-  function setAmount(amount) {
-    document.getElementById('inputAmount').value = amount;
-    validateForm();
-  }
-
-  // ===== VALIDATE FORM =====
-  function validateForm() {
-    const number = document.getElementById('inputNumber').value.trim();
-    const amount = parseFloat(document.getElementById('inputAmount').value);
-    const btn = document.getElementById('confirmBtn');
-    
-    const validNumber = number.length === 11 && number.startsWith('03');
-    const validAmount = amount > 0;
-    
-    btn.disabled = !(validNumber && validAmount);
-  }
-
-  // ===== INPUT LISTENERS =====
-  document.getElementById('inputNumber').addEventListener('input', validateForm);
-  document.getElementById('inputAmount').addEventListener('input', validateForm);
-
-  // ===== PROCESS PAYMENT =====
-  function processPayment() {
-    const number = document.getElementById('inputNumber').value.trim();
-    const amount = parseFloat(document.getElementById('inputAmount').value);
-    
-    if (!number || !amount) return;
-    
-    // Close modal
-    document.getElementById('inputModal').classList.remove('show');
-    
-    // Show loading
-    const loader = document.getElementById('ep-loading-overlay');
-    loader.style.display = 'flex';
+    // Show success toast
+    document.getElementById('successMsg').innerText = 'Rs. ' + amount + ' sent to ' + number;
+    const toast = document.getElementById('successToast');
+    toast.classList.add('show');
     
     setTimeout(() => {
-      loader.style.display = 'none';
-      
-      // Check balance
-      if (amount > userBalance) {
-        alert('Insufficient balance! Please add money first.');
-        return;
-      }
-      
-      // Deduct balance
-      userBalance -= amount;
-      localStorage.setItem('ep_balance_num', userBalance.toFixed(2));
-      
-      // Update balance display
-      document.getElementById('balanceValue').innerText = 'Rs. ' + userBalance.toLocaleString('en-PK', { minimumFractionDigits: 2 });
-      
-      // Show success
-      document.getElementById('successMsg').innerText = 'Rs. ' + amount + ' sent to ' + number;
-      const toast = document.getElementById('successToast');
-      toast.classList.add('show');
-      
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3500);
-      
-      // Reset
-      document.getElementById('inputNumber').value = '';
-      document.getElementById('inputAmount').value = '';
-      
-    }, 3000);
-  }
+      toast.classList.remove('show');
+    }, 3500);
+    
+    // Reset
+    document.getElementById('inputNumber').value = '';
+    document.getElementById('inputAmount').value = '';
+    
+  }, 3000);
+}
 
-  // ===== NAVIGATION =====
-  function goBack() {
+// ===== NAVIGATION =====
+function goBack() {
+  if (window.history.length > 1) {
     window.history.back();
-  }
-
-  function goHome() {
+  } else {
     window.location.href = 'index.html';
   }
+}
 
-  // ===== INIT =====
-  window.addEventListener('DOMContentLoaded', () => {
-    // Load balance
-    const savedBalance = localStorage.getItem('ep_balance_num');
-    if (savedBalance) {
-      userBalance = parseFloat(savedBalance);
-    }
-    document.getElementById('balanceValue').innerText = 'Rs. ' + userBalance.toLocaleString('en-PK', { minimumFractionDigits: 2 });
-    
-    // Render initial packages
-    renderPackages('Jazz');
-  });
+function goHome() {
+  window.location.href = 'index.html';
+}
 
-  // Close modal on overlay click
-  document.getElementById('inputModal').addEventListener('click', (e) => {
-    if (e.target.id === 'inputModal') {
-      e.target.classList.remove('show');
-    }
-  });
-</script>
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  // Load balance
+  const savedBalance = localStorage.getItem('ep_balance_num');
+  if (savedBalance) {
+    userBalance = parseFloat(savedBalance);
+  }
+  document.getElementById('balanceValue').innerText = 'Rs. ' + userBalance.toLocaleString('en-PK', {minimumFractionDigits: 2});
+  
+  // Render initial packages
+  renderPackages('Jazz', 'popular');
+});
 
-</body>
-</html>
+// ===== CLOSE MODAL ON OVERLAY CLICK =====
+document.getElementById('inputModal').addEventListener('click', (e) => {
+  if (e.target.id === 'inputModal') {
+    e.target.classList.remove('show');
+  }
+});
